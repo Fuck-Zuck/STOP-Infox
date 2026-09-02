@@ -30,11 +30,22 @@
       padding: 20px;
     }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 24px;
-      font-weight: 600;
-    }
+    .header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 4px; /* Espace réduit sous le titre */
+}
+
+.subtitle {
+  font-size: 0.9rem; /* Exactement la moitié de 1.8rem */
+  color: #94a3b8;    /* Mêmes tons slate que le reste du thème */
+  font-weight: 400;
+}
 
     /* Barre de recherche Google */
     .search-box {
@@ -98,7 +109,41 @@
 </head>
 <body>
 
+  <header class="header">
   <h1>Bonjour 👋</h1>
+    <p class="subtitle"> 
+      Pour une recherche plus saine excluant Facebook et Instagram, c'est ici !
+      Sur ces réseaux, 70% des informations relayées à la va-vite, pour apparaitre en tête de référencement,
+      sont informelles, détournées d'un contexte précis ou littéralement fausses. C'est informations,
+      selon une étude du M.I.T., sont relayées 6 fois plus vite que les vraies plus proches des faits réels !!
+      Ces réseaux portent également atteinte aux libertés sous le concours actif des millions de "collabos" quotidiens :
+      misogynes, épistémicides, harcèlements, ingérence parasitant les lois souveraines et culturelles de l'ensemble des
+      autres pays, censures, notamment de la nudité, d’autant plus celle des femmes, dans sa représentation artistique,
+      spirituelle et philosophique : érotisme, anatomique : représentations fausses et même dangereuses sur le plan
+      éducatif et médical…
+      Les réseaux de la dictature Zuckerberg font donc bien preuve d’un obscurantisme malsain en cherchant en
+      permanence à étendre l’emprise sur l’internet, en profitant même de la tolérance de la concurrence,
+      quand les individus néfastes de ces mêmes réseaux, hypocrites et sournois en sont totalement incapables…
+      Ajouter à ça le fait qu’ils sont les premiers fournisseurs de contenus détournés (1 enfant sur 25 déclare
+      s’être reconnu dans des deep fakes sexualisés à partir de Facebook selon une étude de l’UNICEF),
+      par des employés travaillant eux-mêmes pour ces réseaux, c’est un terrain de chasse et des conditions parfaites
+      pour les prédateurs !
+      À partir de 2010 à son ouverture à l’internationale, Facebook a contribué en seulement deux ans à plus
+      d’épistémicides (destruction de cultures) que toutes les dictatures des deux siècles précédents :
+      ces dernières se concentraient en effet sur une localité et une culture souvent unique dans les principes
+      des génocides connus, là où Facebook à permis d’agir par violences psychologiques rapides, brutales et
+      ultra-contraignantes sur fond de puritanisme Américain…
+      L’impact écologique, et sociologique sont également inquiétants : Facebook à lui seul consomme autant
+      chaque année qu’une mégalopole comme Miami où les climatiseurs tournent à plein régime.
+      Ce coût faramineux est répercuté sur tous les citoyens consommateurs de cette planète à leur insu.
+      Même ceux qui ne veulent pas s’inscrire et participer y sont contraints sous des profils fantômes illégaux
+      et par l’inflation des produits sous propagandes marketing. Cette honteuse arnaque vaut pas loin d’un crime
+      contre l’humanité : les morts par suicides et agressions ont l’avantage de rentrer dans des statistiques
+      silencieuses même si de rares cas plus atroces parviennent à faire la une pendant .. une journée, parfois
+      deux grand max ! L’ensemble de ces réseaux facturent donc par la force et de façon invisible
+      l’équivalent de 1400€/an/habitant de cette planète !!</p>
+  </header>
+
 
 <!-- Barre de recherche avec exclusion automatique de Facebook et Instagram -->
 <form class="search-box" action="https://www.google.com/search" method="GET">
