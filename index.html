@@ -11,6 +11,7 @@
       --card-bg: #1e293b;
       --text-color: #f8fafc;
       --accent-color: #38bdf8;
+      --border-color: #334155;
     }
 
     * {
@@ -31,35 +32,39 @@
       padding: 20px;
     }
 
-  .header {
+    .header {
       text-align: center;
       margin-bottom: 24px;
     }
 
-  h1 {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 4px; /* Espace réduit sous le titre */
-  }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
 
-  .subtitle {
-    font-size: 0.9rem; /* Exactement la moitié de 1.8rem */
-    color: #94a3b8;    /* Mêmes tons slate que le reste du thème */
-    font-weight: 400;
-  }
+    .subtitle {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      font-weight: 400;
+    }
 
-    /* Barre de recherche Google */
-    .search-box {
+    /* Zone de Recherche + Tableau de commande */
+    .search-wrapper {
       width: 100%;
       max-width: 500px;
       margin-bottom: 32px;
+    }
+
+    .search-box {
+      width: 100%;
     }
 
     .search-box input {
       width: 100%;
       padding: 14px 20px;
       border-radius: 12px;
-      border: 1px solid #334155;
+      border: 1px solid var(--border-color);
       background-color: var(--card-bg);
       color: var(--text-color);
       font-size: 1rem;
@@ -68,6 +73,55 @@
 
     .search-box input:focus {
       border-color: var(--accent-color);
+    }
+
+    /* Barre d'options / Filtres */
+    .control-panel {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: #94a3b8;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .ctrl-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--text-color);
+    }
+
+    /* État actif des boutons */
+    .ctrl-btn.active {
+      background-color: #0284c7;
+      color: #ffffff;
+      border-color: var(--accent-color);
+    }
+
+    /* Zone de réponse Gemini */
+    #gemini-result {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 12px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
     }
 
     /* Grille de raccourcis */
@@ -108,38 +162,69 @@
     }
 
     .comments-section {
-      grid-area: comments;
-      border-top: 2px solid #ddd;
+      width: 100%;
+      max-width: 500px;
+      border-top: 2px solid var(--border-color);
       padding-top: 20px;
       margin-top: 20px;
       font-size: 0.85rem;
       color: #94a3b8;
-    }
-    /*
-    .footer-text {
-      margin-top: 32px; /* Crée l'espace avec les boutons au-dessus */
-  /*    text-align: justify;
-      font-size: 0.85rem;
-      color: #94a3b8;
-      line-height: 1.5; /* Espace aéré entre les lignes de texte */
     }
   </style>
 </head>
 <body>
 
   <header class="header">
-  <h1>Salut 👋</h1>
+    <h1>Alétheia</h1>
     <p class="subtitle"> Une recherche plus saine sans Facebook ni Instagram,<br> c'est comme manger sans additifs ni conservateurs !! </p>
   </header>
 
+  <!-- Bloc de recherche complet -->
+  <div class="search-wrapper">
+    <form class="search-box" id="main-search-form">
+      <input type="text" id="search-input" placeholder="Rechercher..." required autocomplete="off">
+    </form>
 
-<!-- Barre de recherche avec exclusion automatique de Facebook et Instagram -->
-<form class="search-box" action="https://www.google.com/search" method="GET">
-  <input type="text" name="q" placeholder="Rechercher sur le Web..." required>
-  <!-- Filtres masqués envoyés automatiquement à Google -->
-  <input type="hidden" name="as_q" value="-site:facebook.com -site:instagram.com">
-</form>
+    <!-- Tableau de commande 2.0 -->
+    <div class="control-panel">
+      <!-- Options IA (Modes de recherche) -->
+      <button type="button" class="ctrl-btn" id="opt-gemini">
+        <span>✨</span> Gemini
+      </button>
 
+      <button type="button" class="ctrl-btn" id="opt-ddg-ai">
+        <span>🦆</span> DuckDuckGo AI
+      </button>
+
+      <!-- Filtres de recherche Google -->
+      <button type="button" class="ctrl-btn" id="opt-images">
+        <span>🖼️</span> Images
+      </button>
+
+      <button type="button" class="ctrl-btn active" id="opt-block-social">
+        <span>🚫</span> Réseaux (FB/IG/TikTok)
+      </button>
+
+      <button type="button" class="ctrl-btn" id="opt-cinema">
+        <span>🎬</span> Cinéma (IMDb/TMDB)
+      </button>
+
+      <!-- Zone recherche adultes -->
+<!--      <button type="button" class="ctrl-btn" id="opt-adult">
+        <span>👙</span> Adult (IAFD)
+      </button> -->
+
+      <button type="button" class="ctrl-btn" id="opt-indexxx">
+        <span>📸</span> Indexxx
+      </button>
+    </div>
+
+
+
+
+    <!-- Affichage des résultats Gemini -->
+    <div id="gemini-result"></div>
+  </div>
 
   <!-- Raccourcis -->
   <div class="grid">
@@ -147,10 +232,6 @@
       <span>📚</span>
       <p>Wikipedia</p>
     </a>
-    <!-- <a href="https://news.google.com" class="shortcut" target="_blank">
-      <span>📰</span>
-      <p>Actualités</p>
-    </a> -->
     <a href="https://translate.google.com/?hl=fr&ucbcb=1&sl=fr&tl=en&op=translate" class="shortcut" target="_blank">
       <span>💬</span>
       <p>Traduction</p>
@@ -170,16 +251,16 @@
     <a href="https://htmlcolorcodes.com/" class="shortcut" target="_blank">
       <span>🎨</span>
       <p>Color Codes</p>
-    </a>    
+    </a>
     <a href="https://www.upscale.media/fr" class="shortcut" target="_blank">
-      <span>🖼️</span>
+      <span>🖼️️</span>
       <p>Upscale Me</p>
     </a>
-    <a href="https://www.rockstargames.com/VI/media" class="shortcut" target="_blank"> <!𓀤>
+    <a href="https://www.rockstargames.com/VI/media" class="shortcut" target="_blank">
       <span>🏖️</span>
       <p>GTA VI</p>
     </a>
-    <a href="" class="shortcut">
+    <a href="#" class="shortcut">
       <span>🤬</span>
       <p>&$!#%</p>
     </a>
@@ -198,56 +279,23 @@
     <a href="https://www.cartoradio.fr/??from=gyagbbb3#/cartographie/lonlat/2.347/48.859" class="shortcut" target="_blank">
       <span>📡</span>
       <p>Cartoradio</p>
+    </a>
     <a href="https://map.stateofleonida.net/" class="shortcut" target="_blank">
       <span>🗺️</span>
       <p>Leonida</p>
     </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-    <a href="" class="shortcut" target="_blank">
-      <span>🚧</span>
-      <p>...</p>
-    </a>
-      <!-- <a href="" class="shortcut" target="_blank">
-      <span>Logo</span>
-      <p>Titre</p>
-    </a> -->
-
-    
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
   </div>
+
 
 <!-- Commentaires (Sous le bloc principal) -->
     <section class="comments-section">
@@ -379,93 +427,121 @@
       ceux de ces réseaux sociaux toxiques et douteux.</p>
       </div>
 
-      
-<!-- p class="footer-text">
-      ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-<br>
-      Le Christianisme a remplacé le Paganisme par syncrétisme,
-      Hitler voulait remplacer le Christianisme avec le même fanatisme,
-      Zuckerberg veut écraser Google en continuant à user de ces mêmes méthodes narcissiques à l'encontre des cultures,
-      du libre-arbitre, et de l'information : c'est une dictature numérique qui oeuvre insidieusement
-      au détriment de tous depuis plus de 20 ans !
-<br>
-      • Sur ces réseaux, 70% des informations relayées à la va-vite, pour apparaitre en tête de référencement,
-      sont informelles, détournées d'un contexte précis ou littéralement fausses.
-<br>
-      • Ces informations, selon une étude du M.I.T., sont relayées 6 fois plus vite que les vraies (ou en tous cas que celles plus proches des faits réels).
-<br>
-      • /!\ faire référence à l'arrêt volontaire de la vérificiation obligatoire des faits pour concurrencer X en 2021-2023 ?
-      Avec pour comble absolu le prétexte que la vérification des faits ralenti l'information et va à l'encontre de la liberté d'expression !!!
-      Une guerre du référencement pour caler plus de pubs, non mais qu'elle blague, sérieux ?! /!\
-<br>
-      • Ces réseaux portent également atteinte aux libertés avec le concours actif des millions de nouveaux "collabos" quotidiens :
-      misogynie, épistémicides, harcèlements, ingérence parasitant les lois souveraines et culturelles de l'ensemble des
-      autres pays, censures, notamment de la nudité, d’autant plus celle des femmes (male gaze éternel : destruction des matriarcats par peur du "vagina dentata" !!), dans sa représentation artistique,
-      spirituelle et philosophique (érotisme), anatomique (représentations fausses et même dangereuses sur le plan
-      éducatif et médical)…
-<br>
-      • Aujourd'hui, les sociétés Visa/Mastercard profitent d'ailleurs honteusement de la situation en qualifiant les sites "adultes" représentatifs de la nudité,
-      de l'érotisme et de la pornographie comme « High-Risk Merchants » sans la moindre distinction. En s'autoproclamant gardiens d'une soi-disante bonne morale,
-      toujours sous le prétexte spécieux et pratique de protection de l'enfance, ces censeurs se positionnent en vérité
-      comme proxénètes numériques, taxant plus que toute autre entreprise ce milieu parmi les plus rentables...
-<br>
-      • Les réseaux de la dictature Zuckerberg font donc bien preuve d’un obscurantisme malsain en cherchant en
-      permanence à étendre leur emprise sur l’Internet, en profitant même de la tolérance de la concurrence,
-      quand les individus néfastes de ces mêmes réseaux, hypocrites et sournois en sont totalement incapables…
-<br>
-      • Ajoutez à ça le fait qu’ils sont les premiers fournisseurs de contenus détournés (1 enfant sur 25 déclare
-      s’être reconnu dans des deepfakes sexualisés à partir de Facebook selon une étude de l’UNICEF),
-      par des employés travaillant eux-mêmes pour ces réseaux, c’est un terrain de chasse et des conditions parfaites
-      pour les prédateurs !
-<br>
-      • À partir de 2010, à son émergence à l’international (déploiement : 2006 + 4 ans d'expansion globalisée...), Facebook a contribué en seulement deux-trois ans à plus
-      d’épistémicides (destruction de cultures), que toutes les dictatures des deux siècles précédents réunies :
-      ces dernières se concentraient en effet sur une localité et une culture souvent unique dans les principes
-      des génocides connus, là où Facebook a permis d’agir par violences psychologiques rapides, brutales et
-      ultra-contraignantes sur fond de puritanisme américain, répandant son poison tranquillement en toute impunité, caché à la vue de tous…
-      Il s'agissait principalement de matriarcats qui intégraient souvent la nudité publique comme
-      élément culturel souverain, ce qui ne convenait pas du tout aux règles totalitaires du site !
-      Gommées de l'Internet (que l'on voulait pourtant pilier de nos connaissances), il faut souvent partir de bribes numériques pour
-      fouiller dans les supports physiques et analogiques ! En dehors de sa définition simple et très édulcorée, l'origine de l'expression
-      "ce n'est pas Orthodoxe" par exemple en surprendrait plus d'un(e) !! Disons que l'héritage, issu d'une pratique qui pourrait remonter au XIIIe siècle,
-      qui a donné vie au "marché aux mariées" en Bulgarie, a terminé sa course par une série de scandales via Facebook ce qui a conduit aux demandes
-      de certificats de virginité pour les femmes, puis à l'hyménoplastie ce qui a engendré des conséquences malheureuses.
-      On est ainsi passé d'une culture où les femmes étaient dominantes dans l'approche du corps et des décisions, à des mariages arrangés,
-      sans pour autant êtres forcés, une sorte d'adaptation contrainte pour faire les choses sous la menace de l'oeil malveillant des réseaux sociaux.
-<br>
-      • L’impact écologique et l'impact sociologique sont également inquiétants : Facebook à lui seul consomme autant
-      chaque année qu’une mégalopole comme Miami où les climatiseurs tournent à plein régime !
-      Ce coût faramineux est répercuté sur tous les citoyens consommateurs de cette planète à leur insu.
-      Même ceux qui ne veulent pas s’inscrire et participer y sont contraints sous des profils fantômes illégaux
-      et par l’inflation des produits sous propagandes marketing.
-<br>
-      • L’ensemble de ces réseaux facture donc par la force et de façon invisible l’équivalent de 1400 €/an/habitant de cette planète !!
-      Si jamais quelques rares personnes se demandent où passe leur pouvoir d'achat en s'énervant sur les politiques,
-      tous les dix ans c'est l'équivalent du prix d'une petite voiture neuve qui permet d'entrenir le train de vie d'un sacré
-      paquet de pourritures grace à des gens qui s'inventent une vie, pardon une story en images, et rapportent des faits d'actualité
-      avant les principaux intéressés...
-      Seriez-vous disposés à payer au moins 30 €/mois/réseau pour utiliser Facebook ou Instagram ? Non hein ?!!
-<br>
-      • Cette honteuse arnaque globalisée vaut presque un crime contre l’humanité : les morts par suicides et agressions
-      ont l’avantage de rentrer dans des statistiques silencieuses même si de rares cas plus atroces parviennent à faire
-      la une pendant quoi ?... une journée, parfois deux, grand max, c'est quand même bien pratique de grapiller du terrain
-      sur la main-mise sur l'information, puis progressivement sur tout en appliquant l'uniformisation des jeunesses Zuckeriennes !!
-<br>
-      • Une liste non exhaustive de méfaits établis qui, même très rapidement résumés, sont relativement faciles
-      à tourver en quelques clics, qui sont souvent sujets à des procès "arrangés" trop laxistes, et qui invitent à agir pour
-      obtenir un contenu honnête, de qualité et non censuré.
-<br>
-      • Retrouver enfin le choix de visionner de façon responsable autre
-      chose que des mensonges relayés à répétion avec l'effet d'amplifictation inévitable et des personnes bafouéés qui payent
-      cher le moindre morceau de nudité artistiquement posté sans pouvoir librement s'exprimer est primordial,
-      à défaut de voir enfin arriver la fermeture de ces réseaux de la honte, dont les infrastructures que nous avons tous payé
-      pourraient êtres bien mieux utilisées !
-<br>
-      • Il vous suffit sinon de taper "votre recherche -site:facebook.com -site:instagram.com" pour filtrer les résultats en masquant
-      ceux de ces réseaux sociaux toxiques et douteux.
-<br>
-      ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
-</p> -->
+</section>
+
+  <script>
+  // Éléments du DOM
+  const form = document.getElementById('main-search-form');
+  const searchInput = document.getElementById('search-input');
+
+  const btnGemini = document.getElementById('opt-gemini');
+  const btnDdgAi = document.getElementById('opt-ddg-ai');
+
+  const btnImages = document.getElementById('opt-images');
+
+  const btnBlockSocial = document.getElementById('opt-block-social');
+
+  const btnCinema = document.getElementById('opt-cinema');
+
+  /* const btnAdult = document.getElementById('opt-adult'); */
+  const btnIndexxx = document.getElementById('opt-indexxx');
+
+  // Gestion des clics sur les boutons IA (exclusifs)
+  btnGemini.addEventListener('click', () => {
+    btnGemini.classList.toggle('active');
+    if (btnGemini.classList.contains('active')) {
+      btnDdgAi.classList.remove('active'); // Désactive DuckDuckGo si Gemini est choisi
+    }
+  });
+
+  btnDdgAi.addEventListener('click', () => {
+    btnDdgAi.classList.toggle('active');
+    if (btnDdgAi.classList.contains('active')) {
+      btnGemini.classList.remove('active'); // Désactive Gemini si DuckDuckGo est choisi
+    }
+  });
+
+  btnImages.addEventListener('click', () => {
+    btnImages.classList.toggle('active');
+  });
+
+  btnBlockSocial.addEventListener('click', () => {
+    btnBlockSocial.classList.toggle('active');
+  });
+
+
+
+  // Toggle du filtre par Sites
+  btnCinema.addEventListener('click', () => {
+    btnCinema.classList.toggle('active');
+  });
+
+/*  btnAdult.addEventListener('click', () => {
+    btnAdult.classList.toggle('active');
+  }); */
+
+  btnIndexxx.addEventListener('click', () => {
+    btnIndexxx.classList.toggle('active');
+  });
+
+
+  // Traitement lors de la soumission du formulaire
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const rawQuery = searchInput.value.trim();
+    if (!rawQuery) return;
+
+    // OPTION 1 : DuckDuckGo AI Chat (Sans clé API)
+    if (btnDdgAi.classList.contains('active')) {
+      const ddgUrl = `https://duckduckgo.com/?q=${encodeURIComponent(rawQuery)}&ia=chat`;
+      window.open(ddgUrl, '_blank');
+      return;
+    }
+
+/*    // OPTION 2.1 : Page dédiée Gemini avec API (Nouvel onglet)
+    if (btnGemini.classList.contains('active')) {
+      const geminiUrl = `resultats-gemini.html?q=${encodeURIComponent(rawQuery)}`;
+      window.open(geminiUrl, '_blank');
+      return;
+    } */
+
+    // OPTION 2.2 : Gemini activé (sans clé API -> Redirection)
+    if (btnGemini.classList.contains('active')) {
+      const geminiUrl = `https://gemini.google.com/app?q=${encodeURIComponent(rawQuery)}`;
+      window.open(geminiUrl, '_blank');
+      return;
+      }
+
+    // OPTION 3 : Recherche Google classique
+    let finalQuery = rawQuery;
+
+    // Filtre pour limiter la recherche à des sites précis
+    if (btnCinema.classList.contains('active')) {
+      finalQuery += " (site:imdb.com OR site:themoviedb.org)";
+      }
+
+/*      if (btnAdult.classList.contains('active')) {
+        finalQuery += " (site:iafd.com)";
+      } */
+
+    if (btnIndexxx.classList.contains('active')) {
+      finalQuery += " (site:indexxx.com)";
+      }
+
+    if (btnBlockSocial.classList.contains('active')) {
+      finalQuery += " -site:facebook.com -site:instagram.com -site:tiktok.com";
+    }
+
+    let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
+
+    if (btnImages.classList.contains('active')) {
+      googleUrl += "&tbm=isch&safe=off";
+    }
+
+    window.open(googleUrl, '_blank');
+  });
+  </script>      
+
 
 </body>
 </html>
