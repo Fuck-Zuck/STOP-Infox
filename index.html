@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>:. Fuck Zuck 🤬 .:</title>
   <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="favicon.ico">
+
+  <!-- Import Google Fonts (Exemple : Montserrat & Poppins) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg-color: #0f172a;
@@ -38,6 +45,7 @@
     }
 
     h1 {
+      font-family: Dancing Script;
       font-size: 1.8rem;
       font-weight: 600;
       margin-bottom: 4px;
@@ -182,7 +190,7 @@
   <!-- Bloc de recherche complet -->
   <div class="search-wrapper">
     <form class="search-box" id="main-search-form">
-      <input type="text" id="search-input" placeholder="Rechercher..." required autocomplete="off">
+      <input type="text" id="search-input" placeholder="※ Sélectionnez les options puis tapez votre recherche..." required autocomplete="off">
     </form>
 
     <!-- Tableau de commande 2.0 -->
@@ -193,7 +201,7 @@
       </button>
 
       <button type="button" class="ctrl-btn" id="opt-ddg-ai">
-        <span>🦆</span> DuckDuckGo AI
+        <span>🦆</span> DuckDuckGo IA
       </button>
 
       <!-- Filtres de recherche Google -->
@@ -201,10 +209,25 @@
         <span>🖼️</span> Images
       </button>
 
-      <button type="button" class="ctrl-btn active" id="opt-block-social">
-        <span>🚫</span> Réseaux (FB/IG/TikTok)
+      <!-- Zone recherche non censurée -->
+      <button type="button" class="ctrl-btn" id="opt-nude">
+        <span>🍒</span> Nudes
       </button>
 
+      <button type="button" class="ctrl-btn" id="opt-indexxx">
+        <span>📸</span> Indexxx
+      </button>
+
+      <!-- Zone blocage des réseaux -->
+      <button type="button" class="ctrl-btn active" id="opt-block-meta">
+        <span>🚫</span> Fuck Zuck
+      </button>
+
+      <button type="button" class="ctrl-btn active" id="opt-block-social">
+        <span>🚫</span> Reddit/Tik-Tok/X
+      </button>
+
+      <!-- Zone Cinéma -->
       <button type="button" class="ctrl-btn" id="opt-cinema">
         <span>🎬</span> Cinéma (IMDb/TMDB)
       </button>
@@ -214,9 +237,6 @@
         <span>👙</span> Adult (IAFD)
       </button> -->
 
-      <button type="button" class="ctrl-btn" id="opt-indexxx">
-        <span>📸</span> Indexxx
-      </button>
     </div>
 
 
@@ -241,12 +261,24 @@
       <p>YouTube</p>
     </a>
     <a href="https://atom-editor.cc/" class="shortcut" target="_blank">
-      <span>😭</span>
+      <span>⚛️</span>
       <p>Atom</p>
     </a>
     <a href="https://github.com" class="shortcut" target="_blank">
       <span>💻</span>
       <p>GitHub</p>
+    </a>
+    <a href="https://dash.cloudflare.com/login" class="shortcut" target="_blank">
+      <span>☁️</span>
+      <p>Cloudflare</p>
+    </a>
+    <a href="https://globalprivacycontrol.org/" class="shortcut" target="_blank">
+      <span>🛡️</span>
+      <p>G.P.C.</p>
+    </a>
+    <a href="https://www.cartoradio.fr/??from=gyagbbb3#/cartographie/lonlat/2.347/48.859" class="shortcut" target="_blank">
+      <span>📡</span>
+      <p>Cartoradio</p>
     </a>
     <a href="https://htmlcolorcodes.com/" class="shortcut" target="_blank">
       <span>🎨</span>
@@ -260,32 +292,27 @@
       <span>🏖️</span>
       <p>GTA VI</p>
     </a>
-    <a href="#" class="shortcut">
-      <span>🤬</span>
-      <p>&$!#%</p>
+    <a href="https://map.stateofleonida.net/" class="shortcut" target="_blank">
+      <span>🗺️</span>
+      <p>Leonida</p>
     </a>
     <a href="https://www.blurb.fr/bookshare/app/index.html?bookId=12689304" class="shortcut" target="_blank">
       <span>📸</span>
       <p>Shooting</p>
     </a>
-    <a href="https://globalprivacycontrol.org/" class="shortcut" target="_blank">
-      <span>🛡️</span>
-      <p>G.P.C.</p>
+    <a href="#" class="shortcut">
+      <span>🤬</span>
+      <p>&$!#%</p>
     </a>
     <a href="https://oxfammagasinsdumonde.be/lexploitation-des-femmes-tissee-par-lindustrie-textile/" class="shortcut" target="_blank">
       <span>👙</span>
       <p>Textiles</p>
     </a>
-    <a href="https://www.cartoradio.fr/??from=gyagbbb3#/cartographie/lonlat/2.347/48.859" class="shortcut" target="_blank">
-      <span>📡</span>
-      <p>Cartoradio</p>
+    <a href="#" class="shortcut" target="_blank">
+      <span>🍿</span>
+      <p>...</p>
     </a>
-    <a href="https://map.stateofleonida.net/" class="shortcut" target="_blank">
-      <span>🗺️</span>
-      <p>Leonida</p>
-    </a>
-    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
-    <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
+
     <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
     <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
     <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
@@ -303,7 +330,7 @@
 
       <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
         <strong></strong>
-        <p>Le Christianisme a remplacé le Paganisme par syncrétisme,
+        <p>• Le Christianisme a remplacé le Paganisme par syncrétisme,
       Hitler voulait remplacer le Christianisme avec le même fanatisme,
       Zuckerberg veut écraser Google en continuant à user de ces mêmes méthodes narcissiques à l'encontre des cultures,
       du libre-arbitre, et de l'information : c'est une dictature numérique qui oeuvre insidieusement
@@ -439,12 +466,15 @@
 
   const btnImages = document.getElementById('opt-images');
 
+  const btnBlockMeta = document.getElementById('opt-block-meta');
   const btnBlockSocial = document.getElementById('opt-block-social');
 
   const btnCinema = document.getElementById('opt-cinema');
 
   /* const btnAdult = document.getElementById('opt-adult'); */
   const btnIndexxx = document.getElementById('opt-indexxx');
+  const btnNudes = document.getElementById('opt-nude');
+
 
   // Gestion des clics sur les boutons IA (exclusifs)
   btnGemini.addEventListener('click', () => {
@@ -465,25 +495,26 @@
     btnImages.classList.toggle('active');
   });
 
+  btnBlockMeta.addEventListener('click', () => {
+    btnBlockMeta.classList.toggle('active');
+  });
+
   btnBlockSocial.addEventListener('click', () => {
     btnBlockSocial.classList.toggle('active');
   });
-
-
 
   // Toggle du filtre par Sites
   btnCinema.addEventListener('click', () => {
     btnCinema.classList.toggle('active');
   });
 
-/*  btnAdult.addEventListener('click', () => {
-    btnAdult.classList.toggle('active');
-  }); */
-
   btnIndexxx.addEventListener('click', () => {
     btnIndexxx.classList.toggle('active');
   });
 
+  btnNudes.addEventListener('click', () => {
+    btnNudes.classList.toggle('active');
+  });
 
   // Traitement lors de la soumission du formulaire
   form.addEventListener('submit', async (e) => {
@@ -524,13 +555,22 @@
         finalQuery += " (site:iafd.com)";
       } */
 
+    if (btnNudes.classList.contains('active')) {
+      finalQuery += (finalQuery ? " " : "") + "nude";
+      }
+
     if (btnIndexxx.classList.contains('active')) {
       finalQuery += " (site:indexxx.com)";
       }
 
-    if (btnBlockSocial.classList.contains('active')) {
-      finalQuery += " -site:facebook.com -site:instagram.com -site:tiktok.com";
+    if (btnBlockMeta.classList.contains('active')) {
+      finalQuery += " -site:facebook.com -site:instagram.com";
     }
+
+    if (btnBlockSocial.classList.contains('active')) {
+      finalQuery += " -site:reddit.com -site:tiktok.com -site:x.com";
+    }
+
 
     let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
 
@@ -540,8 +580,7 @@
 
     window.open(googleUrl, '_blank');
   });
-  </script>      
 
-
+  </script>
 </body>
 </html>
