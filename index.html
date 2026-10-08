@@ -106,29 +106,57 @@
       opacity: 1;
     }
 
-    /* Barre d'options / Filtres */
+  /* Le panneau de contrôle s'aligne sur les 500px */
     .control-panel {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Grille de 6 colonnes égales */
+    gap: 8px;
+    margin-top: 12px;
+    width: 100%;
+  }
 
-    .ctrl-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background-color: var(--card-bg);
-      color: #94a3b8;
-      font-size: 0.85rem;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.2s ease;
-    }
+  .ctrl-btn {
+    grid-column: span 3; /* Chaque bouton prend exactement la moitié de la largeur (3/6) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: #94a3b8;
+    font-size: 0.85rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box; /* Évite les débordements liés aux paddings/borders */
+  }
+
+  /* Ligne 1 : 2 boutons (chacun prend 3/6) */
+  #opt-block-meta,
+  #opt-block-social {
+    grid-column: span 3;
+  }
+
+  /* Ligne 2 : 2 boutons (chacun prend 3/6) */
+  #opt-gemini,
+  #opt-ddg-ai {
+    grid-column: span 3;
+  }
+
+  /* Ligne 3 : 1 bouton unique (prend toute la largeur 6/6) */
+  #opt-cinema,
+  #opt-indexxx {
+    grid-column: span 3;
+  }
+
+  /* Ligne 4 : 3 boutons (chacun prend 2/6) */
+  #opt-images,
+  #opt-nudes {
+    grid-column: span 3;
+  }
 
     .ctrl-btn:hover {
       border-color: var(--accent-color);
@@ -275,14 +303,19 @@
     </form>
 
     <div class="control-panel">
+      <!-- Filtres réseaux sociaux -->
       <button type="button" class="ctrl-btn active" id="opt-block-meta"><span>🚫</span> Fuck Zuck</button>
       <button type="button" class="ctrl-btn active" id="opt-block-social"><span>🚫</span> Reddit/TikTok/X</button>
+      <!-- "Liens" Recherches IA en attente d'une liaison API-->
       <button type="button" class="ctrl-btn" id="opt-gemini"><span>✨</span> Gemini</button>
       <button type="button" class="ctrl-btn" id="opt-ddg-ai"><span>🦆</span> DuckDuckGo</button>
-      <button type="button" class="ctrl-btn" id="opt-cinema"><span>🎬</span> IMDb/TMDB</button>
+      <!-- Fiches Acteurs/Films -->
+      <button type="button" class="ctrl-btn" id="opt-cinema"><span>🎬</span> Cinéma (IMDb/TMDB)</button>
+      <button type="button" class="ctrl-btn" id="opt-indexxx"><span>📸</span> Indexxx</button>
+      <!-- Options Uncensored -->
       <button type="button" class="ctrl-btn" id="opt-images"><span>🖼️</span> Images</button>
       <button type="button" class="ctrl-btn" id="opt-nude"><span>🍒</span> Nudes</button>
-      <button type="button" class="ctrl-btn" id="opt-indexxx"><span>📸</span> Indexxx</button>
+
     </div>
 
     <div id="gemini-result"></div>
