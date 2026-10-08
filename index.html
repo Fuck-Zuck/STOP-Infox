@@ -64,6 +64,12 @@
       margin-bottom: 24px;
     }
 
+    .search-input {
+      font-size: 16px; /* Empêche Firefox mobile de zoomer au focus */
+      transform: scale(0.85); /* Réduit visuellement la taille du champ */
+      transform-origin: left center; /* Garde l'alignement à gauche */
+    }
+
     /* Conteneur principal qui devient la barre de recherche complète */
     .search-box {
       width: 100%;
