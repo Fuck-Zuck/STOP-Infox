@@ -6,7 +6,7 @@
   <title>:. Fuck Zuck 🤬 .:</title>
   <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="favicon.ico">
 
-  <!-- Import Google Fonts (Exemple : Montserrat & Poppins) -->
+  <!-- Import Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -35,8 +35,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 20px;
+      justify-content: flex-start;
+      padding: 40px 20px;
     }
 
     .header {
@@ -45,7 +45,7 @@
     }
 
     h1 {
-      font-family: Dancing Script;
+      font-family: 'Dancing Script', cursive;
       font-size: 3rem;
       font-weight: 600;
       margin-bottom: 4px;
@@ -61,26 +61,49 @@
     .search-wrapper {
       width: 100%;
       max-width: 500px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
 
+    /* Conteneur principal qui devient la barre de recherche complète */
     .search-box {
       width: 100%;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 14px 20px;
+      display: flex;
+      align-items: center;
       border-radius: 12px;
       border: 1px solid var(--border-color);
       background-color: var(--card-bg);
+      padding: 4px 8px 4px 16px;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--accent-color);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: transparent;
       color: var(--text-color);
       font-size: 1rem;
       outline: none;
+      padding: 10px 0;
     }
 
-    .search-box input:focus {
-      border-color: var(--accent-color);
+    .search-box button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      color: var(--text-color);
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .search-box button:hover {
+      opacity: 1;
     }
 
     /* Barre d'options / Filtres */
@@ -112,14 +135,12 @@
       color: var(--text-color);
     }
 
-    /* État actif des boutons */
     .ctrl-btn.active {
       background-color: #0284c7;
       color: #ffffff;
       border-color: var(--accent-color);
     }
 
-    /* Zone de réponse Gemini */
     #gemini-result {
       display: none;
       margin-top: 16px;
@@ -139,6 +160,7 @@
       gap: 16px;
       width: 100%;
       max-width: 500px;
+      margin-bottom: 24px;
     }
 
     .shortcut {
@@ -169,14 +191,67 @@
       font-weight: 500;
     }
 
-    .comments-section {
+    /* Conteneur du Topic dépliable (aligné sur 500px) */
+    .topic-wrapper {
       width: 100%;
       max-width: 500px;
-      border-top: 2px solid var(--border-color);
-      padding-top: 20px;
-      margin-top: 20px;
-      font-size: 0.85rem;
-      color: #94a3b8;
+    }
+
+    /* Bouton de dépliage */
+    .toggle-btn {
+      width: 100%;
+      padding: 12px 20px;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--accent-color);
+    }
+
+    .toggle-btn .icon {
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-btn.active .icon {
+      transform: rotate(180deg);
+    }
+
+    /* Zone de contenu masquée/dépliée */
+    .topic-content {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 0 20px;
+      margin-top: 0;
+    }
+
+    /* État ouvert : hauteur suffisante pour inclure tous les paragraphes */
+    .topic-content.open {
+      max-height: 5000px; /* 3000px de bas ; Augmenter pour en afficher plus... */
+      opacity: 1;
+      margin-top: 8px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .topic-item {
+      margin-top: 10px;
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -190,59 +265,26 @@
   <!-- Bloc de recherche complet -->
   <div class="search-wrapper">
     <form class="search-box" id="main-search-form">
-      <input type="text" id="search-input" placeholder="Sélectionnez les options ※ Entrez votre recherche..." required autocomplete="off">
+      <input type="text" id="search-input" placeholder="※ Sélectionnez les options puis tapez votre recherche..." required autocomplete="off">
+      <button type="submit" aria-label="Lancer la recherche">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
     </form>
 
-    <!-- Tableau de commande 2.0 -->
     <div class="control-panel">
-      <!-- Options IA (Modes de recherche) -->
-      <button type="button" class="ctrl-btn" id="opt-gemini">
-        <span>✨</span> Gemini
-      </button>
-
-      <button type="button" class="ctrl-btn" id="opt-ddg-ai">
-        <span>🦆</span> DuckDuckGo IA
-      </button>
-
-      <!-- Filtres de recherche Google -->
-      <button type="button" class="ctrl-btn" id="opt-images">
-        <span>🖼️</span> Images
-      </button>
-
-      <!-- Zone recherche non censurée -->
-      <button type="button" class="ctrl-btn" id="opt-nude">
-        <span>🍒</span> Nudes
-      </button>
-
-      <button type="button" class="ctrl-btn" id="opt-indexxx">
-        <span>📸</span> Indexxx
-      </button>
-
-      <!-- Zone blocage des réseaux -->
-      <button type="button" class="ctrl-btn active" id="opt-block-meta">
-        <span>🚫</span> Fuck Zuck
-      </button>
-
-      <button type="button" class="ctrl-btn active" id="opt-block-social">
-        <span>🚫</span> Reddit/Tik-Tok/X
-      </button>
-
-      <!-- Zone Cinéma -->
-      <button type="button" class="ctrl-btn" id="opt-cinema">
-        <span>🎬</span> Cinéma (IMDb/TMDB)
-      </button>
-
-      <!-- Zone recherche adultes -->
-<!--      <button type="button" class="ctrl-btn" id="opt-adult">
-        <span>👙</span> Adult (IAFD)
-      </button> -->
-
+      <button type="button" class="ctrl-btn" id="opt-gemini"><span>✨</span> Gemini</button>
+      <button type="button" class="ctrl-btn" id="opt-ddg-ai"><span>🦆</span> DuckDuckGo IA</button>
+      <button type="button" class="ctrl-btn" id="opt-images"><span>🖼️</span> Images</button>
+      <button type="button" class="ctrl-btn" id="opt-nude"><span>🍒</span> Nudes</button>
+      <button type="button" class="ctrl-btn" id="opt-indexxx"><span>📸</span> Indexxx</button>
+      <button type="button" class="ctrl-btn active" id="opt-block-meta"><span>🚫</span> Fuck Zuck</button>
+      <button type="button" class="ctrl-btn active" id="opt-block-social"><span>🚫</span> Reddit/Tik-Tok/X</button>
+      <button type="button" class="ctrl-btn" id="opt-cinema"><span>🎬</span> Cinéma (IMDb/TMDB)</button>
     </div>
 
-
-
-
-    <!-- Affichage des résultats Gemini -->
     <div id="gemini-result"></div>
   </div>
 
@@ -308,9 +350,9 @@
       <span>👙</span>
       <p>Textiles</p>
     </a>
-    <a href="#" class="shortcut" target="_blank">
+    <a href="https://vombam.com/c2ufrl9/home/vombam" class="shortcut" target="_blank">
       <span>🍿</span>
-      <p>...</p>
+      <p>Streaming</p>
     </a>
 
     <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
@@ -323,264 +365,257 @@
     <a href="#" class="shortcut"><span>🚧</span><p>...</p></a>
   </div>
 
+  <!-- Bloc Accordéon Topic (même largeur que la recherche) -->
+  <div class="topic-wrapper">
+    <button type="button" class="toggle-btn" id="toggle-topic-btn">
+      <span>Topic : la dictature numérique</span>
+      <span class="icon">▼</span>
+    </button>
 
-<!-- Commentaires (Sous le bloc principal) -->
-    <section class="comments-section">
-      <h3>Topic :</h3>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Le Christianisme a remplacé le Paganisme par syncrétisme,
-      Hitler voulait remplacer le Christianisme avec le même fanatisme,
-      Zuckerberg veut écraser Google en continuant à user de ces mêmes méthodes narcissiques à l'encontre des cultures,
-      du libre-arbitre, et de l'information : c'est une dictature numérique qui oeuvre insidieusement
-      au détriment de tous depuis plus de 20 ans !</p>
+    <div class="topic-content" id="topic-content">
+      <h3>L'uniformisation de "La Société Pure" : de Darwin à Hitler à Zuckerberg !</h3>
+      <div class="topic-item">
+        <p>• Le Christianisme a remplacé le Paganisme par
+        syncrétisme, Hitler voulait remplacer le Christianisme avec le même
+        fanatisme, Zuckerberg veut écraser Google en continuant à user de ces
+        mêmes méthodes narcissiques à l'encontre des cultures, du libre-arbitre,
+        et de l'information : c'est une dictature numérique qui oeuvre
+        insidieusement au détriment de tous depuis plus de 20 ans !
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Sur ces réseaux, 70% des informations relayées à la va-vite, pour apparaitre en tête de référencement,
-      sont informelles, détournées d'un contexte précis ou littéralement fausses.</p>
+      <div class="topic-item">
+        <p>• Sur ces réseaux, 70% des informations relayées à la va-vite, pour
+          apparaitre en tête de référencement, sont informelles, détournées d'un
+          contexte précis ou littéralement fausses.
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Ces informations, selon une étude du M.I.T., sont relayées 6 fois plus vite que les vraies (ou en tous cas que celles plus proches des faits réels).</p>
+      <div class="topic-item">
+        <p>• Ces informations, selon une étude du M.I.T., sont relayées 6 fois
+          plus vite que les vraies (ou en tous cas que celles plus proches des
+          faits réels).
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• /!\ faire référence à l'arrêt volontaire de la vérificiation obligatoire des faits pour concurrencer X en 2021-2023 ?
-      Avec pour comble absolu le prétexte que la vérification des faits ralenti l'information et va à l'encontre de la liberté d'expression !!!
-      Une guerre du référencement pour caler plus de pubs, non mais qu'elle blague, sérieux ?! /!\</p>
+      <div class="topic-item">
+        <p>• /!\ faire référence à l'arrêt volontaire de la vérificiation
+          obligatoire des faits pour concurrencer X en 2021-2023 ?
+          Avec pour comble absolu le prétexte que la vérification des faits
+          ralenti l'information et va à l'encontre de la liberté d'expression !!!
+          Une guerre du référencement pour caler plus de pubs, non mais qu'elle
+          blague, sérieux ?! /!\
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Ces réseaux portent également atteinte aux libertés avec le concours actif des millions de nouveaux "collabos" quotidiens :
-      misogynie, épistémicides, harcèlements, ingérence parasitant les lois souveraines et culturelles de l'ensemble des
-      autres pays, censures, notamment de la nudité, d’autant plus celle des femmes (male gaze éternel : destruction des matriarcats par peur du "vagina dentata" !!), dans sa représentation artistique,
-      spirituelle et philosophique (érotisme), anatomique (représentations fausses et même dangereuses sur le plan
-      éducatif et médical)…</p>
+      <div class="topic-item">
+        <p>• Ces réseaux portent également atteinte aux libertés avec le
+          concours actif des millions de nouveaux "collabos" quotidiens :
+          misogynie, épistémicides, harcèlements, ingérence parasitant les lois
+          souveraines et culturelles de l'ensemble des autres pays, censures,
+          notamment de la nudité, d’autant plus celle des femmes (male gaze
+          éternel : destruction des matriarcats par peur du "vagina dentata" !!)
+          , dans sa représentation artistique, spirituelle et philosophique
+          (érotisme), anatomique (représentations fausses et même dangereuses
+          sur le plan éducatif et médical)…
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Aujourd'hui, les sociétés Visa/Mastercard profitent d'ailleurs honteusement de la situation en qualifiant les sites "adultes" représentatifs de la nudité,
-      de l'érotisme et de la pornographie comme « High-Risk Merchants » sans la moindre distinction. En s'autoproclamant gardiens d'une soi-disante bonne morale,
-      toujours sous le prétexte spécieux et pratique de protection de l'enfance, ces censeurs se positionnent en vérité
-      comme proxénètes numériques, taxant plus que toute autre entreprise ce milieu parmi les plus rentables...</p>
+      <div class="topic-item">
+        <p>• Aujourd'hui, les sociétés Visa/Mastercard profitent d'ailleurs
+          honteusement de la situation en qualifiant les sites "adultes"
+          représentatifs de la nudité, de l'érotisme et de la pornographie comme
+          « High-Risk Merchants » sans la moindre distinction. En
+          s'autoproclamant gardiens d'une soi-disante bonne morale, toujours
+          sous le prétexte spécieux et pratique de protection de l'enfance, ces
+          censeurs se positionnent en vérité comme proxénètes numériques, taxant
+          plus que toute autre entreprise ce milieu parmi les plus rentables...
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Les réseaux de la dictature Zuckerberg font donc bien preuve d’un obscurantisme malsain en cherchant en
-      permanence à étendre leur emprise sur l’Internet, en profitant même de la tolérance de la concurrence,
-      quand les individus néfastes de ces mêmes réseaux, hypocrites et sournois en sont totalement incapables…</p>
-      </div>      
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Ajoutez à ça le fait qu’ils sont les premiers fournisseurs de contenus détournés (1 enfant sur 25 déclare
-      s’être reconnu dans des deepfakes sexualisés à partir de Facebook selon une étude de l’UNICEF),
-      par des employés travaillant eux-mêmes pour ces réseaux, c’est un terrain de chasse et des conditions parfaites
-      pour les prédateurs !</p>
-      </div>      
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• À partir de 2010, à son émergence à l’international (déploiement : 2006 + 4 ans d'expansion globalisée...), Facebook a contribué en seulement deux-trois ans à plus
-      d’épistémicides (destruction de cultures), que toutes les dictatures des deux siècles précédents réunies :
-      ces dernières se concentraient en effet sur une localité et une culture souvent unique dans les principes
-      des génocides connus, là où Facebook a permis d’agir par violences psychologiques rapides, brutales et
-      ultra-contraignantes sur fond de puritanisme américain, répandant son poison tranquillement en toute impunité, caché à la vue de tous…
-      Il s'agissait principalement de matriarcats qui intégraient souvent la nudité publique comme
-      élément culturel souverain, ce qui ne convenait pas du tout aux règles totalitaires du site !
-      Gommées de l'Internet (que l'on voulait pourtant pilier de nos connaissances), il faut souvent partir de bribes numériques pour
-      fouiller dans les supports physiques et analogiques ! En dehors de sa définition simple et très édulcorée, l'origine de l'expression
-      "ce n'est pas Orthodoxe" par exemple en surprendrait plus d'un(e) !! Disons que l'héritage, issu d'une pratique qui pourrait remonter au XIIIe siècle,
-      qui a donné vie au "marché aux mariées" en Bulgarie, a terminé sa course par une série de scandales via Facebook ce qui a conduit aux demandes
-      de certificats de virginité pour les femmes, puis à l'hyménoplastie ce qui a engendré des conséquences malheureuses.
-      On est ainsi passé d'une culture où les femmes étaient dominantes dans l'approche du corps et des décisions, à des mariages arrangés,
-      sans pour autant êtres forcés, une sorte d'adaptation contrainte pour faire les choses sous la menace de l'oeil malveillant des réseaux sociaux.</p>
+      <div class="topic-item">
+        <p>• Les réseaux de la dictature Zuckerberg font donc bien preuve d’un
+          obscurantisme malsain en cherchant en permanence à étendre leur
+          emprise sur l’Internet, en profitant même de la tolérance de la
+          concurrence, quand les individus néfastes de ces mêmes réseaux,
+          hypocrites et sournois en sont totalement incapables…
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• L’impact écologique et l'impact sociologique sont également inquiétants : Facebook à lui seul consomme autant
-      chaque année qu’une mégalopole comme Miami où les climatiseurs tournent à plein régime !
-      Ce coût faramineux est répercuté sur tous les citoyens consommateurs de cette planète à leur insu.
-      Même ceux qui ne veulent pas s’inscrire et participer y sont contraints sous des profils fantômes illégaux
-      et par l’inflation des produits sous propagandes marketing.</p>
+      <div class="topic-item">
+        <p>• Ajoutez à ça le fait qu’ils sont les premiers fournisseurs de
+          contenus détournés (1 enfant sur 25 déclare s’être reconnu dans des
+          deepfakes sexualisés à partir de Facebook selon une étude de l’UNICEF)
+          , par des employés travaillant eux-mêmes pour ces réseaux, c’est un
+          terrain de chasse et des conditions parfaites pour les prédateurs !
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• L’ensemble de ces réseaux facture donc par la force et de façon invisible l’équivalent de 1400 €/an/habitant de cette planète !!
-      Si jamais quelques rares personnes se demandent où passe leur pouvoir d'achat en s'énervant sur les politiques,
-      tous les dix ans c'est l'équivalent du prix d'une petite voiture neuve qui permet d'entrenir le train de vie d'un sacré
-      paquet de pourritures grace à des gens qui s'inventent une vie, pardon une story en images, et rapportent des faits d'actualité
-      avant les principaux intéressés...
-      Seriez-vous disposés à payer au moins 30 €/mois/réseau pour utiliser Facebook ou Instagram ? Non hein ?!!</p>
+      <div class="topic-item">
+        <p>• À partir de 2010, à son émergence à l’international (déploiement :
+          2006 + 4 ans d'expansion globalisée...), Facebook a contribué en
+          seulement deux-trois ans à plus d’épistémicides (destruction de
+          cultures), que toutes les dictatures des deux siècles précédents
+          réunies : ces dernières se concentraient en effet sur une localité et
+          une culture souvent unique dans les principes des génocides connus, là
+          où Facebook a permis d’agir par violences psychologiques rapides,
+          brutales et ultra-contraignantes sur fond de puritanisme américain,
+          répandant son poison tranquillement en toute impunité, caché à la vue
+          de tous… Il s'agissait principalement de matriarcats qui intégraient
+          souvent la nudité publique comme élément culturel souverain, ce qui ne
+          convenait pas du tout aux règles totalitaires du site !
+          Gommées de l'Internet (que l'on voulait pourtant pilier de nos
+          connaissances), il faut souvent partir de bribes numériques pour
+          fouiller dans les supports physiques et analogiques pour trouver des
+          réponses ! En dehors de sa définition simple et très édulcorée,
+          l'origine de l'expression "ce n'est pas Orthodoxe" par exemple en
+          surprendrait plus d'un(e) !! Disons que l'héritage, issu d'une
+          pratique qui pourrait remonter au XIIIe siècle, qui a donné vie au
+          "marché aux mariées" en Bulgarie, a terminé sa course par une série de
+          scandales via Facebook ce qui a conduit aux demandes de certificats de
+          virginité pour les femmes, puis à l'hyménoplastie ce qui a engendré
+          des conséquences malheureuses. On est ainsi passé d'une culture où les
+          femmes étaient dominantes dans l'approche du corps et des décisions, à
+          des mariages arrangés, sans pour autant êtres forcés, une sorte
+          d'adaptation contrainte pour faire les choses sous la menace de l'oeil
+          malveillant des réseaux sociaux.
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Cette honteuse arnaque globalisée vaut presque un crime contre l’humanité : les morts par suicides et agressions
-      ont l’avantage de rentrer dans des statistiques silencieuses même si de rares cas plus atroces parviennent à faire
-      la une pendant quoi ?... une journée, parfois deux, grand max, c'est quand même bien pratique de grapiller du terrain
-      sur la main-mise sur l'information, puis progressivement sur tout en appliquant l'uniformisation des jeunesses Zuckeriennes !!</p>
+      <div class="topic-item">
+        <p>• L’impact écologique et l'impact sociologique sont également
+          inquiétants : Facebook à lui seul consomme autant chaque année qu’une
+          mégalopole comme Miami où les climatiseurs tournent à plein régime !
+          Ce coût faramineux est répercuté sur tous les citoyens consommateurs
+          de cette planète à leur insu. Même ceux qui ne veulent pas s’inscrire
+          et participer y sont contraints sous des profils fantômes illégaux et
+          par l’inflation des produits sous propagandes marketing.
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Une liste non exhaustive de méfaits établis qui, même très rapidement résumés, sont relativement faciles
-      à trouver en quelques clics, qui sont souvent sujets à des procès "arrangés" trop laxistes, et qui invitent à agir pour
-      obtenir un contenu honnête, de qualité et non censuré.</p>
+      <div class="topic-item">
+        <p>• L’ensemble de ces réseaux facture donc par la force et de façon
+          invisible l’équivalent de 1400 €/an/habitant de cette planète !!
+          Si jamais quelques rares personnes se demandent où passe leur pouvoir
+          d'achat en s'énervant sur les politiques, tous les dix ans c'est
+          l'équivalent du prix d'une petite voiture neuve qui permet d'entrenir
+          le train de vie d'un sacré paquet de pourritures grace à des gens qui
+          s'inventent une vie, pardon une story en images, et rapportent des
+          faits d'actualité avant les principaux intéressés...
+          Seriez-vous disposés à payer au moins 30 € par mois et par réseau pour
+          utiliser Facebook ou Instagram ? Non n'est-ce pas ??!
+          La contrepartie nous est facturée à prix d'or !!!
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Retrouver enfin le choix de visionner de façon responsable autre
-      chose que des mensonges relayés à répétion avec l'effet d'amplifictation inévitable et des personnes bafouéés qui payent
-      cher le moindre morceau de nudité artistiquement posté sans pouvoir librement s'exprimer est primordial,
-      à défaut de voir enfin arriver la fermeture de ces réseaux de la honte, dont les infrastructures que nous avons tous payé
-      pourraient êtres bien mieux utilisées !</p>
+      <div class="topic-item">
+        <p>• Cette honteuse arnaque globalisée vaut presque un crime contre
+          l’humanité : les morts par suicides et agressions ont l’avantage de
+          rentrer dans des statistiques silencieuses même si de rares cas plus
+          atroces parviennent à faire la "Une" pendant quoi ? ... une journée,
+          parfois deux, grand max ! Mais bon, c'est quand même bien pratique de
+          pouvoir grapiller du   terrain sur la main-mise sur l'information,
+          puis progressivement sur tout en appliquant l'uniformisation des
+          jeunesses Zuckerbergiennes !!
+        </p>
       </div>
-
-      <div style="margin-top: 10px; background: #1e293b; padding: 15px; border-radius: 8px;">
-        <strong></strong>
-        <p>• Il vous suffit sinon de taper "votre recherche -site:facebook.com -site:instagram.com" pour filtrer les résultats en masquant
-      ceux de ces réseaux sociaux toxiques et douteux.</p>
+      <div class="topic-item">
+        <p>• Des adolescents qui meurent dans des pills party, des passants
+          frappés au poing ou d'un coup de barre de fer, des femmes défigurées
+          aux jets d'acides, sans compter les viols en groupes organisés pour
+          humilier une camarade d'école, ou encore le racolage pour inciter aux
+          modifications corporelles... Autant de défis Facebook biens réels,
+          mais complètement abrutis, cruels et gratuits !!
+          Une liste non exhaustive de méfaits établis qui, même très rapidement
+          résumés, sont relativement faciles à trouver en quelques clics, qui
+          sont souvent sujets à des procès "arrangés" trop laxistes, et qui
+          invitent à agir pour obtenir un contenu honnête, de qualité et non
+          censuré. Celà semble d'autant plus essentiel à une époque où ceux qui
+          font les lois sont plus dangereux, car souffrants d'un manque de
+          discernement et d'introspection, que ceux qui les enfreignent !!
+        </p>
       </div>
-
-</section>
+      <div class="topic-item">
+        <p>• Retrouver enfin le choix de visionner de façon responsable et non
+          censurée autre chose que des mensonges relayés à répétion avec l'effet
+          d'amplifictation inévitable et des personnes bafouéés qui payent cher
+          le moindre morceau de nudité artistiquement posté sans pouvoir
+          librement s'exprimer est primordial, à défaut de voir enfin arriver la
+          fermeture de ces réseaux de la honte, dont les infrastructures que
+          nous avons tous payé pourraient êtres bien mieux utilisées !
+        </p>
+      </div>
+      <div class="topic-item">
+        <p>• L'astuce consiste simplement à taper "votre recherche -site:facebook.com
+          -site:instagram.com" pour filtrer les résultats en masquant ceux de
+          ces réseaux sociaux toxiques et douteux.
+          C'est impressionnant la différence dans l'approche des résultats dès
+          que l'option "Hors réseaux" est activée, ça donne l'impression de
+          pouvoir souffler un grand coup !!
+        </p>
+      <div class="topic-item">
+        <p>• C'est impressionnant la différence dans l'approche des résultats dès
+          que l'option "Hors réseaux" est activée, ça donne l'impression de
+          pouvoir respirer et souffler un grand coup !!
+        </p>
+      </div>
+    </div>
+  </div>
 
   <script>
-  // Éléments du DOM
-  const form = document.getElementById('main-search-form');
-  const searchInput = document.getElementById('search-input');
+    const form = document.getElementById('main-search-form');
+    const searchInput = document.getElementById('search-input');
 
-  const btnGemini = document.getElementById('opt-gemini');
-  const btnDdgAi = document.getElementById('opt-ddg-ai');
+    const btnGemini = document.getElementById('opt-gemini');
+    const btnDdgAi = document.getElementById('opt-ddg-ai');
+    const btnImages = document.getElementById('opt-images');
+    const btnBlockMeta = document.getElementById('opt-block-meta');
+    const btnBlockSocial = document.getElementById('opt-block-social');
+    const btnCinema = document.getElementById('opt-cinema');
+    const btnIndexxx = document.getElementById('opt-indexxx');
+    const btnNudes = document.getElementById('opt-nude');
 
-  const btnImages = document.getElementById('opt-images');
+    // Toggle filtres
+    [btnImages, btnBlockMeta, btnBlockSocial, btnCinema, btnIndexxx, btnNudes].forEach(btn => {
+      if(btn) btn.addEventListener('click', () => btn.classList.toggle('active'));
+    });
 
-  const btnBlockMeta = document.getElementById('opt-block-meta');
-  const btnBlockSocial = document.getElementById('opt-block-social');
+    btnGemini.addEventListener('click', () => {
+      btnGemini.classList.toggle('active');
+      if (btnGemini.classList.contains('active')) btnDdgAi.classList.remove('active');
+    });
 
-  const btnCinema = document.getElementById('opt-cinema');
+    btnDdgAi.addEventListener('click', () => {
+      btnDdgAi.classList.toggle('active');
+      if (btnDdgAi.classList.contains('active')) btnGemini.classList.remove('active');
+    });
 
-  /* const btnAdult = document.getElementById('opt-adult'); */
-  const btnIndexxx = document.getElementById('opt-indexxx');
-  const btnNudes = document.getElementById('opt-nude');
+    // Gestion soumission recherche
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const rawQuery = searchInput.value.trim();
+      if (!rawQuery) return;
 
-
-  // Gestion des clics sur les boutons IA (exclusifs)
-  btnGemini.addEventListener('click', () => {
-    btnGemini.classList.toggle('active');
-    if (btnGemini.classList.contains('active')) {
-      btnDdgAi.classList.remove('active'); // Désactive DuckDuckGo si Gemini est choisi
-    }
-  });
-
-  btnDdgAi.addEventListener('click', () => {
-    btnDdgAi.classList.toggle('active');
-    if (btnDdgAi.classList.contains('active')) {
-      btnGemini.classList.remove('active'); // Désactive Gemini si DuckDuckGo est choisi
-    }
-  });
-
-  btnImages.addEventListener('click', () => {
-    btnImages.classList.toggle('active');
-  });
-
-  btnBlockMeta.addEventListener('click', () => {
-    btnBlockMeta.classList.toggle('active');
-  });
-
-  btnBlockSocial.addEventListener('click', () => {
-    btnBlockSocial.classList.toggle('active');
-  });
-
-  // Toggle du filtre par Sites
-  btnCinema.addEventListener('click', () => {
-    btnCinema.classList.toggle('active');
-  });
-
-  btnIndexxx.addEventListener('click', () => {
-    btnIndexxx.classList.toggle('active');
-  });
-
-  btnNudes.addEventListener('click', () => {
-    btnNudes.classList.toggle('active');
-  });
-
-  // Traitement lors de la soumission du formulaire
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const rawQuery = searchInput.value.trim();
-    if (!rawQuery) return;
-
-    // OPTION 1 : DuckDuckGo AI Chat (Sans clé API)
-    if (btnDdgAi.classList.contains('active')) {
-      const ddgUrl = `https://duckduckgo.com/?q=${encodeURIComponent(rawQuery)}&ia=chat`;
-      window.open(ddgUrl, '_blank');
-      return;
-    }
-
-/*    // OPTION 2.1 : Page dédiée Gemini avec API (Nouvel onglet)
-    if (btnGemini.classList.contains('active')) {
-      const geminiUrl = `resultats-gemini.html?q=${encodeURIComponent(rawQuery)}`;
-      window.open(geminiUrl, '_blank');
-      return;
-    } */
-
-    // OPTION 2.2 : Gemini activé (sans clé API -> Redirection)
-    if (btnGemini.classList.contains('active')) {
-      const geminiUrl = `https://gemini.google.com/app?q=${encodeURIComponent(rawQuery)}`;
-      window.open(geminiUrl, '_blank');
-      return;
+      if (btnDdgAi.classList.contains('active')) {
+        window.open(`https://duckduckgo.com/?q=${encodeURIComponent(rawQuery)}&ia=chat`, '_blank');
+        return;
       }
 
-    // OPTION 3 : Recherche Google classique
-    let finalQuery = rawQuery;
-
-    // Filtre pour limiter la recherche à des sites précis
-    if (btnCinema.classList.contains('active')) {
-      finalQuery += " (site:imdb.com OR site:themoviedb.org)";
+      if (btnGemini.classList.contains('active')) {
+        window.open(`https://gemini.google.com/app?q=${encodeURIComponent(rawQuery)}`, '_blank');
+        return;
       }
 
-/*      if (btnAdult.classList.contains('active')) {
-        finalQuery += " (site:iafd.com)";
-      } */
+      let finalQuery = rawQuery;
+      if (btnCinema.classList.contains('active')) finalQuery += " (site:imdb.com OR site:themoviedb.org)";
+      if (btnNudes.classList.contains('active')) finalQuery += " nude";
+      if (btnIndexxx.classList.contains('active')) finalQuery += " (site:indexxx.com)";
+      if (btnBlockMeta.classList.contains('active')) finalQuery += " -site:facebook.com -site:instagram.com";
+      if (btnBlockSocial.classList.contains('active')) finalQuery += " -site:reddit.com -site:tiktok.com -site:x.com";
 
-    if (btnNudes.classList.contains('active')) {
-      finalQuery += (finalQuery ? " " : "") + "nude";
-      }
+      let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
+      if (btnImages.classList.contains('active')) googleUrl += "&tbm=isch&safe=off";
 
-    if (btnIndexxx.classList.contains('active')) {
-      finalQuery += " (site:indexxx.com)";
-      }
+      window.open(googleUrl, '_blank');
+    });
 
-    if (btnBlockMeta.classList.contains('active')) {
-      finalQuery += " -site:facebook.com -site:instagram.com";
-    }
+    // Toggle accordéon
+    const toggleBtn = document.getElementById('toggle-topic-btn');
+    const topicContent = document.getElementById('topic-content');
 
-    if (btnBlockSocial.classList.contains('active')) {
-      finalQuery += " -site:reddit.com -site:tiktok.com -site:x.com";
-    }
-
-
-    let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
-
-    if (btnImages.classList.contains('active')) {
-      googleUrl += "&tbm=isch&safe=off";
-    }
-
-    window.open(googleUrl, '_blank');
-  });
-
+    toggleBtn.addEventListener('click', () => {
+      toggleBtn.classList.toggle('active');
+      topicContent.classList.toggle('open');
+    });
   </script>
 </body>
 </html>
