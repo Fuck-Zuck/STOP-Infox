@@ -142,28 +142,28 @@
   }
 
   /* Ligne 1 : 2 boutons (chacun prend 3/6) */
-  #opt-block-meta,
+/*  #opt-block-meta,
   #opt-block-social {
     grid-column: span 3;
-  }
+  } */
 
   /* Ligne 2 : 2 boutons (chacun prend 3/6) */
-  #opt-gemini,
+/*  #opt-gemini,
   #opt-ddg-ai {
     grid-column: span 3;
-  }
+  } */
 
   /* Ligne 3 : 1 bouton unique (prend toute la largeur 6/6) */
-  #opt-cinema,
+/*  #opt-cinema,
   #opt-indexxx {
     grid-column: span 3;
-  }
+  } */
 
   /* Ligne 4 : 3 boutons (chacun prend 2/6) */
-  #opt-images,
+/*  #opt-images,
   #opt-nudes {
     grid-column: span 3;
-  }
+  } */
 
     .ctrl-btn:hover {
       border-color: var(--accent-color);
@@ -227,7 +227,70 @@
       font-weight: 500;
     }
 
-    /* Conteneur du Topic dépliable (aligné sur 500px) */
+    /* Accordéon Image du jour */
+    .idj-wrapper {
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 16px;
+    }
+
+    .toggle-btn-idj {
+      width: 100%;
+      padding: 12px 20px;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .toggle-btn-idj:hover {
+      border-color: var(--accent-color);
+    }
+
+    .toggle-btn-idj .icon {
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-btn-idj.active .icon {
+      transform: rotate(180deg);
+    }
+
+    .idj-content {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      padding: 0 20px;
+      margin-top: 0;
+    }
+
+    .idj-content.open {
+      max-height: 6000px;
+      opacity: 1;
+      margin-top: 8px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .idj-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      object-fit: contain;
+    }
+
+    /* Accordéon Topic dépliable (aligné sur 500px) */
     .topic-wrapper {
       width: 100%;
       max-width: 500px;
@@ -270,7 +333,7 @@
       transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
       background-color: var(--card-bg);
       border-radius: 12px;
-      font-size: 0.95rem; /* Taille du Topic */
+      font-size: 0.95rem; /* Taille du Texte Topic */
       padding: 0 20px;
       margin-top: 0;
     }
@@ -434,7 +497,21 @@
     </a>
   </div>
 
-  <!-- Bloc Accordéon Topic (même largeur que la recherche) -->
+  <!-- Accordéon Image du jour (même largeur que la barre de recherche) -->
+  <div class="idj-wrapper">
+    <button type="button" class="toggle-btn-idj" id="toggle-idj-btn">
+      <span>L'image du jour</span>
+      <span class="icon">▼</span>
+    </button>
+
+    <div class="idj-content" id="idj-content">
+      <div class="idj-item">
+        <img id="idj20261009" src="idj20261009.jpg" alt="Image du jour">
+      </div>
+    </div>
+  </div>
+
+  <!-- Accordéon Topic (même largeur que la barre de recherche) -->
   <div class="topic-wrapper">
     <button type="button" class="toggle-btn" id="toggle-topic-btn">
       <span>Topic : la dictature numérique</span>
@@ -641,20 +718,21 @@
     const form = document.getElementById('main-search-form');
     const searchInput = document.getElementById('search-input');
 
-    const btnGemini = document.getElementById('opt-gemini');
-    const btnDdgAi = document.getElementById('opt-ddg-ai');
-    const btnImages = document.getElementById('opt-images');
     const btnBlockMeta = document.getElementById('opt-block-meta');
     const btnBlockSocial = document.getElementById('opt-block-social');
+    const btnGemini = document.getElementById('opt-gemini');
+    const btnDdgAi = document.getElementById('opt-ddg-ai');
     const btnCinema = document.getElementById('opt-cinema');
     const btnIndexxx = document.getElementById('opt-indexxx');
+    const btnImages = document.getElementById('opt-images');
     const btnNudes = document.getElementById('opt-nude');
 
     // Toggle filtres
-    [btnImages, btnBlockMeta, btnBlockSocial, btnCinema, btnIndexxx, btnNudes].forEach(btn => {
-      if(btn) btn.addEventListener('click', () => btn.classList.toggle('active'));
+    [btnImages, btnBlockMeta, btnBlockSocial, btnNudes].forEach(btn => {
+      if (btn) btn.addEventListener('click', () => btn.classList.toggle('active'));
     });
 
+    // Exclusivité Gemini / DuckDuckGo
     btnGemini.addEventListener('click', () => {
       btnGemini.classList.toggle('active');
       if (btnGemini.classList.contains('active')) btnDdgAi.classList.remove('active');
@@ -665,7 +743,18 @@
       if (btnDdgAi.classList.contains('active')) btnGemini.classList.remove('active');
     });
 
-    // Gestion soumission recherche
+    // Exclusivité Cinéma / Index
+    btnCinema.addEventListener('click', () => {
+      btnCinema.classList.toggle('active');
+      if (btnCinema.classList.contains('active')) btnIndexxx.classList.remove('active');
+    });
+
+    btnIndexxx.addEventListener('click', () => {
+      btnIndexxx.classList.toggle('active');
+      if (btnIndexxx.classList.contains('active')) btnCinema.classList.remove('active');
+    });
+
+    // Soumission recherche
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const rawQuery = searchInput.value.trim();
@@ -694,13 +783,22 @@
       window.open(googleUrl, '_blank');
     });
 
-    // Toggle accordéon
-    const toggleBtn = document.getElementById('toggle-topic-btn');
+    // Accordéon Topic
+    const toggleBtnTopic = document.getElementById('toggle-topic-btn');
     const topicContent = document.getElementById('topic-content');
 
-    toggleBtn.addEventListener('click', () => {
-      toggleBtn.classList.toggle('active');
+    toggleBtnTopic.addEventListener('click', () => {
+      toggleBtnTopic.classList.toggle('active');
       topicContent.classList.toggle('open');
+    });
+
+    // Accordéon Image du jour
+    const toggleBtnIdj = document.getElementById('toggle-idj-btn');
+    const idjContent = document.getElementById('idj-content');
+
+    toggleBtnIdj.addEventListener('click', () => {
+      toggleBtnIdj.classList.toggle('active');
+      idjContent.classList.toggle('open');
     });
   </script>
 </body>
