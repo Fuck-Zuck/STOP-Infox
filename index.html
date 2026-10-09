@@ -496,7 +496,7 @@
       <p>La règle 34</p> <!-- Rule 34 - If it exists, there is porn of it. -->
     </a>
   </div>
-
+  
   <!-- Accordéon Image du jour (même largeur que la barre de recherche) -->
   <div class="idj-wrapper">
     <button type="button" class="toggle-btn-idj" id="toggle-idj-btn">
@@ -506,7 +506,15 @@
 
     <div class="idj-content" id="idj-content">
       <div class="idj-item">
-        <img id="idj20261009" src="idj20261009.jpg" alt="Image du jour">
+        <!-- Remplacement de alt par title pour l'info-bulle + modification de l'id pour le rendre unique -->
+        <a id="link-idj20261010"
+           href="https://www.youtube.com/watch?app=desktop&v=t7yi5QFRt5A"
+           title="Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA"
+           target="_blank"
+           rel="noopener noreferrer">
+          <!-- L'image garde un id distinct et possède son propre attribut alt (obligatoire et descriptif) -->
+          <img id="img-idj20261010" src="idj20261010.png" alt="Miniature de la vidéo Pit et Rik - La cicrane et la froumi">
+        </a>
       </div>
     </div>
   </div>
