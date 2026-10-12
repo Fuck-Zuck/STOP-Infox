@@ -15,7 +15,7 @@
   <style>
     :root {
       --bg-color: #0f172a;
-      --card-bg: #1e293b;
+      --card-bg: rgba(30, 41, 59, 0.75); /* #1e293b; à 75% transparent */
       --text-color: #f8fafc;
       --accent-color: #38bdf8;
       --border-color: #334155;
@@ -78,7 +78,7 @@
 
     .subtitle {
       font-size: 0.9rem;
-      color: #94a3b8;
+      color: #ffffff; /* #94a3b8; ou #7D062C */
       font-weight: 400;
     }
 
@@ -197,7 +197,7 @@
 
     .ctrl-btn.active {
       background-color: #0284c7; /* bouton options - violet proton #694BF5; bleu #0284c7;*/
-      color: #ffffff;
+      color: #ffffff; /*  Couleur Texte des Boutons d'Options Activés */
       border-color: var(--accent-color);
     }
 
@@ -244,7 +244,8 @@
     
     .shortcut:active {
       transform: scale(0.95);
-      background-color: #334155;
+      background-color: #694BF5; /* Base #334155; Autre #DF1A38; Couleur des Boutons Liens Cliqués */
+      color: #ffffff; /*  Couleur Texte des Boutons Liens Activés */
     }
 
     .shortcut span {
@@ -379,7 +380,7 @@
 
     .topic-item {
       margin-top: 10px;
-      background: #334155;
+      background: rgba(30, 25, 59, 0.75); /* Ardoise #334155; #FFB605 Couleur Fond des Paragraphes du Topic */
       padding: 15px;
       border-radius: 8px;
     }
