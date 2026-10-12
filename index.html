@@ -139,35 +139,35 @@
       opacity: 1;
     }
 
-  /* Le panneau de contrôle s'aligne sur les 500px */
-    .control-panel {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr); /* Grille de 6 colonnes égales */
-    gap: 8px;
-    margin-top: 12px;
-    width: 100%;
-  }
+    /* Le panneau de contrôle s'aligne sur les 500px */
+      .control-panel {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr); /* Grille de 6 colonnes égales */
+      gap: 8px;
+      margin-top: 12px;
+      width: 100%;
+    }
 
-  .ctrl-btn {
-    grid-column: span 3; /* Chaque bouton prend exactement la moitié de la largeur (3/6) */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    background-color: var(--card-bg);
-    color: #94a3b8;
-    font-size: 0.85rem;
-    cursor: pointer;
-    user-select: none;
-    transition: all 0.2s ease;
-    width: 100%;
-    box-sizing: border-box; /* Évite les débordements liés aux paddings/borders */
-    min-height: 35px; /* Empêche les variations de hauteur selon le texte */
-    text-align: center;
-  }
+    .ctrl-btn {
+      grid-column: span 3; /* Chaque bouton prend exactement la moitié de la largeur (3/6) */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: #94a3b8;
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+      width: 100%;
+      box-sizing: border-box; /* Évite les débordements liés aux paddings/borders */
+      min-height: 35px; /* Empêche les variations de hauteur selon le texte */
+      text-align: center;
+    }
 
   /* Ligne 1 : 2 boutons (chacun prend 3/6) */
 /*  #opt-block-meta,
@@ -325,6 +325,15 @@
       border: 1px solid var(--border-color);
     }
 
+    /* Espacement entre chaque conteneur d'image */
+    .idj-item {
+      margin-bottom: 16px; /* Espace propre entre chaque image */
+    }
+
+    .idj-item:last-child {
+      margin-bottom: 0; /* Supprime l'espace après la dernière image */
+    }
+    
     .idj-item img {
       width: 100%;
       height: auto;
@@ -419,7 +428,8 @@
     .close-accordion-btn:hover {
       background-color: rgba(255, 255, 255, 0.05); /* Optionnel : très léger voile au survol pour montrer que c'est cliquable */
       border-color: transparent;
-
+    }
+    
     .close-accordion-btn:active {
       transform: scale(0.98);
       background-color: rgba(105, 75, 245, 0.2); /* Légère teinte subtile lors du clic */
@@ -577,8 +587,29 @@
     </button>
 
     <div class="idj-content" id="idj-content">
-      <div class="idj-item">
 
+          <!-- Image 2 ; Option 2 -->
+          <div class="idj-item">
+            <a href="idj20261012.jpg"
+            title="Lulu : 'Enfin des perspectives d'activités légales et gratifiantes' "
+            target="_blank"
+            rel="noopener noreferrer">
+            <img src="idj20261012.jpg" alt="Enfin des perspectives d'activités légales et gratifiantes">
+            </a>
+          </div>
+      
+          <!-- Image 1 ; Option 2 -->
+          <div class="idj-item">
+            <a href="https://www.youtube.be/watch?&v=t7yi5QFRt5A"
+            title="Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA"
+            target="_blank"
+            rel="noopener noreferrer">
+            <img src="idj20261010.png" alt="Miniature de la vidéo Pit et Rik - La cicrane et la froumi">
+            </a>
+          </div>
+
+
+      <!-- <div class="idj-item">
         <a id="link-idj20261012"
            href="idj20261012.jpg"
            title="Enfin des perspectives d'activités légales et gratifiantes"
@@ -586,16 +617,17 @@
            rel="noopener noreferrer">
           <img id="img-idj20261012" src="idj20261012.jpg" alt="Enfin des perspectives d'activités légales et gratifiantes">
         </a>
-<br>
-        <!-- Remplacement de alt par title pour l'info-bulle + modification de l'id pour le rendre unique -->
+    </div> -->
+      
+      <!-- <div class="idj-item">
         <a id="link-idj20261010"
            href="https://www.youtube.be/watch?&v=t7yi5QFRt5A"
            title="Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA"
            target="_blank"
            rel="noopener noreferrer">
-          <!-- L'image garde un id distinct et possède son propre attribut alt (obligatoire et descriptif) -->
           <img id="img-idj20261010" src="idj20261010.png" alt="Miniature de la vidéo Pit et Rik - La cicrane et la froumi">
         </a>
+      </div> -->
 
     <!-- Bouton de fermeture / retour en haut -->
     <button class="close-accordion-btn" onclick="closeAccordion(this)">
