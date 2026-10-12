@@ -228,13 +228,22 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 8px 8px; /* 16px puis 16px 8px par défaut - Ajuster le padding horizontal si besoin */
       background-color: var(--card-bg);
       border-radius: 16px;
       border: 1px solid var(--border-color);
       text-decoration: none;
       color: var(--text-color);
       transition: transform 0.1s, background-color 0.2s, border-color 0.2s;
+      min-height: 110px; /* Force une hauteur minimale identique pour tous les blocs */
+      box-sizing: border-box;
+    }
+
+    .shortcut p {
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-align: center;
+  /* Optionnel : pour éviter les retours à la ligne intempestifs ou gérer l'ellipse */
     }
     
     /* Effet de surbrillance du bord de bloc au passage de la souris */
