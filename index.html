@@ -291,6 +291,7 @@
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.2s, border-color 0.2s;
+      box-sizing: border-box;
     }
 
     .toggle-btn-idj:hover {
@@ -306,6 +307,9 @@
     }
 
     .idj-content {
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box; /* Garantit que les 500px englobent le padding */
       max-height: 0;
       overflow: hidden;
       opacity: 0;
@@ -346,6 +350,7 @@
     .topic-wrapper {
       width: 100%;
       max-width: 500px;
+      margin-bottom: 16px; /* Maintient un espace sous le bloc */
     }
 
     /* Bouton de dépliage */
@@ -363,6 +368,7 @@
       justify-content: space-between;
       align-items: center;
       transition: background-color 0.2s, border-color 0.2s;
+      box-sizing: border-box;
     }
 
     .toggle-btn:hover {
@@ -379,13 +385,16 @@
 
     /* Zone de contenu masquée/dépliée */
     .topic-content {
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box; /* Garantit que les 500px englobent le padding */
       max-height: 0;
       overflow: hidden;
       opacity: 0;
       transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
       background-color: var(--card-bg);
       border-radius: 12px;
-      font-size: 0.95rem; /* Taille du Texte Topic */
+      font-size: 0.95rem;
       padding: 0 20px;
       margin-top: 0;
     }
@@ -423,6 +432,7 @@
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
+      box-sizing: border-box;
     }
 
     .close-accordion-btn:hover {
@@ -581,12 +591,12 @@
   
   <!-- Accordéon Image du jour (même largeur que la barre de recherche) -->
   <div class="idj-wrapper">
-    <button type="button" class="toggle-btn-idj" id="toggle-idj-btn">
-      <span>L'image du jour</span>
-      <span class="icon">▼</span>
-    </button>
+      <button type="button" class="toggle-btn-idj" id="toggle-idj-btn">
+        <span>L'image du jour</span>
+        <span class="icon">▼</span>
+      </button>
 
-    <div class="idj-content" id="idj-content">
+     <div class="idj-content" id="idj-content">
 
           <!-- Image 2 ; Option 2 -->
           <div class="idj-item">
@@ -629,13 +639,11 @@
         </a>
       </div> -->
 
-    <!-- Bouton de fermeture / retour en haut -->
-    <button class="close-accordion-btn" onclick="closeAccordion(this)">
-      <span>▲</span>
-      <span class="btn-text"> <!-- Fermer et remonter --> </span>
-    </button>
-        
-      </div>
+      <!-- Bouton de fermeture / retour en haut -->
+      <button class="close-accordion-btn" onclick="closeAccordion(this)">
+        <span>▲</span>
+        <span class="btn-text"> <!-- Fermer et remonter --> </span>
+      </button>    
     </div>
   </div>
 
