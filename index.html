@@ -32,18 +32,16 @@
       background-color: var(--bg-color);
       color: var(--text-color);
       min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+      box-sizing: border-box; /* Indispensable pour que le padding soit inclus dans la largeur */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 40px 20px;
-      /* Fond fixe sur toute la page */
-      margin: 0;
-      padding: 0;
-      /*min-height: 100%;*/
+      /* Fond d'écran */
       background-image: url('IMG_8265.jpg');
-      background-attachment: column;
-      background-position: center;
+      background-attachment: fixed;
       background-size: cover;
     }
 
