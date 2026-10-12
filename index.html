@@ -397,7 +397,7 @@
       border-radius: 8px;
     }
 
-    /* Fermeture de l'accordéon actif */
+    /* Fermeture de l'accordéon actif - Version Invisible */
     .close-accordion-btn {
       display: flex;
       align-items: center;
@@ -406,8 +406,8 @@
       width: 100%;
       margin-top: 20px;
       padding: 12px 16px;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
+      background-color: transparent; /* Rend le fond totalement invisible */
+      border: none; /* Supprime la bordure visible */
       border-radius: 12px;
       color: var(--text-color);
       font-size: 0.9rem;
@@ -417,12 +417,12 @@
     }
 
     .close-accordion-btn:hover {
-      border-color: var(--accent-color);
-    }
+      background-color: rgba(255, 255, 255, 0.05); /* Optionnel : très léger voile au survol pour montrer que c'est cliquable */
+      border-color: transparent;
 
     .close-accordion-btn:active {
-      transform: scale(0.95);
-      background-color: #694BF5;
+      transform: scale(0.98);
+      background-color: rgba(105, 75, 245, 0.2); /* Légère teinte subtile lors du clic */
       color: #ffffff;
     }
   </style>
@@ -917,12 +917,11 @@
           if (toggleBtn) toggleBtn.classList.remove('active');
         }
       }
-
       // 3. Remonte en haut de la page dans votre conteneur de scroll personnalisé
-      const scrollContainer = document.querySelector('.scroll-container');
-      if (scrollContainer) {
-        scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      // const scrollContainer = document.querySelector('.scroll-container');
+      // if (scrollContainer) {
+      //   scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      // }
     }
   </script>
   
