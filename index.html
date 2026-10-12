@@ -27,6 +27,7 @@
       padding: 0;
     }
     
+    /* Style de base de la page */
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-color);
@@ -38,23 +39,22 @@
       align-items: center;
       justify-content: flex-start;
     }
-
-    /* L'élément qui remplace background-attachment: fixed pour mobile et desktop */
-    .bg-fixed {
+    /* 2. L'arrière-plan fixe géré par le pseudo-élément (anti-saut iOS) */
+    body::before {
+      content: "";
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh; /* Utiliser dvh pour le mobile moderne, avec une sécurité en vh */
+      height: 100vh;
       height: 100dvh;
-      z-index: -1; /* Place l'image derrière tout le contenu */
-      background-image: url('IMG_8265.jpg');
+      background-image: url('/Users/guillaume/Downloads/Sites/GitHub/Fuck Zuck 2.4 Local/IMG_8265.jpg');
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-      /* Désactiver les accélérations matérielles superflues qui font buguer le rendu fixe sur iOS */
-      -webkit-transform: translateZ(0);
-      transform: translateZ(0);
+      z-index: -1;
+      pointer-events: none;
+      will-change: transform;
     }
 
     /* Votre conteneur principal pour garder les marges (comme vu précédemment) */
