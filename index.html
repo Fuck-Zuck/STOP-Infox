@@ -83,6 +83,26 @@
       font-weight: 400;
     }
 
+    /* Barre Infos Localisées */
+    .info-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 500px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 15px;
+      margin-bottom: 12px;
+      font-size: 0.75rem;
+      color: var(--text-color);
+      box-sizing: border-box;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    
     /* Zone de Recherche + Tableau de commande */
     .search-wrapper {
       width: 100%;
@@ -457,6 +477,13 @@
     <p class="subtitle"> Une recherche plus saine sans Facebook ni Instagram,<br> c'est comme manger sans additifs ni conservateurs !! </p>
   </header>
 
+  <!-- Barre Infos Localisées -->
+  <div class="info-bar" id="info-bar">
+    <span id="current-weather">Météo en cours...</span> •
+    <span id="current-date">Chargement de la date...</span> •
+    <span id="current-moon">🌙 ...</span>
+  </div>
+    
   <!-- Bloc de recherche complet -->
   <div class="search-wrapper">
     <form class="search-box" id="main-search-form">
@@ -895,6 +922,100 @@
   </div>
 
   <script>
+
+    // Barre Infos Localisées
+  // 1. Date du jour en français
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const todayStr = new Date().toLocaleDateString('fr-FR', options);
+  document.getElementById('current-date').textContent = todayStr.charAt(0).toUpperCase() + todayStr.slice(1);
+
+  // 2. Calcul simple de la phase de la lune
+  function getMoonPhase() {
+    const date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    let c = 0, e = 0, jd = 0;
+    if (month < 3) { year--; month += 12; }
+    ++month;
+    c = 365.25 * year;
+    e = 30.6 * month;
+    jd = c + e + day - 694039.0;
+    jd /= 29.53058867;
+    let b = parseInt(jd);
+    jd -= b;
+    let phase = Math.round(jd * 29.5);
+
+    if (phase === 0 || phase === 29) return "🌑 Nouvelle lune";
+    if (phase > 0 && phase < 7) return "🌒 Premier croissant";
+    if (phase === 7) return "🌓 Premier quartier";
+    if (phase > 7 && phase < 14) return "🌔 Lune gibbeuse croissante";
+    if (phase === 14) return "🌕 Pleine lune";
+    if (phase > 14 && phase < 21) return "🌖 Lune gibbeuse décroissante";
+    if (phase === 21) return "🌗 Dernier quartier";
+    return "🌘 Dernier croissant";
+  }
+  document.getElementById('current-moon').textContent = getMoonPhase();
+
+  // 3. Fonction pour traduire le code météo Open-Meteo en émoji
+  function getWeatherEmoji(code) {
+    // Codes WMO d'Open-Meteo
+    if (code === 0) return "☀️"; // Dégagé
+    if (code >= 1 && code <= 3) return "⛅"; // Partiellement nuageux / couvert
+    if (code >= 45 && code <= 48) return "🌫️"; // Brume / Brouillard
+    if (code >= 51 && code <= 67) return "🌧️"; // Pluie / Bruine
+    if (code >= 71 && code <= 77) return "🌨️"; // Neige
+    if (code >= 80 && code <= 82) return "🌦️"; // Averses
+    if (code >= 95 && code <= 99) return "⚡"; // Orage
+    return "🌡️"; // Par défaut
+  }
+
+  // 4. Météo avec géolocalisation ou repli (Rennes)
+  function fetchWeather(lat, lon, cityName) {
+    // On demande aussi le paramètre weather_code à l'API
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`)
+      .then(response => response.json())
+      .then(data => {
+        const temp = Math.round(data.current.temperature_2m);
+        const weatherCode = data.current.weather_code;
+        const emoji = getWeatherEmoji(weatherCode);
+
+        document.getElementById('current-weather').textContent = `${cityName} : ${temp}°C ${emoji}`;
+      })
+      .catch(() => {
+        document.getElementById('current-weather').textContent = "Météo indisponible";
+      });
+  }
+
+  // Coordonnées de Rennes par défaut (ou géolocalisation)
+  const defaultLat = 48.1173;
+  const defaultLon = -1.6778;
+  const defaultCity = "Rennes";
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=fr`)
+        .then(res => res.json())
+        .then(geoData => {
+          const cityName = geoData.city || geoData.locality || "Votre position";
+          fetchWeather(lat, lon, cityName);
+        })
+        .catch(() => {
+          fetchWeather(defaultLat, defaultLon, defaultCity);
+        });
+    }, () => {
+      fetchWeather(defaultLat, defaultLon, defaultCity);
+    }, { timeout: 10000 });
+  } else {
+    fetchWeather(defaultLat, defaultLon, defaultCity);
+  }
+
+
+    // Options de recherches
     const form = document.getElementById('main-search-form');
     const searchInput = document.getElementById('search-input');
 
