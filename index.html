@@ -88,19 +88,27 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       width: 100%;
       max-width: 500px;
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 10px 15px;
+      padding: 10px 12px;
       margin-bottom: 12px;
-      font-size: 0.75rem;
+      font-size: 0.8rem; /* Légèrement plus compact pour que tout rentre */
       color: var(--text-color);
       box-sizing: border-box;
-      text-align: center;
-      flex-wrap: wrap;
+
+      /* Garantit que tout reste sur une seule ligne et gère le dépassement sur mobile */
+      white-space: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none; /* Cache la barre de défilement sur Firefox */
+    }
+
+    /* Cache la barre de défilement sur Chrome/Safari */
+    .info-bar::-webkit-scrollbar {
+      display: none;
     }
     
     /* Zone de Recherche + Tableau de commande */
@@ -213,15 +221,6 @@
     }
 
     /* Grille de raccourcis */
-    /* .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 16px;
-      width: 100%;
-      max-width: 500px;
-      margin-bottom: 24px;
-    } */
-
     .grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
