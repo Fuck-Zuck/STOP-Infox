@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page introuvable - Erreur 404</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.75);
+      --text-color: #f8fafc;
+      --accent-color: #38bdf8;
+      --border-color: #334155;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('IMG_8265.jpg'); /* Votre fond d'écran */
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .error-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: var(--accent-color);
+    }
+
+    p {
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .home-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #694BF5;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+
+    .home-btn:hover {
+      background-color: var(--accent-color);
+      color: #0f172a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="error-card">
+    <h1>404</h1>
+    <p>Oups ! La page que vous cherchez s'est égarée en chemin ou n'existe plus.</p>
+    <a href="index.html" class="home-btn">Retour à l'accueil</a>
+  </div>
+
+</body>
+</html>
