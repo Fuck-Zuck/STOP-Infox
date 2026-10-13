@@ -193,10 +193,19 @@
     }
 
     /* Grille de raccourcis */
-    .grid {
+    /* .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 16px;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 24px;
+    } */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
       width: 100%;
       max-width: 500px;
       margin-bottom: 24px;
