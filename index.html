@@ -319,38 +319,42 @@
       border: 1px solid var(--border-color);
     }
 
-    /* Espacement entre chaque conteneur d'image */
+    /* Espacement entre chaque conteneur d'image ou de vidéo */
     .idj-item {
-      margin-bottom: 24px; /* Espace propre entre chaque image */
+      margin-bottom: 24px; /* Espace propre entre chaque média */
     }
 
     .idj-item:last-child {
-      margin-bottom: 0; /* Supprime l'espace après la dernière image */
+      margin-bottom: 0;
     }
-    
-    .idj-item img {
+
+    /* S'applique à la fois aux images ET aux vidéos ! */
+    .idj-item img,
+    .idj-item video {
       width: 100%;
       height: auto;
       display: block;
       border-radius: 6px;
       object-fit: contain;
-      border: 1px solid var(--border-color);
-      transition: border-color 0.2s ease;
+      border: 1px solid var(--border-color); /* Bordure de base discrète */
+      transition: border-color 0.2s ease;   /* Transition fluide */
     }
-    
-    .idj-item img:hover {
+
+    /* Effet de surbrillance du bord au survol de la souris (images et vidéos) */
+    .idj-item img:hover,
+    .idj-item video:hover {
       border-color: var(--accent-color);
     }
-    
+
     .idj-figure {
       margin: 0;
     }
 
     .idj-caption {
-      margin-top: 6px;       /* Petit espace entre l'image et la légende */
-      font-size: 0.85rem;    /* Texte un peu plus petit que le corps de page */
-      color: #94a3b8;        /* Couleur plus douce (gris clair/bleuté) */
-      text-align: center;    /* Centré sous l'image (ou justify / left selon vos goûts) */
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      text-align: center;
     }
 
     /* Accordéon Topic dépliable (aligné sur 500px) */
@@ -660,6 +664,20 @@
 
      <div class="idj-content" id="idj-content">
 
+          <!-- Image 5 ; Option 2 -->
+          <div class="idj-item">
+            <figure class="idj-figure">
+              <video controls preload="metadata"
+              title="Joyeux Anniversaire Éliorah !!">
+                <source src="GG_video_7B0C570F.MP4" type="video/mp4">
+                Votre navigateur ne prend pas en charge la lecture de vidéos.
+              </video>
+              <figcaption class="idj-caption">
+                14 Octobre 2026 — Joyeux Anniversaire Éliorah !!
+              </figcaption>
+            </figure>
+          </div>
+       
           <!-- Image 2 ; Option 2 -->
           <div class="idj-item">
             <figure class="idj-figure">
@@ -669,7 +687,8 @@
                 rel="noopener noreferrer">
                   <img src="idj20261012.jpg" alt="Lulu : 'Enfin des perspectives d'activités légales et gratifiantes'">
                 </a>
-              <figcaption class="idj-caption">12 Octobre 2026 — Lulu : "Enfin des perspectives d'activités légales et gratifiantes"
+              <figcaption class="idj-caption">
+                12 Octobre 2026 — Lulu : "Enfin des perspectives d'activités légales et gratifiantes"
               </figcaption>
             </figure>
           </div>
@@ -683,7 +702,8 @@
                 rel="noopener noreferrer">
                   <img src="idj20261010.png" alt="Pit et Rik - La cicrane et la froumi">
                 </a>
-              <figcaption class="idj-caption">10 Octobre 2026 — Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA
+              <figcaption class="idj-caption">
+                10 Octobre 2026 — Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA
               </figcaption>
             </figure>
           </div>
