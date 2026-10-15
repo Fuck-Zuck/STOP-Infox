@@ -1384,29 +1384,21 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       window.open(googleUrl, '_blank');
     });
 
-    // Accordéon Image du jour
-    const toggleBtnIdj = document.getElementById('toggle-idj-btn');
-    const idjContent = document.getElementById('idj-content');
+    // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
+    function setupAccordion(buttonId, contentId) {
+      const btn = document.getElementById(buttonId);
+      const content = document.getElementById(contentId);
 
-    toggleBtnIdj.addEventListener('click', () => {
-      toggleBtnIdj.classList.toggle('active');
-      idjContent.classList.toggle('open');
-    });
-    
-// 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
-function setupAccordion(buttonId, contentId) {
-  const btn = document.getElementById(buttonId);
-  const content = document.getElementById(contentId);
+      if (!btn || !content) return;
 
-  if (!btn || !content) return;
+      btn.addEventListener('click', () => {
+        const isOpen = content.classList.contains('open');
 
-  btn.addEventListener('click', () => {
-    const isOpen = content.classList.contains('open');
-
-    if (isOpen) {
-      content.classList.remove('open');
-      btn.classList.remove('active');
-    } else {
+        if (isOpen) {
+          content.classList.remove('open');
+          btn.classList.remove('active');
+      } 
+    else {
       content.classList.add('open');
       btn.classList.add('active');
     }
@@ -1432,6 +1424,7 @@ function setupAccordion(buttonId, contentId) {
         }
       });
     }
+    
     // Initialisation des trois accordéons principaux
     setupAccordion('toggle-idj-btn', 'idj-content');
     setupAccordion('toggle-gta6-btn', 'gta6-content');
