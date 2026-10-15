@@ -360,6 +360,32 @@
       text-align: center;
     }
 
+    /* Conteneur iframe fluide 16:9 pour les intégrations YouTube */
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* Ratio 16:9 */
+      height: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      transition: border-color 0.2s ease;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+        }
+
+    /* Surbrillance bleue au survol de la vidéo YouTube */
+    .video-container:hover {
+      border-color: var(--accent-color);
+    }
+    
     /* Accordéon GTA VI */
     .gta6-wrapper {
       width: 100%;
@@ -767,8 +793,30 @@
 
      <!-- L'idj by CGE -->
      <div class="idj-content" id="idj-content">
+
+      <!-- vvv Jour suivant ! vvv -->
        
-      <!-- Image 5 ; Option 2 -->
+      <!-- Video 3 ; iframe -->
+      <div class="idj-item">
+        <figure class="idj-figure">
+          <div class="video-container">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/rz1B4B2yBZY"
+              title="16 Octobre 2026 — GTA VI Launch Trailer"
+              poster="idj20261016.jpg"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <figcaption class="idj-caption">
+            16 Octobre 2026 — GTA VI Launch Trailer
+          </figcaption>
+        </figure>
+      </div>
+       
+      <!-- Image 5 ; Photos/Videos Hébergés -->
       <div class="idj-item">
         <figure class="idj-figure">
             <!-- <a href="idj20261015.jpg"
@@ -777,7 +825,7 @@
             rel="noopener noreferrer">
               <img src="idj20261015.jpg" alt="Analyse TTWO">
             </a> -->
-       <!-- Image 4 ; Option 2 -->
+       <!-- Image 4 ; Photos/Videos Hébergés -->
             <a href="idj20261015.png"
             title="Condensé TTWO"
             target="_blank"
@@ -790,7 +838,7 @@
         </figure>
       </div>
        
-      <!-- Vidéo 1 ; Option 2 -->
+      <!-- Vidéo 2 ; Photos/Videos Hébergés -->
       <div class="idj-item">
         <figure class="idj-figure">
           <video controls preload="metadata"
@@ -806,7 +854,7 @@
         </figure>
       </div>
 
-      <!-- Image 3 ; Option 2 -->
+      <!-- Image 3 ; Photos/Videos Hébergés -->
       <div class="idj-item">
         <figure class="idj-figure">
             <a href="idj20261013.jpg"
@@ -821,7 +869,7 @@
         </figure>
       </div>
        
-      <!-- Image 2 ; Option 2 -->
+      <!-- Image 2 ; Photos/Videos Hébergés -->
       <div class="idj-item">
         <figure class="idj-figure">
             <a href="idj20261012.jpg"
@@ -837,7 +885,7 @@
       </div>
       
 
-      <!-- Image 1 ; Option 2 -->
+      <!-- Video 1 ; Photos/Videos Hébergés à passer en iframe (si ça veut bien fonctionner !) -->
       <div class="idj-item">
         <figure class="idj-figure">
             <a href="https://www.youtube.be/watch?&v=t7yi5QFRt5A"
