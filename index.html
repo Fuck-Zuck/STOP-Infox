@@ -909,9 +909,12 @@
       <!-- Video 1 ; iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
-          <div class="video-container">
+          <div class="video-container" onclick="playYouTube(this)">
+            <!-- Image "poster" visible au chargement -->
+            <img src="idj20261010.png" alt="Aperçu vidéo" class="video-poster">
+            <!-- La vidéo YouTube - chargement au clic -->
             <iframe
-              src="https://www.youtube-nocookie.com/embed/t7yi5QFRt5A"
+              data-src="https://www.youtube-nocookie.com/embed/t7yi5QFRt5A?autoplay=1"
               title="10 Octobre 2026 — Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -924,21 +927,6 @@
           </figcaption>
         </figure>
       </div>
-
-      <!-- Video 1 ; Photos/Videos Hébergés à passer en iframe (si ça veut bien fonctionner !) -->
-      <!-- <div class="idj-item">
-        <figure class="idj-figure">
-            <a href="https://www.youtube.be/watch?&v=t7yi5QFRt5A"
-            title="Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA"
-            target="_blank"
-            rel="noopener noreferrer">
-              <img src="idj20261010.png" alt="Pit et Rik - La cicrane et la froumi">
-            </a>
-          <figcaption class="idj-caption">
-            10 Octobre 2026 — Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA
-          </figcaption>
-        </figure>
-      </div> -->
 
       <!-- Bouton de fermeture / retour en haut -->
       <button class="close-accordion-btn" onclick="closeAccordion(this)">
