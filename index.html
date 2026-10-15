@@ -1393,43 +1393,70 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       idjContent.classList.toggle('open');
     });
     
-    // Accordéon GTA6
-    const toggleBtngta6 = document.getElementById('toggle-gta6-btn');
-    const gta6Content = document.getElementById('gta6-content');
+// 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
+function setupAccordion(buttonId, contentId) {
+  const btn = document.getElementById(buttonId);
+  const content = document.getElementById(contentId);
 
-    toggleBtngta6.addEventListener('click', () => {
-      toggleBtngta6.classList.toggle('active');
-      gta6Content.classList.toggle('open');
-    });
-    
-    // Accordéon Topic
-    const toggleBtnTopic = document.getElementById('toggle-topic-btn');
-    const topicContent = document.getElementById('topic-content');
+  if (!btn || !content) return;
 
-    toggleBtnTopic.addEventListener('click', () => {
-      toggleBtnTopic.classList.toggle('active');
-      topicContent.classList.toggle('open');
-    });
+  btn.addEventListener('click', () => {
+    const isOpen = content.classList.contains('open');
 
-    function closeAccordion(button) {
-      // 1. Trouve le contenu de l'accordéon ouvert
-      const content = button.closest('.idj-content, .gta6-content, .topic-content');
-      if (content) {
-        content.classList.remove('open');
-
-        // 2. Désactive aussi le bouton d'en-tête associé
-        const wrapper = content.closest('.idj-wrapper, .topic-wrapper');
-        if (wrapper) {
-          const toggleBtn = wrapper.querySelector('.toggle-btn-idj, .toggle-btn-gta6, .toggle-btn');
-          if (toggleBtn) toggleBtn.classList.remove('active');
-        }
-      }
-      // 3. Remonte en haut de la page dans votre conteneur de scroll personnalisé
-      // const scrollContainer = document.querySelector('.scroll-container');
-      // if (scrollContainer) {
-      //   scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-      // }
+    if (isOpen) {
+      content.classList.remove('open');
+      btn.classList.remove('active');
+    } else {
+      content.classList.add('open');
+      btn.classList.add('active');
     }
+  });
+}
+    
+    // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
+    function setupAccordion(buttonId, contentId) {
+      const btn = document.getElementById(buttonId);
+      const content = document.getElementById(contentId);
+
+      if (!btn || !content) return;
+
+      btn.addEventListener('click', () => {
+        const isOpen = content.classList.contains('open');
+
+        if (isOpen) {
+          content.classList.remove('open');
+          btn.classList.remove('active');
+        } else {
+          content.classList.add('open');
+          btn.classList.add('active');
+        }
+      });
+    }
+    // Initialisation des trois accordéons principaux
+    setupAccordion('toggle-idj-btn', 'idj-content');
+    setupAccordion('toggle-gta6-btn', 'gta6-content');
+    setupAccordion('toggle-topic-btn', 'topic-content');
+
+    // 2. Fonction pour le bouton "Fermer" situé à l'intérieur du contenu
+    function closeAccordion(closeButton) {
+      // Trouve le contenu parent ouvert
+      const content = closeButton.closest('.idj-content, .gta6-content, .topic-content');
+  
+    if (content) {
+      content.classList.remove('open');
+
+    // Retrouve l'ID du contenu pour deviner quel bouton en haut doit perdre sa classe .active
+    let btnId = '';
+    if (content.id === 'idj-content') btnId = 'toggle-idj-btn';
+    if (content.id === 'gta6-content') btnId = 'toggle-gta6-btn';
+    if (content.id === 'topic-content') btnId = 'toggle-topic-btn';
+
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.classList.remove('active');
+    }
+  }
+}
   </script>
   
   <!-- Cloudflare Web Analytics -->
