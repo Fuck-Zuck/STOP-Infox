@@ -370,6 +370,7 @@
       overflow: hidden;
       border: 1px solid var(--border-color);
       transition: border-color 0.2s ease;
+      cursor: pointer; /* Indique qu'on peut cliquer */
     }
 
     .video-container iframe {
@@ -381,6 +382,24 @@
       border: 0;
         }
 
+    /* L'image "poster" recouvre toute la surface */
+    .video-poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2; /* S'affiche par-dessus l'iframe */
+      transition: opacity 0.3s ease;
+    }
+
+    /* Classe ajoutée en JS pour masquer l'image au clic */
+    .video-container.played .video-poster {
+      opacity: 0;
+      pointer-events: none; /* L'image disparaît et laisse la place au clic sur la vidéo */
+    }
+    
     /* Surbrillance bleue au survol de la vidéo YouTube */
     .video-container:hover {
       border-color: var(--accent-color);
@@ -605,6 +624,7 @@
     }
   </style>
 </head>
+  
 <body>
 
   <!-- Fond d'écran fixe indépendant pour iOS et desktop -->
@@ -799,11 +819,13 @@
       <!-- Video 3 ; iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
-          <div class="video-container">
+          <div class="video-container" onclick="playYouTube(this)">
+            <!-- Image "poster" visible au chargement -->
+            <img src="idj20261016.jpg" alt="Aperçu vidéo" class="video-poster">
+            <!-- La vidéo YouTube - chargement au clic -->
             <iframe
-              src="https://www.youtube-nocookie.com/embed/rz1B4B2yBZY"
+              data-src="https://www.youtube-nocookie.com/embed/rz1B4B2yBZY?autoplay=1"
               title="16 Octobre 2026 — GTA VI Launch Trailer"
-              poster="idj20261016.jpg"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
@@ -1516,6 +1538,21 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     }
   }
 }
+
+    function playYouTube(container) {
+    // Évite de relancer si déjà cliqué
+    if (container.classList.contains('played')) return;
+
+      const iframe = container.querySelector('iframe');
+    // Récupère l'URL stockée dans data-src et l'injecte dans src pour lancer la lecture
+    if (iframe && iframe.dataset.src) {
+      iframe.src = iframe.dataset.src;
+    }
+  
+    // Masque l'image d'aperçu
+    container.classList.add('played');
+}
+    
   </script>
   
   <!-- Cloudflare Web Analytics -->
