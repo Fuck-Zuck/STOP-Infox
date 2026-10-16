@@ -404,7 +404,39 @@
     .video-container:hover {
       border-color: var(--accent-color);
     }
-    
+
+    /* Style et centrage du bouton lecture */
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background-color: rgba(0, 0, 0, 0.7); /* Fond sombre semi-transparent */
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3; /* Au-dessus de l'image */
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      pointer-events: none; /* Laisse le clic traverser vers le conteneur */
+    }
+
+    /* Effet au survol : le bouton adopte votre couleur bleue et grossit légèrement */
+    .video-container:hover .play-button {
+      background-color: var(--accent-color);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* Disparition du bouton et de l'image lorsque la vidéo est lancée */
+    .video-container.played .play-button,
+    .video-container.played .video-poster {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     /* Accordéon GTA VI */
     .gta6-wrapper {
       width: 100%;
@@ -822,6 +854,12 @@
           <div class="video-container" onclick="playYouTube(this)">
             <!-- Image "poster" visible au chargement -->
             <img src="idj20261016.jpg" alt="Aperçu vidéo" class="video-poster">
+            <!-- Bouton de Lecture centré -->
+                  <div class="play-button">
+                    <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
             <!-- La vidéo YouTube - chargement au clic -->
             <iframe
               data-src="https://www.youtube-nocookie.com/embed/rz1B4B2yBZY?autoplay=1"
@@ -912,6 +950,12 @@
           <div class="video-container" onclick="playYouTube(this)">
             <!-- Image "poster" visible au chargement -->
             <img src="idj20261010.png" alt="Aperçu vidéo" class="video-poster">
+            <!-- Bouton de Lecture centré -->
+                  <div class="play-button">
+                    <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
             <!-- La vidéo YouTube - chargement au clic -->
             <iframe
               data-src="https://www.youtube-nocookie.com/embed/t7yi5QFRt5A?autoplay=1"
