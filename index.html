@@ -203,6 +203,37 @@
       border-color: var(--accent-color);
     }
 
+    .ctrl-btn-mam {
+      grid-column: span 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--card-bg);
+      color: #94a3b8; /* #FAE220 Couleur Texte des Boutons d'Options */
+      font-size: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 35px; /* Empêche les variations de hauteur selon le texte */
+      text-align: center;
+    }
+    .ctrl-btn-mam:hover {
+      border-color: var(--accent-color);
+      color: var(--text-color);
+    }
+
+    .ctrl-btn-mam.active {
+      background-color: #694BF5; /* #DF1A38 Couleur Fond des Boutons d'Options Activés */
+      color: #ffffff; /*  Couleur Texte des Boutons d'Options Activés */
+      border-color: var(--accent-color);
+    }
+    
     #gemini-result {
       display: none;
       margin-top: 16px;
@@ -694,6 +725,7 @@
       <!-- "Liens" Recherches IA en attente d'une liaison API-->
       <button type="button" class="ctrl-btn" id="opt-gemini"><span>✨</span> Gemini</button>
       <button type="button" class="ctrl-btn" id="opt-ddg-ai"><span>🦆</span> DuckDuckGo</button>
+      <button type="button" class="ctrl-btn-mam" id="opt-mam-ai"><span>🦣</span> Mammouth</button>
       <!-- Fiches Acteurs/Films (IMDb/TMDb) -->
       <button type="button" class="ctrl-btn" id="opt-cinema"><span>🎬</span> Cinéma</button>
       <button type="button" class="ctrl-btn" id="opt-indexxx"><span>📸</span> Indexxx</button>
@@ -1470,6 +1502,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     const btnBlockSocial = document.getElementById('opt-block-social');
     const btnGemini = document.getElementById('opt-gemini');
     const btnDdgAi = document.getElementById('opt-ddg-ai');
+    const btnMamAi = document.getElementById('opt-mam-ai');
     const btnCinema = document.getElementById('opt-cinema');
     const btnIndexxx = document.getElementById('opt-indexxx');
     const btnImages = document.getElementById('opt-images');
@@ -1491,15 +1524,25 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       if (btnDdgAi.classList.contains('active')) btnGemini.classList.remove('active');
     });
 
-    // Exclusivité Cinéma / Index
-    btnCinema.addEventListener('click', () => {
-      btnCinema.classList.toggle('active');
-      if (btnCinema.classList.contains('active')) btnIndexxx.classList.remove('active');
+    btnMamAi.addEventListener('click', () => {
+      btnMamAi.classList.toggle('active');
+      if (btnMamAi.classList.contains('active')) btnGemini.classList.remove('active'), btnDdgAi.classList.remove('active');
     });
 
-    btnIndexxx.addEventListener('click', () => {
-      btnIndexxx.classList.toggle('active');
-      if (btnIndexxx.classList.contains('active')) btnCinema.classList.remove('active');
+    // Exclusivité Cinéma / Index
+    btnGemini.addEventListener('click', () => {
+      btnGemini.classList.toggle('active');
+      if (btnGemini.classList.contains('active')) btnDdgAi.classList.remove('active'), btnMamAi.classList.remove('active');
+    });
+
+    btnDdgAi.addEventListener('click', () => {
+      btnDdgAi.classList.toggle('active');
+      if (btnDdgAi.classList.contains('active')) btnGemini.classList.remove('active'), btnMamAi.classList.remove('active');
+    });
+
+    btnMamAi.addEventListener('click', () => {
+      btnMamAi.classList.toggle('active');
+      if (btnMamAi.classList.contains('active')) btnGemini.classList.remove('active'), btnDdgAi.classList.remove('active');
     });
 
     // Soumission recherche
@@ -1515,6 +1558,11 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
 
       if (btnGemini.classList.contains('active')) {
         window.open(`https://gemini.google.com/app?q=${encodeURIComponent(rawQuery)}`, '_blank');
+        return;
+      }
+
+      if (btnMamAi.classList.contains('active')) {
+        window.open(`https://mammouth.ai/?q=${encodeURIComponent(rawQuery)}`, '_blank');
         return;
       }
 
