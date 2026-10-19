@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="robots" content="noindex">
   <title>:. Alétheia .:</title>
+
+  <!-- Lien vers le manifest.json GitHub Pages -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#38bdf8">
+
+  <!-- favicon ; apple-touch-icon ... -->
   <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="favicon.ico">
   <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg"> -->
   <link rel="apple-touch-icon" href="favicon-180.png">
@@ -1523,7 +1529,28 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     fetchWeather(defaultLat, defaultLon, defaultCity);
   }
 
+    // Interroger le webhook depuis le Dashboard https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w
+    // Test webhook response sous terminal : curl -X POST "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w" -H "Content-Type: application/json" -d '{"prompt": "Bonjour"}'
+    // Test en local avec node server.js - cf. Notes...
+    async function envoyerMessageMake() {
+      const urlWebhook = "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w";
 
+      try {
+        const reponse = await fetch(urlWebhook, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ prompt: "Bonjour l'IA depuis mon dashboard !" })
+        });
+
+        const resultat = await reponse.json();
+        console.log("Réponse de l'IA :", resultat);
+      } catch (error) {
+        console.error("Erreur :", error);
+      }
+    }
+    
     // Options de recherches
     const form = document.getElementById('main-search-form');
     const searchInput = document.getElementById('search-input');
