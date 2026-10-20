@@ -739,6 +739,12 @@
       </button>
     </form>
 
+    <!-- Fenêtre de réponse de Mammouth IA -->
+    <div id="ai-result-box" style="margin-top: 15px; padding: 12px; border-radius: 8px; background-color: var(--card-bg); border: 1px solid var(--border-color); display: none;">
+      <span style="font-weight: 600; color: var(--accent-color);">Réponse de Mammouth :</span>
+      <p id="ai-answer-text" style="margin: 8px 0 0 0; color: var(--text-color); font-size: 0.95rem;"></p>
+    </div>
+    
     <div class="control-panel">
       <!-- Filtres réseaux sociaux -->
       <button type="button" class="ctrl-btn active" id="opt-block-meta"><span>🚫</span> Fuck Zuck</button>
@@ -1657,21 +1663,16 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
         return;
       }
 
-      if (btnMamAi && btnMamAi.classList.contains('active')) {
-        window.open(`https://mammouth.ai/search?q=${encodeURIComponent(finalQuery)}`, '_blank');
-        return;
-      }
-
       // Sinon, comportement via le selecteur de moteur (Google par défaut)
       const engine = engineSelector ? engineSelector.value : 'google';
-      let targetUrl = '';
 
-      // Si le moteur sélectionné est Mammouth, on appelle votre Webhook Make au lieu d'ouvrir une URL
-      if (engine === 'mammouth') {
+      // On appelle directement votre API via le Webhook Make (pas d'ouverture de page !)
+      if ((btnMamAi && btnMamAi.classList.contains('active')) || engine === 'mammouth') {
         await callMyWebhook(finalQuery);
         return; // Stoppe l'exécution pour ne pas ouvrir de page externe
       }
 
+      let targetUrl = '';
       switch (engine) {
           case 'gemini':
               targetUrl = `https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`;
@@ -1689,31 +1690,37 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     });
 
       // Fonction dédiée pour dialoguer avec votre Webhook Make en toute sécurité
-      async function callMyWebhook(promptText) {
-        const webhookUrl = "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w";
+        async function callMyWebhook(promptText) {
+          const webhookUrl = "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w";
+          const resultBox = document.getElementById('ai-result-box');
+          const answerText = document.getElementById('ai-answer-text');
 
-      // Indicateur de chargement si vous avez un élément dédié
-      console.log("Envoi à l'IA en cours...");
+          if (!resultBox || !answerText) {
+                  console.error("L'encart HTML de réponse est introuvable sur la page.");
+                  return;
+                }
 
-      try {
-        const response = await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: promptText })
-        });
+                // Affiche l'encart et indique que la recherche est en cours
+                resultBox.style.display = 'block';
+                answerText.textContent = "Réflexion en cours...";
 
-        const aiAnswer = await response.text();
-        
-        // Afficez la réponse de l'IA (par exemple dans une console ou dans un bloc HTML de votre page)
-        console.log("Réponse de l'IA :", aiAnswer);
+                try {
+                  const response = await fetch(webhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: promptText })
+                  });
 
-        // Si vous avez un conteneur dédié sur votre page (ex: <div id="ai-result"></div>) :
-        // document.getElementById('ai-result').textContent = aiAnswer;
+                  const aiAnswer = await response.text();
 
-      } catch (error) {
-        console.error("Erreur lors de la communication avec le webhook :", error);
-      }
-    }
+                  // Affiche la réponse de l'IA dans l'encart
+                  answerText.textContent = aiAnswer;
+
+                } catch (error) {
+                  console.error("Erreur de communication :", error);
+                  answerText.textContent = "Une erreur est survenue lors de la communication avec l'IA.";
+                }
+              }
 
     
     // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
