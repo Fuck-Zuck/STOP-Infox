@@ -1582,52 +1582,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       }
     }
     
-    // Options de recherches
-    const form = document.getElementById('main-search-form');
-    const searchInput = document.getElementById('search-input');
-
-    const btnBlockMeta = document.getElementById('opt-block-meta');
-    const btnBlockSocial = document.getElementById('opt-block-social');
-    const btnGemini = document.getElementById('opt-gemini');
-    const btnDdgAi = document.getElementById('opt-ddg-ai');
-    const btnMamAi = document.getElementById('opt-mam-ai');
-    const btnCinema = document.getElementById('opt-cinema');
-    const btnIndexxx = document.getElementById('opt-indexxx');
-    const btnImages = document.getElementById('opt-images');
-    const btnNudes = document.getElementById('opt-nude');
-
-    // Toggle filtres
-    [btnImages, btnBlockMeta, btnBlockSocial, btnNudes].forEach(btn => {
-      if (btn) btn.addEventListener('click', () => btn.classList.toggle('active'));
-    });
-
-    // Exclusivité Gemini / DuckDuckGo / Mammouth
-    btnGemini.addEventListener('click', () => {
-      btnGemini.classList.toggle('active');
-      if (btnGemini.classList.contains('active')) btnDdgAi.classList.remove('active'), btnMamAi.classList.remove('active');
-    });
-
-    btnDdgAi.addEventListener('click', () => {
-      btnDdgAi.classList.toggle('active');
-      if (btnDdgAi.classList.contains('active')) btnGemini.classList.remove('active'), btnMamAi.classList.remove('active');
-    });
-
-    btnMamAi.addEventListener('click', () => {
-      btnMamAi.classList.toggle('active');
-      if (btnMamAi.classList.contains('active')) btnGemini.classList.remove('active'), btnDdgAi.classList.remove('active');
-    });
-
-    // Exclusivité Cinéma / Index
-    btnCinema.addEventListener('click', () => {
-      btnCinema.classList.toggle('active');
-      if (btnCinema.classList.contains('active')) btnIndexxx.classList.remove('active');
-    });
-
-    btnIndexxx.addEventListener('click', () => {
-      btnIndexxx.classList.toggle('active');
-      if (btnIndexxx.classList.contains('active')) btnCinema.classList.remove('active');
-    });
-
+ 
     // Options de recherches 2.0 en "Query"
     const form = document.getElementById('main-search-form');
     const searchInput = document.getElementById('search-input');
