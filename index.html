@@ -1629,9 +1629,17 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     });
 
     // Soumission recherche
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const query = searchInput.value.trim();
+    //form.addEventListener('submit', (e) => {
+    //  e.preventDefault();
+    //  const query = searchInput.value.trim();
+
+    document.getElementById('search-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Empêche le comportement par défaut
+
+    const query = document.getElementById('search-input').value.trim();
+    const engine = document.getElementById('engine-selector').value; // 'gemini', 'duckduckgo', ou 'mammouth'
+    
+    
       if (!query) return;
 
       if (btnGemini.classList.contains('active')) {
