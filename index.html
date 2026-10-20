@@ -1631,21 +1631,21 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     // Soumission recherche
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const rawQuery = searchInput.value.trim();
-      if (!rawQuery) return;
-
-      if (btnDdgAi.classList.contains('active')) {
-        window.open(`https://duckduckgo.com/?q=${encodeURIComponent(rawQuery)}&ia=chat`, '_blank');
-        return;
-      }
+      const query = searchInput.value.trim();
+      if (!query) return;
 
       if (btnGemini.classList.contains('active')) {
-        window.open(`https://gemini.google.com/app?q=${encodeURIComponent(rawQuery)}`, '_blank');
+        window.open(`https://gemini.google.com/app?q=${encodeURIComponent(query)}`, '_blank');
+        return;
+      }
+      
+      if (btnDdgAi.classList.contains('active')) {
+        window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}&ia=chat`, '_blank');
         return;
       }
 
       if (btnMamAi.classList.contains('active')) {
-        window.open(`https://mammouth.ai/?q=${encodeURIComponent(rawQuery)}`, '_blank');
+        window.open(`https://mammouth.ai/?q=${encodeURIComponent(query)}`, '_blank');
         return;
       }
 
