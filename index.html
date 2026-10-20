@@ -8,7 +8,7 @@
 
   <!-- Lien vers le manifest.json GitHub Pages -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#38bdf8">
+  <meta name="theme-color" content="#694BF5">
 
   <!-- favicon ; apple-touch-icon ... -->
   <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="favicon.ico">
@@ -1560,28 +1560,6 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     fetchWeather(defaultLat, defaultLon, defaultCity);
   }
 
-    // Interroger le webhook depuis le Dashboard https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w
-    // Test webhook response sous terminal : curl -X POST "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w" -H "Content-Type: application/json" -d '{"prompt": "Bonjour"}'
-    // Test en local avec node server.js - cf. Notes...
-    async function envoyerMessageMake() {
-      const urlWebhook = "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w";
-
-      try {
-        const reponse = await fetch(urlWebhook, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ prompt: "Bonjour l'IA depuis mon dashboard !" })
-        });
-
-        const resultat = await reponse.json();
-        console.log("Réponse de l'IA :", resultat);
-      } catch (error) {
-        console.error("Erreur :", error);
-      }
-    }
-    
  
     // Options de recherches 2.0 en "Query"
     const form = document.getElementById('main-search-form');
@@ -1654,11 +1632,10 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     }
 
     // Soumission du formulaire
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const query = searchInput.value.trim();
-
       if (!query) return;
 
       // Construction de la requête avec les filtres additionnels si nécessaire
@@ -1689,15 +1666,18 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       const engine = engineSelector ? engineSelector.value : 'google';
       let targetUrl = '';
 
+      // Si le moteur sélectionné est Mammouth, on appelle votre Webhook Make au lieu d'ouvrir une URL
+      if (engine === 'mammouth') {
+        await callMyWebhook(finalQuery);
+        return; // Stoppe l'exécution pour ne pas ouvrir de page externe
+      }
+
       switch (engine) {
           case 'gemini':
               targetUrl = `https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`;
               break;
           case 'duckduckgo':
-              targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}`;
-              break;
-          case 'mammouth':
-              targetUrl = `https://mammouth-ai-url.com/search?q=${encodeURIComponent(finalQuery)}`;
+              targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}&kl=fr-fr`;
               break;
           default:
               targetUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
@@ -1708,6 +1688,34 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
         window.open(targetUrl, '_blank');
     });
 
+      // Fonction dédiée pour dialoguer avec votre Webhook Make en toute sécurité
+      async function callMyWebhook(promptText) {
+        const webhookUrl = "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w";
+
+      // Indicateur de chargement si vous avez un élément dédié
+      console.log("Envoi à l'IA en cours...");
+
+      try {
+        const response = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: promptText })
+        });
+
+        const aiAnswer = await response.text();
+        
+        // Afficez la réponse de l'IA (par exemple dans une console ou dans un bloc HTML de votre page)
+        console.log("Réponse de l'IA :", aiAnswer);
+
+        // Si vous avez un conteneur dédié sur votre page (ex: <div id="ai-result"></div>) :
+        // document.getElementById('ai-result').textContent = aiAnswer;
+
+      } catch (error) {
+        console.error("Erreur lors de la communication avec le webhook :", error);
+      }
+    }
+
+    
     // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
     function setupAccordion(buttonId, contentId) {
       const btn = document.getElementById(buttonId);
