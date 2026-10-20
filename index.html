@@ -1628,46 +1628,129 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       if (btnIndexxx.classList.contains('active')) btnCinema.classList.remove('active');
     });
 
-    // Soumission recherche
-    //form.addEventListener('submit', (e) => {
-    //  e.preventDefault();
-    //  const query = searchInput.value.trim();
+    // Options de recherches 2.0 en "Query"
+    const form = document.getElementById('main-search-form');
+    const searchInput = document.getElementById('search-input');
+    const engineSelector = document.getElementById('engine-selector');
 
-    document.getElementById('search-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Empêche le comportement par défaut
+    const btnBlockMeta = document.getElementById('opt-block-meta');
+    const btnBlockSocial = document.getElementById('opt-block-social');
+    const btnGemini = document.getElementById('opt-gemini');
+    const btnDdgAi = document.getElementById('opt-ddg-ai');
+    const btnMamAi = document.getElementById('opt-mam-ai');
+    const btnCinema = document.getElementById('opt-cinema');
+    const btnIndexxx = document.getElementById('opt-indexxx');
+    const btnImages = document.getElementById('opt-images');
+    const btnNudes = document.getElementById('opt-nude');
 
-    const query = document.getElementById('search-input').value.trim();
-    const engine = document.getElementById('engine-selector').value; // 'gemini', 'duckduckgo', ou 'mammouth'
-    
-    
+    // Toggle filtres simples
+    [btnImages, btnBlockMeta, btnBlockSocial, btnNudes].forEach(btn => {
+      if (btn) btn.addEventListener('click', () => btn.classList.toggle('active'));
+    });
+
+    // Exclusivité Gemini / DuckDuckGo / Mammouth
+    if (btnGemini) {
+      btnGemini.addEventListener('click', () => {
+        btnGemini.classList.toggle('active');
+        if (btnGemini.classList.contains('active')) {
+          if (btnDdgAi) btnDdgAi.classList.remove('active');
+          if (btnMamAi) btnMamAi.classList.remove('active');
+        }
+      });
+    }
+
+    if (btnDdgAi) {
+      btnDdgAi.addEventListener('click', () => {
+        btnDdgAi.classList.toggle('active');
+        if (btnDdgAi.classList.contains('active')) {
+          if (btnGemini) btnGemini.classList.remove('active');
+          if (btnMamAi) btnMamAi.classList.remove('active');
+        }
+      });
+    }
+
+    if (btnMamAi) {
+      btnMamAi.addEventListener('click', () => {
+        btnMamAi.classList.toggle('active');
+        if (btnMamAi.classList.contains('active')) {
+          if (btnGemini) btnGemini.classList.remove('active');
+          if (btnDdgAi) btnDdgAi.classList.remove('active');
+        }
+      });
+    }
+
+    // Exclusivité Cinéma / Index
+    if (btnCinema) {
+      btnCinema.addEventListener('click', () => {
+        btnCinema.classList.toggle('active');
+        if (btnCinema.classList.contains('active') && btnIndexxx) {
+          btnIndexxx.classList.remove('active');
+        }
+      });
+    }
+
+    if (btnIndexxx) {
+      btnIndexxx.addEventListener('click', () => {
+        btnIndexxx.classList.toggle('active');
+        if (btnIndexxx.classList.contains('active') && btnCinema) {
+          btnCinema.classList.remove('active');
+        }
+      });
+    }
+
+    // Soumission du formulaire
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const query = searchInput.value.trim();
+
       if (!query) return;
 
-      if (btnGemini.classList.contains('active')) {
-        window.open(`https://gemini.google.com/app?q=${encodeURIComponent(query)}`, '_blank');
+      // Construction de la requête avec les filtres additionnels si nécessaire
+      let finalQuery = query;
+      if (btnCinema && btnCinema.classList.contains('active')) finalQuery += " (site:imdb.com OR site:themoviedb.org)";
+      if (btnNudes && btnNudes.classList.contains('active')) finalQuery += " nude";
+      if (btnIndexxx && btnIndexxx.classList.contains('active')) finalQuery += " (site:indexxx.com)";
+      if (btnBlockMeta && btnBlockMeta.classList.contains('active')) finalQuery += " -site:facebook.com -site:instagram.com";
+      if (btnBlockSocial && btnBlockSocial.classList.contains('active')) finalQuery += " -site:reddit.com -site:tiktok.com -site:x.com";
+
+      // Gestion des boutons IA prioritaires
+      if (btnDdgAi && btnDdgAi.classList.contains('active')) {
+        window.open(`https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}&ia=chat`, '_blank');
         return;
       }
-      
-      if (btnDdgAi.classList.contains('active')) {
-        window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}&ia=chat`, '_blank');
+
+      if (btnGemini && btnGemini.classList.contains('active')) {
+        window.open(`https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`, '_blank');
         return;
       }
 
-      if (btnMamAi.classList.contains('active')) {
-        window.open(`https://mammouth.ai/?q=${encodeURIComponent(query)}`, '_blank');
+      if (btnMamAi && btnMamAi.classList.contains('active')) {
+        window.open(`https://mammouth-ai-url.com/search?q=${encodeURIComponent(finalQuery)}`, '_blank');
         return;
       }
 
-      let finalQuery = rawQuery;
-      if (btnCinema.classList.contains('active')) finalQuery += " (site:imdb.com OR site:themoviedb.org)";
-      if (btnNudes.classList.contains('active')) finalQuery += " nude";
-      if (btnIndexxx.classList.contains('active')) finalQuery += " (site:indexxx.com)";
-      if (btnBlockMeta.classList.contains('active')) finalQuery += " -site:facebook.com -site:instagram.com";
-      if (btnBlockSocial.classList.contains('active')) finalQuery += " -site:reddit.com -site:tiktok.com -site:x.com";
+      // Sinon, comportement via le selecteur de moteur (Google par défaut)
+      const engine = engineSelector ? engineSelector.value : 'google';
+      let targetUrl = '';
 
-      let googleUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
-      if (btnImages.classList.contains('active')) googleUrl += "&tbm=isch&safe=off";
-
-      window.open(googleUrl, '_blank');
+      switch (engine) {
+          case 'gemini':
+              targetUrl = `https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`;
+              break;
+          case 'duckduckgo':
+              targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}`;
+              break;
+          case 'mammouth':
+              targetUrl = `https://mammouth-ai-url.com/search?q=${encodeURIComponent(finalQuery)}`;
+              break;
+          default:
+              targetUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
+              if (btnImages && btnImages.classList.contains('active')) {
+                  targetUrl += "&tbm=isch&safe=off";
+              }
+      }
+        window.open(targetUrl, '_blank');
     });
 
     // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
