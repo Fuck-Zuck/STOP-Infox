@@ -209,6 +209,28 @@
       border-color: var(--accent-color);
     }
 
+    /* Fenêtre de réponse de Mammouth */
+    .ai-action-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: #94a3b8;
+      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .ai-action-btn:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      background-color: var(--card-bg);
+    }
+    
+    /* Bouton Mammouth AI */
     .ctrl-btn-mam {
       grid-column: span 6;
       display: flex;
@@ -739,12 +761,31 @@
       </button>
     </form>
 
-    <!-- Fenêtre de réponse de Mammouth IA -->
-    <div id="ai-result-box" style="margin-top: 15px; padding: 12px; border-radius: 8px; background-color: var(--card-bg); border: 1px solid var(--border-color); display: none;">
-      <span style="font-weight: 600; color: var(--accent-color);">Réponse de Mammouth :</span>
-      <p id="ai-answer-text" style="margin: 8px 0 0 0; color: var(--text-color); font-size: 0.95rem;"></p>
+    <!-- Fenêtre de réponse de Mammouth IA avec bouton copier le texte et partager -->
+    <div id="ai-result-box" style="margin-top: 15px; padding: 16px; border-radius: 12px; background-color: var(--card-bg); border: 1px solid var(--border-color); display: none; box-sizing: border-box; width: 100%; max-width: 500px;">
+
+      <!-- En-tête de l'encart avec le titre et les boutons -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span style="font-weight: 600; color: var(--accent-color); font-size: 0.75rem;">Réponse de Mammouth :</span>
+
+        <div style="display: flex; gap: 6px;">
+          <!-- Bouton Copier -->
+          <button onclick="copyAiResponse()" title="Copier le texte" class="ai-action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+
+          <!-- Bouton Partager / Envoyer -->
+          <button onclick="shareAiResponse()" title="Partager" class="ai-action-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Texte de la réponse -->
+      <p id="ai-answer-text" style="margin: 0; color: var(--text-color); font-size: 0.95rem; line-height: 1.4;"></p>
     </div>
-    
+
+    <!-- Panneau d'options -->
     <div class="control-panel">
       <!-- Filtres réseaux sociaux -->
       <button type="button" class="ctrl-btn active" id="opt-block-meta"><span>🚫</span> Fuck Zuck</button>
@@ -1721,7 +1762,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
         window.open(targetUrl, '_blank');
     });
 
-      // Fonction dédiée pour dialoguer avec votre Webhook Make en toute sécurité
+      // Fonction dédiée pour dialoguer avec le Webhook Make en toute sécurité
         async function callMyWebhook(promptText) {
           const webhookUrl = "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w";
           const resultBox = document.getElementById('ai-result-box');
@@ -1754,6 +1795,42 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
                 }
               }
 
+              // Fenêtre de réponse de Mammouth avec boutons copier et partager
+              // Fonction pour copier le texte de l'IA
+              async function copyAiResponse() {
+                const text = document.getElementById('ai-answer-text').innerText;
+                if (!text) return;
+
+                try {
+                  await navigator.clipboard.writeText(text);
+                  // Petit retour visuel rapide (optionnel)
+                  console.log("Texte copié dans le presse-papier !");
+                } catch (err) {
+                  console.error("Erreur lors de la copie :", err);
+                }
+              }
+
+              // Fonction pour partager ou envoyer le texte
+              async function shareAiResponse() {
+                const text = document.getElementById('ai-answer-text').innerText;
+                if (!text) return;
+
+                // Utilise l'API de partage native du navigateur (disponible sur iPhone, Safari, Chrome, etc.)
+                if (navigator.share) {
+                  try {
+                    await navigator.share({
+                      title: 'Réponse de mon Dashboard IA',
+                      text: text
+                    });
+                  } catch (err) {
+                    console.log("Partage annulé ou non pris en charge", err);
+                  }
+                } else {
+                  // Solution de repli (fallback) si le navigateur ne supporte pas le partage natif : copie directe
+                  alert("Le partage natif n'est pas supporté sur ce navigateur, le texte a été copié à la place !");
+                  copyAiResponse();
+                }
+              }
     
     // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
     function setupAccordion(buttonId, contentId) {
