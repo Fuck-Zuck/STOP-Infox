@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex">
   <title>:. Alétheia .:</title>
 
-  <!-- Lien vers le manifest.json GitHub Pages -->
+  <!-- Lien vers le manifest.json GitHub Pages pour la PWA -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#694BF5">
 
@@ -2146,7 +2146,18 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
 }
     
   </script>
-  
+
+  <!-- Script d'enregistrement du Service Worker à ajouter pour la PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker enregistré !'))
+          .catch(err => console.error('Erreur Service Worker :', err));
+      });
+    }
+  </script>
+    
   <!-- Cloudflare Web Analytics -->
   <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4de6951ad54c4f1ab55031012d124e44"}'>
   </script>
