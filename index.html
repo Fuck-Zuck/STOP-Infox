@@ -323,25 +323,36 @@
       margin-bottom: 8px;
     }
     
-    /* Harmonisation des images PNG dans les raccourcis */
-    .shortcut img {
-      width: 32px;          /* Largeur de l'icône PNG */
-      height: 32px;         /* Hauteur de l'icône PNG */
-      object-fit: contain;  /* Évite toute déformation de l'image */
-      margin-bottom: 8px;   /* Exactement le même espacement que .shortcut span */
-      display: block;       /* Supprime les espaces fantômes sous l'image */
+    /* Harmonisation des images : conteneur universel de taille fixe (32px par 32px) */
+    .icon-container {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px; /* Espacement identique avec le texte */
     }
 
-    /* 1. Définition de la transition fluide sur l'image et l'emoji */
-    .shortcut img,
-    .shortcut span {
+    /* L'image s'adapte parfaitement au conteneur */
+    .icon-container img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      display: block;
       transition: transform 0.2s ease-in-out;
     }
 
-    /* 2. Application du zoom lorsque le curseur survole le bloc .shortcut */
-    .shortcut:hover img,
-    .shortcut:hover span {
-      transform: scale(1.15); /* Ajuster l'échelle : 1.1 = +10%, 1.15 = +15% */
+    /* L'emoji s'adapte aussi */
+    .icon-container span {
+      font-size: 1.8rem;
+      line-height: 1;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    /* Effet de zoom fluide global au survol du bloc .shortcut */
+    .shortcut:hover .icon-container img,
+    .shortcut:hover .icon-container span {
+      transform: scale(1.15);
     }
 
     /* Accordéon Image du jour */
@@ -832,146 +843,146 @@
   <div class="grid">
 
     <a href="https://www.lexilogos.com/bouscateur.htm" class="shortcut" target="_blank">
-      <span>🦜</span>
+      <div class="icon-container"><span>🦜</span></div>
       <p>Lexilogos</p>
     </a>
     <a href="https://cnrtl.fr/" class="shortcut" target="_blank">
-      <span>📙</span>
+      <div class="icon-container"><span>📙</span></div>
       <p>Thésaurus</p> <!-- 🔠 Dico TFLi du CNRS -->
     </a>
     <a href="https://translate.google.com/?hl=fr&ucbcb=1&sl=fr&tl=en&op=translate" class="shortcut" target="_blank">
-      <span>💬</span>
+      <div class="icon-container"><span>💬</span></div>
       <p>Traduction</p>
     </a>
     <a href="https://www.wikipedia.org" class="shortcut" target="_blank">
-      <span>📚</span>
+      <div class="icon-container"><span>📚</span></div>
       <p>Wikipedia</p>
     </a>
 
 
     <a href="https://atom-editor.cc/" class="shortcut" target="_blank">
-      <span>⚛️</span>
+      <div class="icon-container"><span>⚛️</span></div>
       <p>Atom</p>
     </a>
     <a href="https://github.com" class="shortcut" target="_blank">
-      <span>💻</span>
+      <div class="icon-container"><span>💻</span></div>
       <p>GitHub</p>
     </a>
     <a href="https://dash.cloudflare.com/?to=/:account/web-analytics" class="shortcut" target="_blank">
-      <span>☁️</span>
+      <div class="icon-container"><span>☁️</span></div>
       <p>Cloudflare</p>
     </a>
     <a href="https://www.make.com/login" class="shortcut" target="_blank">
-      <img src="make.png" alt="Make">
+      <div class="icon-container"><img src="make.png" alt="Make"></div>
       <p>Make</p>
     </a>
 
 
     <a href="https://account.proton.me/fr/mail" class="shortcut" target="_blank">
-      <span>📨</span>
+      <div class="icon-container"><span>📨</span></div>
       <p>Proton</p>
     </a>
     <a href="https://www.firefox.com/fr/download/all/" class="shortcut" target="_blank">
-      <img src="firefoxiscute.png" alt="Firefox">
+      <div class="icon-container"><img src="firefoxiscute.png" alt="Firefox"></div>
       <p>Firefox</p>
     </a>
     <a href="https://www.makemkv.com/" class="shortcut" target="_blank">
-      <img src="makemkv.png" alt="Make MKV">
+      <div class="icon-container"><img src="makemkv.png" alt="Make MKV"></div>
       <p>Make MKV</p>
     </a>
     <a href="Oups.jpg" class="shortcut" target="_blank">
-      <span>🚧</span>
+      <div class="icon-container"><span>🚧</span></div>
       <p>Vacant</p>
     </a>
 
     
     <a href="https://htmlcolorcodes.com/" class="shortcut" target="_blank">
-      <span>🎨</span>
+      <div class="icon-container"><span>🎨</span></div>
       <p>Color Codes</p>
     </a>
     <a href="https://globalprivacycontrol.org/" class="shortcut" target="_blank">
-      <span>🛡️</span>
+      <div class="icon-container"><span>🛡️</span></div>
       <p>G.P.C.</p>
     </a>
     <a href="https://www.cartoradio.fr/??from=gyagbbb3#/cartographie/lonlat/2.347/48.859" class="shortcut" target="_blank">
-      <span>📡</span>
+      <div class="icon-container"><span>📡</span></div>
       <p>Cartoradio</p>
     </a>
     <a href="https://maree.shom.fr/harbor/SAINT-CAST/hlt/0?utc=standard" class="shortcut" target="_blank">
-      <span>🌊</span>
+      <div class="icon-container"><span>🌊</span></div>
       <p>Marées</p>
     </a>
 
 
     <a href="https://www.playstation.com/fr-fr/" class="shortcut" target="_blank">
-      <span>🎮</span>
+      <div class="icon-container"><span>🎮</span></div>
       <p>Play Station</p>
     </a>
     <a href="https://www.rockstargames.com/VI/media" class="shortcut" target="_blank">
-      <span>🏖️</span>
+      <div class="icon-container"><span>🏖️</span></div>
       <p>GTA VI</p>
     </a>
     <a href="https://map.stateofleonida.net/" class="shortcut" target="_blank">
-      <span>🗺️</span>
+      <div class="icon-container"><span>🗺️</span></div>
       <p>Leonida</p>
     </a>
 
     <a href="https://fallout.bethesda.net/fr/seasons" class="shortcut" target="_blank">
-      <span>☢️</span>
+      <div class="icon-container"><span>☢️</span></div>
       <p>Fallout 76</p>
     </a>
 
 
     <a href="https://www.amazon.fr/" class="shortcut" target="_blank">
-      <span>🛍️</span>
+      <div class="icon-container"><span>🛍️</span></div>
       <p>Amazon</p>
     </a>
     <a href="https://framiv.com/775cf61/home/framiv" class="shortcut" target="_blank">
-      <span>🍿</span>
+      <div class="icon-container"><span>🍿</span></div>
       <p>Streaming</p>
     </a>
     <a href="https://www.youtube.com" class="shortcut" target="_blank">
-      <span>▶️</span>
+      <div class="icon-container"><span>▶️</span></div>
       <p>YouTube</p>
     </a>
     <a href="https://yt-thumb.canbeuseful.com/fr#youtube-thumbnail" class="shortcut" target="_blank">
-      <img src="favicon-192.png" alt="YTT">
+      <div class="icon-container"><img src="favicon-192.png" alt="YTT"></div>
       <p>Thumbnail</p>
     </a>
 
 
     <a href="https://www.upscale.media/fr" class="shortcut" target="_blank">
-      <span>🖼️️</span>
+      <div class="icon-container"><span>🖼️️</span></div>
       <p>Upscale Me</p>
     </a>
     <a href="https://fr.wikipedia.org/wiki/Vagina_dentata" class="shortcut" target="_blank">
-      <span>🤬</span>
+      <div class="icon-container"><span>🤬</span></div>
       <p>&$!#%</p>
     </a>
     <a href="https://oxfammagasinsdumonde.be/lexploitation-des-femmes-tissee-par-lindustrie-textile/" class="shortcut" target="_blank">
-      <span>👙</span>
+      <div class="icon-container"><span>👙</span></div>
       <p>Textiles</p>
     </a>
     <a href="https://modelsociety.com/" class="shortcut">
-      <span>☘️</span>
+      <div class="icon-container"><span>☘️</span></div>
       <p>Models</p>
     </a>
 
     
     <a href="https://nsfwalbum.com/search/Glamour.cz" class="shortcut" target="_blank">
-      <span>📸</span>
+      <div class="icon-container"><span>📸</span></div>
       <p>Shooting</p>
     </a>
     <a href="https://www.pornpics.com/pornstars/olga-niedzielska/" class="shortcut" target="_blank">
-      <span>⚤</span>
+      <div class="icon-container"><span>⚤</span></div>
       <p>Porn Pics</p>
     </a>
     <a href="https://www.pornpics.com/galleries/leggy-teen-girl-with-long-hair-displays-her-bald-pussy-and-phat-ass-naked-58204249/" class="shortcut" target="_blank">
-      <span>🩴</span>
+      <div class="icon-container"><span>🩴</span></div>
       <p>Liberté</p>
     </a>
     <a href="https://fr.wikipedia.org/wiki/R%C3%A8gle_34" class="shortcut" target="_blank">
-      <span>📜</span>
+      <div class="icon-container"><span>📜</span></div>
       <p>La règle 34</p> <!-- Rule 34 - If it exists, there is porn of it. -->
     </a>
   </div>
