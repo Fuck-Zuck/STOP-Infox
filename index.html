@@ -285,7 +285,7 @@
     }
 
     .shortcut {
-      display: flex;
+      display: inline-flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -321,6 +321,27 @@
     .shortcut span {
       font-size: 1.8rem;
       margin-bottom: 8px;
+    }
+    
+    /* Harmonisation des images PNG dans les raccourcis */
+    .shortcut img {
+      width: 32px;          /* Largeur de l'icône PNG */
+      height: 32px;         /* Hauteur de l'icône PNG */
+      object-fit: contain;  /* Évite toute déformation de l'image */
+      margin-bottom: 8px;   /* Exactement le même espacement que .shortcut span */
+      display: block;       /* Supprime les espaces fantômes sous l'image */
+    }
+
+    /* 1. Définition de la transition fluide sur l'image et l'emoji */
+    .shortcut img,
+    .shortcut span {
+      transition: transform 0.2s ease-in-out;
+    }
+
+    /* 2. Application du zoom lorsque le curseur survole le bloc .shortcut */
+    .shortcut:hover img,
+    .shortcut:hover span {
+      transform: scale(1.15); /* Ajuster l'échelle : 1.1 = +10%, 1.15 = +15% */
     }
 
     /* Accordéon Image du jour */
@@ -841,21 +862,21 @@
       <p>Cloudflare</p>
     </a>
     <a href="https://www.make.com/login" class="shortcut" target="_blank">
-      <span><img src="make.png" alt="" width="32" height="32"></span>
+      <img src="make.png" alt="Make">
       <p>Make</p>
     </a>
 
-    
+
     <a href="https://account.proton.me/fr/mail" class="shortcut" target="_blank">
       <span>📨</span>
       <p>Proton</p>
     </a>
     <a href="https://www.firefox.com/fr/download/all/" class="shortcut" target="_blank">
-      <span><img src="firefoxiscute.png" alt="" width="32" height="32"></span>
+      <img src="firefoxiscute.png" alt="Firefox">
       <p>Firefox</p>
     </a>
     <a href="https://www.makemkv.com/" class="shortcut" target="_blank">
-      <span><img src="makemkv.png" alt="" width="32" height="32"></span>
+      <img src="makemkv.png" alt="Make MKV">
       <p>Make MKV</p>
     </a>
     <a href="Oups.jpg" class="shortcut" target="_blank">
@@ -914,7 +935,7 @@
       <p>YouTube</p>
     </a>
     <a href="https://yt-thumb.canbeuseful.com/fr#youtube-thumbnail" class="shortcut" target="_blank">
-      <span><img src="favicon-192.png" alt="" width="32" height="32"></span>
+      <img src="favicon-192.png" alt="YTT">
       <p>Thumbnail</p>
     </a>
 
