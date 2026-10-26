@@ -2085,7 +2085,8 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
                 try {
                   const response = await fetch(webhookUrl, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "application/json", "X-Webhook-Secret": "AjO9#j-6hos9y@683j0tsB_94GG"
+                      },
                     body: JSON.stringify({ prompt: promptText })
                   });
 
