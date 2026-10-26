@@ -747,6 +747,25 @@
       color: #ffffff;
     }
 
+    /* Bouton d'installation (masqué au départ) */
+    .install-btn {
+      display: none; /* Masqué par défaut */
+      margin-top: 24px;
+      padding: 12px 24px;
+      background-color: var(--accent-color);
+      color: #0f172a;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .install-btn:active {
+      transform: scale(0.96);
+    }
+    
     /* --- PIED DE PAGE --- */
     .site-footer {
       width: 100%;
@@ -1819,6 +1838,12 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       
     </div>
 
+    <!-- Bouton d'installation (masqué au départ) -->
+    <button id="install-btn" class="install-btn">
+      📲 Installer l'application
+    </button>
+    
+    <!-- Pied de page -->
     <footer class="site-footer">
       <p>© Copyright 2026 • Alétheia V.2.4.55 • Tous droits réservés.</p>
       <p><a href="Contacts_169.jpg" target="_blank">Contacts</a></p>
@@ -2192,11 +2217,52 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     // Masque l'image d'aperçu
     container.classList.add('played');
 }
+
+    // Bouton d'installation de la PWA
+      let deferredPrompt;
+    const installBtn = document.getElementById('install-btn');
+
+    // 1. Écouter l'événement d'installation du navigateur
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Empêcher l'affichage automatique de la bannière native sur Android/Chrome
+      e.preventDefault();
+
+      // Stocker l'événement pour le déclencher plus tard au clic
+      deferredPrompt = e;
+
+      // Rendre notre bouton visible
+      installBtn.style.display = 'block';
+    });
+
+    // 2. Gérer le clic sur le bouton d'installation
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+
+      // Afficher la boîte de dialogue d'installation native
+      deferredPrompt.prompt();
+
+      // Attendre la réponse de l'utilisateur (Accepté ou Refusé)
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`Résultat de l'installation : ${outcome}`);
+
+      // Réinitialiser la variable (l'événement ne peut servir qu'une fois)
+      deferredPrompt = null;
+
+      // Masquer le bouton une fois l'action terminée
+      installBtn.style.display = 'none';
+    });
+
+    // 3. Masquer le bouton si la PWA est installée avec succès
+    window.addEventListener('appinstalled', () => {
+      console.log('PWA installée avec succès !');
+      installBtn.style.display = 'none';
+      deferredPrompt = null;
+    });
     
   </script>
 
   <!-- Script d'enregistrement du Service Worker à ajouter pour la PWA -->
-  <script>
+  <!-- <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
@@ -2204,7 +2270,27 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
           .catch(err => console.error('Erreur Service Worker :', err));
       });
     }
-  </script>
+  </script> -->
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        // Vérifie les mises à jour à chaque chargement
+        reg.update();
+      });
+    });
+
+    // Recharge automatiquement la page quand le nouveau Service Worker prend le relais
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
+    });
+  }
+</script>
     
   <!-- Cloudflare Web Analytics -->
   <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4de6951ad54c4f1ab55031012d124e44"}'>
