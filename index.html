@@ -1070,7 +1070,7 @@
       <!-- Video 6 ; iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
-          <div class="video-container" onclick="loadArchiveVideo()">
+          <div class="video-container" onclick="loadArchiveVideo(this)">
             <!-- Image "poster" visible au chargement -->
             <img src="idj20261028001.jpg" alt="Aperçu vidéo" class="video-poster">
             <!-- Bouton de Lecture centré -->
@@ -1080,7 +1080,7 @@
                     </svg>
                   </div> -->
             <!-- La vidéo partagée - chargement au clic -->
-            <iframe 
+            <!--<iframe 
               src="https://archive.org/embed/vdj20261028001"
               title="GTA, le jeu no limit (fr-1080p-2.5Go)"
               width="560" 
@@ -1088,11 +1088,11 @@
               frameborder="0" 
               webkitallowfullscreen="true" 
               mozallowfullscreen="true" 
-              allowfullscreen="">
-              </iframe>        
+              allowfullscreen>
+              </iframe> -->       
           </div>
           <figcaption class="idj-caption">
-            27 Octobre 2026 — GTA, le jeu no limit (fr-1080p-2.5Go) <br>[GTAVI][Report][Video]
+            27 Octobre 2026 — GTA, le jeu no limit ! <br>(fr-1080p-2.5Go) <br>[GTAVI][Report][Video]
           </figcaption>
         </figure>
       </div>
@@ -2331,6 +2331,28 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
   
     // Masque l'image d'aperçu
     container.classList.add('played');
+}
+
+
+    
+    // Lecteur Archive.org iframe Vidéo 6 - GTA, le jeu no limit (fr-1080p-2.5Go)
+    function loadArchiveVideo(container) {
+    // Remplace tout le contenu du conteneur (l'image et le bouton) par l'iframe
+    container.innerHTML = `
+        <iframe src="https://archive.org/embed/vdj20261028001" 
+                title="GTA, le jeu no limit (fr-1080p-2.5Go)"
+                width="100%" 
+                height="384" 
+                frameborder="0" 
+                webkitallowfullscreen="true" 
+                mozallowfullscreen="true" 
+                allowfullscreen>
+        </iframe>
+    `;
+    
+    // Supprime l'attribut onclick pour éviter de recharger l'iframe si on clique à nouveau dessus
+    container.onclick = null;
+    container.style.cursor = 'default';
 }
 
 
