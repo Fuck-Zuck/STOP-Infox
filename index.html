@@ -447,7 +447,50 @@
     }
 
     .idj-figure {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      
       margin: 0;
+    }
+
+    /* Le bandeau d'actions copier/partager/télécharger */
+    .idj-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--card-bg); /* Utilise votre fond semi-transparent */
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-top: 10px; /* Espace propre sous la vidéo/image */
+      gap: 8px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Style des boutons et liens du bandeau */
+    .idj-actions .action-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-color);
+      font-size: 0.85rem;
+      font-family: inherit;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      flex: 1; /* Répartit l'espace de manière égale entre les boutons */
+      justify-content: center;
+    }
+
+    /* Effet au survol */
+    .idj-actions .action-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--accent-color);
     }
 
     .idj-caption {
@@ -1032,6 +1075,18 @@
             rel="noopener noreferrer">
               <img src="idj20261027_01.jpg" alt="Un renard comme ami">
             </a>
+          <!-- Bandeau d'actions de la même largeur -->
+    <div class="idj-actions">
+      <button class="action-btn" onclick="copyUrl('https://fuck-zuck.github.io/STOP-Infox/idj20261027_01.jpg')">
+        📋 Copier
+      </button>
+      <button class="action-btn" onclick="shareContent()">
+        🔗 Partager
+      </button>
+      <a href="https://fuck-zuck.github.io/STOP-Infox/idj20261027_01.jpg" download class="action-btn">
+        📥 Télécharger
+      </a>
+    </div>
           <figcaption class="idj-caption">
             27 Octobre 2026 — Un renard comme ami : Firefox est actuellement le navigateur de référence. Open source, rapide et plus dynamique dans l'affichage de certaines animations, correctement paramétré il est aussi capable d'atteindre le podium en terme de protections puisqu'il intègre déjà le G.P.C. (activable en cochant "Demander aux sites web de ne pas vendre ou partager mes données").
             Utilisé en navigation privée, il permet aussi de ne pas saturer le cache. L'identification donne la possibilité de synchroniser les favoris et les mots de passe pour avoir un confort d'utilisation sur tous les appareils.
@@ -2207,26 +2262,6 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
   });
 }
     
-    // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
-    function setupAccordion(buttonId, contentId) {
-      const btn = document.getElementById(buttonId);
-      const content = document.getElementById(contentId);
-
-      if (!btn || !content) return;
-
-      btn.addEventListener('click', () => {
-        const isOpen = content.classList.contains('open');
-
-        if (isOpen) {
-          content.classList.remove('open');
-          btn.classList.remove('active');
-        } else {
-          content.classList.add('open');
-          btn.classList.add('active');
-        }
-      });
-    }
-    
     // Initialisation des trois accordéons principaux
     setupAccordion('toggle-idj-btn', 'idj-content');
     setupAccordion('toggle-gta6-btn', 'gta6-content');
@@ -2266,6 +2301,30 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     // Masque l'image d'aperçu
     container.classList.add('played');
 }
+
+
+    // Bandeau Copier/Partager/Télécharger
+    // Fonction pour copier l'URL dans le presse-papier
+    function copyUrl(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        alert("URL copiée dans le presse-papier !");
+      }).catch(err => {
+        console.error("Erreur lors de la copie : ", err);
+      });
+    }
+
+    // Fonction pour utiliser le menu de partage natif (très pratique sur mobile/PWA)
+    function shareContent() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Mon Dashboard PWA',
+          text: 'Regarde cet élément intéressant :',
+          url: window.location.href,
+        }).catch((error) => console.log('Erreur de partage', error));
+      } else {
+        copyUrl(window.location.href);
+      } 
+    }
 
     
     // Bouton d'installation de la PWA
