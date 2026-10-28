@@ -1090,7 +1090,7 @@
             </iframe>
           </div>
           <figcaption class="idj-caption">
-            28 Octobre 2026 — Recette d'une simulation intéressante : <br>1. Prenez quelques fragments de trailers officiels. 2. Distillez la carte communautaire. 3. Ajoutez-y quelques informations de leaks. 4. Composez les musiques (Suno/Udio ?). 5. Moulinez le tout avec des modélisations en provenance d'autres jeux. 6. Faites chauffer le GPU à 100°C pendant quelques heures. À table !! <br>GTA 6 Gameplay : Free Roam with Jason & Lucia – 8 Minutes of Gameplay (Concept)  <br>[Fanmade][GTAVI][IA][Video]
+            28 Octobre 2026 — Recette d'une simulation de GTA VI qui ouvre l'appétit : <br>1. Prenez quelques fragments de trailers officiels. 2. Distillez la carte communautaire. 3. Ajoutez-y quelques informations de leaks. 4. Composez les musiques (Suno/Udio ?). 5. Moulinez le tout avec des modélisations en provenance d'autres jeux. 6. Faites chauffer le GPU à 100°C pendant quelques heures. À table !! <br>GTA 6 Gameplay : Free Roam with Jason & Lucia – 8 Minutes of Gameplay (Concept)  <br>[Fanmade][GTAVI][IA][Video]
           </figcaption>
         </figure>
       </div>
@@ -2080,45 +2080,66 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     return "🌡️"; // Par défaut
   }
 
-  // 4. Météo avec géolocalisation ou repli (Rennes)
+
+  // 4. Météo robuste avec cache et gestion du repli (Rennes)
   function fetchWeather(lat, lon, cityName) {
-    // On demande aussi le paramètre weather_code à l'API
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error("Erreur réseau");
+        return response.json();
+      })
       .then(data => {
         const temp = Math.round(data.current.temperature_2m);
         const weatherCode = data.current.weather_code;
         const emoji = getWeatherEmoji(weatherCode);
 
-        document.getElementById('current-weather').textContent = `${cityName} : ${temp}°C ${emoji}`;
+        const weatherString = `${cityName} : ${temp}°C ${emoji}`;
+        document.getElementById('current-weather').textContent = weatherString;
+        
+        // Sauvegarde en cache local pour affichage immédiat au prochain rechargement
+        localStorage.setItem('cachedWeather', weatherString);
       })
       .catch(() => {
-        document.getElementById('current-weather').textContent = "Météo indisponible";
+        // En cas d'échec, on essaie d'afficher le cache ou le repli par défaut
+        const cached = localStorage.getItem('cachedWeather');
+        if (cached) {
+          document.getElementById('current-weather').textContent = cached;
+        } else {
+          document.getElementById('current-weather').textContent = "Rennes : Indisponible 🌡️";
+        }
       });
   }
 
-  // Coordonnées de Rennes par défaut (ou géolocalisation)
+  // Coordonnées de Rennes par défaut
   const defaultLat = 48.1173;
   const defaultLon = -1.6778;
   const defaultCity = "Rennes";
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
+  // Utilisation immédiate d'une valeur par défaut ou du cache si la géo prend du temps
+  document.getElementById('current-weather').textContent = "Chargement de la météo...";
 
-      fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=fr`)
-        .then(res => res.json())
-        .then(geoData => {
-          const cityName = geoData.city || geoData.locality || "Votre position";
-          fetchWeather(lat, lon, cityName);
-        })
-        .catch(() => {
-          fetchWeather(defaultLat, defaultLon, defaultCity);
-        });
-    }, () => {
-      fetchWeather(defaultLat, defaultLon, defaultCity);
-    }, { timeout: 10000 });
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=fr`)
+          .then(res => res.json())
+          .then(geoData => {
+            const cityName = geoData.city || geoData.locality || "Votre position";
+            fetchWeather(lat, lon, cityName);
+          })
+          .catch(() => {
+            fetchWeather(defaultLat, defaultLon, defaultCity);
+          });
+      }, 
+      () => {
+        // Si l'utilisateur refuse la géo ou en cas d'erreur (fréquent au refresh sur iOS/Firefox)
+        fetchWeather(defaultLat, defaultLon, defaultCity);
+      }, 
+      { timeout: 5000, maximumAge: 60000 } // Timeout réduit à 5s et acceptation du cache GPS récent
+    );
   } else {
     fetchWeather(defaultLat, defaultLon, defaultCity);
   }
