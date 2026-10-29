@@ -2179,8 +2179,16 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     return "🌡️"; // Par défaut
   }
 
+    // Version 4 : Résolution du bug d'actualisation ? :
+  // 1. Affichage immédiat du cache dès l'ouverture de la page
+  const cachedWeather = localStorage.getItem('cachedWeather');
+  if (cachedWeather) {
+    document.getElementById('current-weather').textContent = cachedWeather;
+  } else {
+    document.getElementById('current-weather').textContent = "Chargement de la météo...";
+  }
 
-  // 4. Météo robuste avec cache et gestion du repli (Rennes)
+  // 2. Fonction météo
   function fetchWeather(lat, lon, cityName) {
     fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`)
       .then(response => {
@@ -2195,28 +2203,22 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
         const weatherString = `${cityName} : ${temp}°C ${emoji}`;
         document.getElementById('current-weather').textContent = weatherString;
         
-        // Sauvegarde en cache local pour affichage immédiat au prochain rechargement
+        // Sauvegarde dans le cache local
         localStorage.setItem('cachedWeather', weatherString);
       })
       .catch(() => {
-        // En cas d'échec, on essaie d'afficher le cache ou le repli par défaut
-        const cached = localStorage.getItem('cachedWeather');
-        if (cached) {
-          document.getElementById('current-weather').textContent = cached;
-        } else {
-          document.getElementById('current-weather').textContent = "Rennes : Indisponible 🌡️";
+        // En cas d'erreur réseau, si on n'a pas de cache, on met un message d'indisponibilité
+        if (!cachedWeather) {
+          document.getElementById('current-weather').textContent = "Météo indisponible 🌡️";
         }
       });
   }
 
-  // Coordonnées de Rennes par défaut
-  const defaultLat = 25.2644;
-  const defaultLon = 55.3117;
-  const defaultCity = "Dubaï";
+  const defaultLat = 48.1173;
+  const defaultLon = -1.6778;
+  const defaultCity = "Rennes";
 
-  // Utilisation immédiate d'une valeur par défaut ou du cache si la géo prend du temps
-  document.getElementById('current-weather').textContent = "Chargement de la météo...";
-
+  // 3. Géolocalisation avec tolérance (maximumAge élargi à 5 minutes)
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -2230,17 +2232,22 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
             fetchWeather(lat, lon, cityName);
           })
           .catch(() => {
-            fetchWeather(defaultLat, defaultLon, defaultCity);
+            if (!cachedWeather) fetchWeather(defaultLat, defaultLon, defaultCity);
           });
       }, 
       () => {
-        // Si l'utilisateur refuse la géo ou en cas d'erreur (fréquent au refresh sur iOS/Firefox)
-        fetchWeather(defaultLat, defaultLon, defaultCity);
+        // Si la géo est bloquée au rafraîchissement (Firefox iOS) :
+        // Si on a déjà un cache affiché, on le conserve tranquillement ! Sinon on met Rennes.
+        if (!cachedWeather) {
+          fetchWeather(defaultLat, defaultLon, defaultCity);
+        }
       }, 
-      { timeout: 5000, maximumAge: 60000 } // Timeout réduit à 5s et acceptation du cache GPS récent
+      { timeout: 5000, maximumAge: 300000 }
     );
   } else {
-    fetchWeather(defaultLat, defaultLon, defaultCity);
+    if (!cachedWeather) {
+      fetchWeather(defaultLat, defaultLon, defaultCity);
+    }
   }
 
  
