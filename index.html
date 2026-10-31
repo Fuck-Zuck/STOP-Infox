@@ -1089,7 +1089,26 @@
 
       <!-- vvv Jour suivant ! vvv -->
 
-    
+
+      <!-- Video 2 ; Archive - iframe -->
+      <div class="idj-item">
+        <figure class="idj-figure">
+          <div class="video-container" onclick="loadArchiveVideo(this)">
+            <!-- Image "poster" visible au chargement -->
+            <img src="idj20261031002.jpg" alt="Aperçu vidéo" class="video-poster">
+            <!-- Bouton de Lecture centré -->
+              <!-- <div class="play-button">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div> -->    
+          </div>
+          <figcaption class="idj-caption">
+            31 Octobre 2026 — Catjira la belle va vous jeter un sortilège et vous faire adorer son coeur, à la folie ! <br>(en-2160p-355Mo) <br>[Halloween][Nudes][Playboy][Video]
+          </figcaption>
+        </figure>
+      </div>
+
       <!-- Image 29 ; Photos/Videos Hébergés -->
       <div class="idj-item">
         <figure class="idj-figure">
@@ -1187,7 +1206,7 @@
         </figure>
       </div>
        
-      <!-- Video 8 ; YT iframe -->
+      <!-- Video 7 ; YT iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
           <div class="video-container" onclick="playYouTube(this)">
@@ -1215,7 +1234,7 @@
         </figure>
       </div>
        
-      <!-- Video 7 ; YT iframe -->
+      <!-- Video 6 ; YT iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
           <div class="video-container" onclick="playYouTube(this)">
@@ -1243,7 +1262,7 @@
         </figure>
       </div>
        
-      <!-- Video 6 ; iframe -->
+      <!-- Video 1 ; Archive - iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
           <div class="video-container" onclick="loadArchiveVideo(this)">
@@ -2557,6 +2576,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
 }
 
 
+
     
     // Lecteur Archive.org iframe Vidéo 6 - GTA, le jeu no limit (fr-1080p-2.5Go)
     function loadArchiveVideo(container) {
@@ -2572,7 +2592,19 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
                 allowfullscreen>
         </iframe>
     `;
-    
+      
+    container.innerHTML = `
+        <iframe src="https://archive.org/embed/vdj20261031001"
+                title="Catjira in Toil and Trouble"
+              width="560" 
+              height="384" 
+              frameborder="0" 
+              webkitallowfullscreen="true" 
+              mozallowfullscreen="true" 
+              allowfullscreen>
+        </iframe>
+    `;
+      
     // Supprime l'attribut onclick pour éviter de recharger l'iframe si on clique à nouveau dessus
     container.onclick = null;
     container.style.cursor = 'default';
