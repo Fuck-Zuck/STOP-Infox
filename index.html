@@ -1093,7 +1093,7 @@
       <!-- Video 2 ; Archive - iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
-          <div class="video-container" onclick="loadArchiveVideo(this)">
+          <div class="video-container" onclick="loadArchiveVideo(this 'https://archive.org/embed/vdj20261031001', 'Catjira in Toil and Trouble (en-2160p-355Mo)')">
             <!-- Image "poster" visible au chargement -->
             <img src="idj20261031002.jpg" alt="Aperçu vidéo" class="video-poster">
             <!-- Bouton de Lecture centré -->
@@ -1267,7 +1267,7 @@
       <!-- Video 1 ; Archive - iframe -->
       <div class="idj-item">
         <figure class="idj-figure">
-          <div class="video-container" onclick="loadArchiveVideo(this)">
+          <div class="video-container" onclick="loadArchiveVideo(this 'https://archive.org/embed/vdj20261028001', 'GTA, le jeu no limit (fr-1080p-2.5Go)')">
             <!-- Image "poster" visible au chargement -->
             <img src="idj20261028001.jpg" alt="Aperçu vidéo" class="video-poster">
             <!-- Bouton de Lecture centré -->
@@ -2607,7 +2607,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     function loadArchiveVideo(container) {
     // Remplace tout le contenu du conteneur (l'image et le bouton) par l'iframe
     container.innerHTML = `
-        <iframe src="https://archive.org/embed/vdj20261028001" 
+        <iframe src="https://archive.org/embed/vdj20261028001"
                 title="GTA, le jeu no limit (fr-1080p-2.5Go)"
                 width="100%" 
                 height="384" 
