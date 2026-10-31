@@ -2585,30 +2585,32 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
 
 
     // Lecteur Archive.org iframe Vidéo 2 - Catjira in Toil and Trouble (en-2160p-355Mo)
-    function loadArchiveVideo(container) {
-    container.innerHTML = `
-        <iframe src="https://archive.org/embed/vdj20261031001"
-                title="Catjira in Toil and Trouble (en-2160p-355Mo)"
-                width="560" 
-                height="384" 
-                frameborder="0" 
-                webkitallowfullscreen="true" 
-                mozallowfullscreen="true" 
-                allowfullscreen>
-        </iframe>
-    `;
+    //function loadArchiveVideo(container) {
+    //container.innerHTML = `
+    //    <iframe src="https://archive.org/embed/vdj20261031001"
+    //            title="Catjira in Toil and Trouble (en-2160p-355Mo)"
+    //            width="560" 
+    //            height="384" 
+    //            frameborder="0" 
+    //            webkitallowfullscreen="true" 
+    //            mozallowfullscreen="true" 
+    //            allowfullscreen>
+    //    </iframe>
+    //`;
       
     // Supprime l'attribut onclick pour éviter de recharger l'iframe si on clique à nouveau dessus
-    container.onclick = null;
-    container.style.cursor = 'default';
-}
+    //container.onclick = null;
+    //container.style.cursor = 'default';
+//}
     
     // Lecteur Archive.org iframe Vidéo 1 - GTA, le jeu no limit (fr-1080p-2.5Go)
+    // https://archive.org/embed/vdj20261028001
+    // GTA, le jeu no limit (fr-1080p-2.5Go)
     function loadArchiveVideo(container) {
     // Remplace tout le contenu du conteneur (l'image et le bouton) par l'iframe
     container.innerHTML = `
-        <iframe src="https://archive.org/embed/vdj20261028001"
-                title="GTA, le jeu no limit (fr-1080p-2.5Go)"
+        <iframe src="${videoUrl}"
+                title="${videoTitle}"
                 width="100%" 
                 height="384" 
                 frameborder="0" 
