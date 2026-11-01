@@ -586,7 +586,7 @@
 
 
     /* Accordéon archives */
-    .archives-section {
+    .archives-content {
       /*margin-top: 30px;
       border: 1px solid #ddd;
       border-radius: 8px;
@@ -1988,7 +1988,7 @@
 
 
   <!-- Accordéon Image du jour (même largeur que la barre de recherche) -->
-  <div class="archives-section">
+  <div class="archives-content">
     <button type="button" class="toggle-btn-archives" id="toggle-idj-archives">
       <span>📂 Archives</span>
       <span class="icon">▼</span>
@@ -2785,13 +2785,14 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     
     // Initialisation des trois accordéons principaux
     setupAccordion('toggle-idj-btn', 'idj-content');
+    setupAccordion('toggle-archives-btn', 'archives-content');
     setupAccordion('toggle-gta6-btn', 'gta6-content');
     setupAccordion('toggle-topic-btn', 'topic-content');
 
     // 2. Fonction pour le bouton "Fermer" situé à l'intérieur du contenu
     function closeAccordion(closeButton) {
       // Trouve le contenu parent ouvert
-      const content = closeButton.closest('.idj-content, .gta6-content, .topic-content');
+      const content = closeButton.closest('.idj-content, .archives-content, .gta6-content, .topic-content');
   
     if (content) {
       content.classList.remove('open');
@@ -2799,6 +2800,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     // Retrouve l'ID du contenu pour deviner quel bouton en haut doit perdre sa classe .active
     let btnId = '';
     if (content.id === 'idj-content') btnId = 'toggle-idj-btn';
+    if (content.id === 'archives-content') btnId = 'toggle-archives-btn';
     if (content.id === 'gta6-content') btnId = 'toggle-gta6-btn';
     if (content.id === 'topic-content') btnId = 'toggle-topic-btn';
 
