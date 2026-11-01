@@ -584,6 +584,78 @@
       pointer-events: none;
     }
 
+
+    /* Accordéon archives */
+    .archives-section {
+      margin-top: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      background: #fafafa;
+    }
+
+    .archives-main-title {
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.1em;
+    }
+
+    .archive-year h3 {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #333;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .archive-month h4 {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* Grille Masonry fluide */
+    .masonry-grid {
+      column-count: 3; /* 3 colonnes sur grand écran */
+      column-gap: 12px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .masonry-grid {
+        column-count: 2; /* 2 colonnes sur tablette/mobile large */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .masonry-grid {
+        column-count: 1; /* 1 colonne sur petit mobile */
+      }
+    }
+
+    .masonry-item {
+      break-inside: avoid; /* Empêche l'élément d'être coupé entre deux colonnes */
+      margin-bottom: 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: #fff;
+    }
+
+    .masonry-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .masonry-item img {
+      width: 100%;
+      height: auto; /* Garde le ratio original de chaque image (portrait/paysage) */
+      display: block;
+    }
+
+    
     /* Accordéon GTA VI */
     .gta6-wrapper {
       width: 100%;
@@ -1872,6 +1944,47 @@
       </button>    
     </div>
   </div>
+
+
+  <!-- Accordéon global des Archives -->
+<details class="archives-section">
+  <summary class="archives-main-title">📂 Archives</summary>
+
+  <div class="archive-content">
+    <!-- Année -->
+    <div class="archive-year">
+      <h3>2026</h3>
+
+      <!-- Mois -->
+      <div class="archive-month">
+        <h4>Octobre</h4>
+
+        <!-- Grille Masonry -->
+        <div class="masonry-grid">
+
+          <!-- Élément 1 -->
+          <div class="masonry-item" onclick="expandArchiveItem(this, 'idj20261031.jpg', '31 Octobre 2026', 'Titre de la vidéo ou de l\'image 2', 'https://www.youtube.com/embed/...')">
+            <img src="idj20261031.jpg" alt="Aperçu 31 Octobre" loading="lazy">
+          </div>
+
+          <!-- Élément 2 -->
+          <div class="masonry-item" onclick="expandArchiveItem(this, 'idj20261030.jpg', '30 Octobre 2026', 'Titre de la vidéo ou de l\'image 1', 'https://www.youtube.com/embed/...')">
+            <img src="idj20261030.jpg" alt="Aperçu 30 Octobre" loading="lazy">
+          </div>
+
+          <!-- Ajouter les autres éléments ici au fil du temps -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</details>
+
+<!-- Conteneur où s'affichera l'image/vidéo lorsqu'on clique dessus (pour l'isoler ou l'afficher dynamiquement) -->
+<div id="archive-expanded-view" class="expanded-container" style="display: none;">
+  <!-- Le contenu détaillé s'injectera ici au clic -->
+</div>
+
     
 <!-- Accordéon GTA VI - Analyse TTWO (même largeur que la barre de recherche) -->
 <div class="gta6-wrapper">
@@ -2390,7 +2503,8 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       fetchWeather(defaultLat, defaultLon, defaultCity);
     }
   }
-
+// --------------------------------------------------------------------------------
+    
     // Son automatique (lecture au premier clic...)
     window.addEventListener('DOMContentLoaded', () => {
       const audio = document.getElementById('background-audio');
@@ -2405,7 +2519,8 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
         }, { once: true }); // '{ once: true }' garantit que l'événement ne s'exécutera qu'une seule fois
       });
     });
- 
+// --------------------------------------------------------------------------------
+    
     // Options de recherches 2.0 en "Query"
     const form = document.getElementById('main-search-form');
     const searchInput = document.getElementById('search-input');
@@ -2505,7 +2620,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       // Sinon, comportement via le selecteur de moteur (Google par défaut)
       const engine = engineSelector ? engineSelector.value : 'google';
 
-      // On appelle directement votre API via le Webhook Make (pas d'ouverture de page !)
+      // On appelle directement l'API via le Webhook Make (pas d'ouverture de page !)
       if ((btnMamAi && btnMamAi.classList.contains('active')) || engine === 'mammouth') {
         await callMyWebhook(finalQuery);
         return; // Stoppe l'exécution pour ne pas ouvrir de page externe
@@ -2527,7 +2642,8 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
       }
         window.open(targetUrl, '_blank');
     });
-
+// --------------------------------------------------------------------------------
+    
       // Fonction dédiée pour dialoguer avec le Webhook Make en toute sécurité
         async function callMyWebhook(promptText) {
           const webhookUrl = "https://hook.eu1.make.com/m5e93cy29r8hp1upk4j76x8k2q2i5h8w";
@@ -2598,6 +2714,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
                   copyAiResponse();
                 }
               }
+// --------------------------------------------------------------------------------
     
     // 1. Fonction universelle pour ouvrir/fermer depuis le bouton d'en-tête
     function setupAccordion(buttonId, contentId) {
@@ -2704,7 +2821,38 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
         //copyUrl(window.location.href);
       //} 
     //}
+// --------------------------------------------------------------------------------
 
+    // Accordéon Archives
+    function expandArchiveItem(element, imageSrc, dateText, titleText, videoUrl) {
+      // Optionnel : cibler une zone dédiée ou remplacer l'affichage principal
+      const expandedContainer = document.getElementById('archive-expanded-view');
+
+      expandedContainer.style.display = 'block';
+      expandedContainer.innerHTML = `
+        <div class="idj-item expanded-active">
+          <figure class="idj-figure">
+            <div class="video-container" onclick="loadArchiveVideo(this, '${videoUrl}', '${titleText}')">
+              <img src="${imageSrc}" alt="${titleText}" class="video-poster">
+            </div>
+            <figcaption class="idj-caption">
+              ${dateText} — ${titleText}
+              <br><button onclick="closeExpandedView()" style="margin-top:8px; font-size:0.9em; cursor:pointer;">Fermer / Retour aux archives</button>
+            </figcaption>
+          </figure>
+        </div>
+      `;
+
+      // Pour faire défiler doucement la page vers la vue détaillée
+      expandedContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeExpandedView() {
+      const expandedContainer = document.getElementById('archive-expanded-view');
+      expandedContainer.style.display = 'none';
+      expandedContainer.innerHTML = '';
+    }
+// --------------------------------------------------------------------------------
     
     // Bouton d'installation de la PWA
       let deferredPrompt;
@@ -2748,7 +2896,8 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
     });
     
   </script>
-
+<!-- -------------------------------------------------------------------------------- -->
+    
   <!-- Script d'enregistrement du Service Worker à ajouter pour la PWA -->
   <script>
     if ('serviceWorker' in navigator) {
@@ -2780,10 +2929,12 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
     });
   }
 </script> -->
+<!-- -------------------------------------------------------------------------------- -->
     
   <!-- Cloudflare Web Analytics -->
   <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4de6951ad54c4f1ab55031012d124e44"}'>
   </script>
   <!-- End Cloudflare Web Analytics -->
+<!-- -------------------------------------------------------------------------------- -->
 </body>
 </html>
