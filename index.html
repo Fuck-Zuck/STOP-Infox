@@ -587,13 +587,54 @@
 
     /* Accordéon archives */
     .archives-section {
-      margin-top: 30px;
+      /*margin-top: 30px;
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 15px;
-      background: #fafafa;
+      background: #fafafa;*/
+
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 16px;
     }
 
+    .toggle-btn-archives {
+      width: 100%;
+      padding: 12px 20px;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.2s, border-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .toggle-btn-archives:hover {
+      border-color: var(--accent-color);
+    }
+
+    .toggle-btn-archives .icon {
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-btn-archives.active .icon {
+      transform: rotate(180deg);
+    }
+
+    .toggle-btn-archives.active {
+    border-color: var(--accent-color);
+    background-color: #694BF5;
+    }
+
+
+
+    
     .archives-main-title {
       font-weight: bold;
       cursor: pointer;
@@ -1946,9 +1987,14 @@
   </div>
 
 
-  <!-- Accordéon global des Archives -->
-<details class="archives-section">
-  <summary class="archives-main-title">📂 Archives</summary>
+  <!-- Accordéon Image du jour (même largeur que la barre de recherche) -->
+  <div class="archives-section">
+    <button type="button" class="toggle-btn-archives" id="toggle-idj-archives">
+      <span>📂 Archives</span>
+      <span class="icon">▼</span>
+    </button>
+    
+  <!-- Accordéon Archives -->
 
   <div class="archive-content">
     <!-- Année -->
