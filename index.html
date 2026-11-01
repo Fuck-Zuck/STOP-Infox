@@ -586,222 +586,7 @@
 /*-- ------------------------------------------------------------------------------ --*/
 
     /* Accordéon archives */
-    .archives-content {
-      width: 100%;
-      max-width: 500px;
-      margin-bottom: 16px;
-    }
 
-    .toggle-btn-archives {
-      width: 100%;
-      padding: 12px 20px;
-      background-color: var(--card-bg);
-      color: var(--text-color);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background-color 0.2s, border-color 0.2s;
-      box-sizing: border-box;
-    }
-
-    .toggle-btn-archives:hover {
-      border-color: var(--accent-color);
-    }
-
-    .toggle-btn-archives .icon {
-      transition: transform 0.3s ease;
-    }
-
-    .toggle-btn-archives.active .icon {
-      transform: rotate(180deg);
-    }
-
-    .toggle-btn-archives.active {
-    border-color: var(--accent-color);
-    background-color: #694BF5;
-    }
-
-
-
-      .archives-content {
-      width: 100%;
-      max-width: 500px;
-      box-sizing: border-box; /* Garantit que les 500px englobent le padding */
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      font-size: 0.95rem;
-      padding: 0 20px;
-      margin-top: 0;
-    }
-
-    .archives-content.open {
-      max-height: 20000px;
-      opacity: 1;
-      margin-top: 8px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
-    }
-
-    /* Espacement entre chaque conteneur d'image ou de vidéo */
-    .archives-item {
-      margin-bottom: 24px; /* Espace propre entre chaque média */
-    }
-
-    .archives-item:last-child {
-      margin-bottom: 0;
-    }
-
-    /* S'applique à la fois aux images ET aux vidéos ! */
-    .archives-item img,
-    .archives-item video {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 6px;
-      object-fit: contain;
-      border: 1px solid var(--border-color); /* Bordure de base discrète */
-      transition: border-color 0.2s ease;   /* Transition fluide */
-    }
-
-    /* Effet de surbrillance du bord au survol de la souris (images et vidéos) */
-    .archives-item img:hover,
-    .archives-item video:hover {
-      border-color: var(--accent-color);
-    }
-
-    .archives-figure {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      
-      margin: 0;
-    }
-
-    /* Le bandeau d'actions copier/partager/télécharger */
-    /* .idj-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: var(--card-bg); /* Utilise votre fond semi-transparent */
-      /* border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px 12px;
-      margin-top: 10px; /* Espace propre sous la vidéo/image */
-      /* gap: 8px;
-      backdrop-filter: blur(2px);
-    } */
-
-    /* Style des boutons et liens du bandeau */
-    /* .idj-actions .action-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-color);
-      font-size: 0.55rem;
-      font-family: inherit;
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: background-color 0.2s ease, color 0.2s ease;
-      flex: 1; /* Répartit l'espace de manière égale entre les boutons */
-      /* justify-content: center;
-    } */
-
-    /* Effet au survol */
-    /* .idj-actions .action-btn:hover {
-      background-color: #694BF5;
-      color: #f8fafc;
-      border-color: var(--accent-color);
-    } */
-
-    .archives-caption {
-      margin-top: 6px;
-      font-size: 0.85rem;
-      color: #94a3b8;
-      text-align: center;
-    }
-
-    .archives-caption a {
-      color: inherit; /* Lien de l'idj : reprend exactement la couleur du texte parent */
-      text-decoration: underline; /*  Lien de l'idj : Force le soulignement */
-    }
-
-
-    
-/*-- ---------v Modifier v---------- --*/
-    
-/*    .archives-main-title {
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 1.1em;
-    }
-
-    .archive-year h3 {
-      margin-top: 15px;
-      font-size: 1.2rem;
-      color: #333;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
-    }
-
-    .archive-month h4 {
-      margin: 10px 0;
-      font-size: 1rem;
-      color: #666;
-    } */
-
-    /* Grille Masonry fluide */
-/*    .masonry-grid {
-      column-count: 3; /* 3 colonnes sur grand écran */
-/*      column-gap: 12px;
-      width: 100%;
-    }
-
-    @media (max-width: 768px) {
-      .masonry-grid {
-        column-count: 2; /* 2 colonnes sur tablette/mobile large */
-/*      }
-    }
-
-    @media (max-width: 480px) {
-      .masonry-grid {
-        column-count: 1; /* 1 colonne sur petit mobile */
-/*      }
-    }
-
-    .masonry-item {
-      break-inside: avoid; /* Empêche l'élément d'être coupé entre deux colonnes */
-/*      margin-bottom: 12px;
-      cursor: pointer;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      background: #fff;
-    }
-
-    .masonry-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .masonry-item img {
-      width: 100%;
-      height: auto; /* Garde le ratio original de chaque image (portrait/paysage) */
-/*      display: block;
-    } */
 /*-- ------------------------------------------------------------------------------ --*/
     
     /* Accordéon GTA VI */
@@ -2096,60 +1881,8 @@
   </div>
 <!-- ------------------------------------------------------------------------------ -->
 
-  <!-- Accordéon Archives du jour (même largeur que la barre de recherche) -->
-  <div class="archives-content">
-    <button type="button" class="toggle-btn-archives" id="toggle-archives-btn">
-      <span>📂 Archives</span>
-      <span class="icon">▼</span>
-    </button>
+<!-- Accordéon Archives du jour (même largeur que la barre de recherche) -->
 
-  <div class="archives-content" id="archives-content">
-    <h3>Test Titre</h3>
-    <h4>Test Sous-titre</h4>
-    <div class="archives-item">
-
-<!--   -->
-<!--  <div class="archive-content"> -->
-    <!-- Année -->
-<!--    <div class="archive-year">
-      <h3>2026</h3> -->
-
-      <!-- Mois -->
-<!--      <div class="archive-month">
-        <h4>Octobre</h4> -->
-<!--   -->
-        <!-- Grille Masonry -->
-<!--        <div class="masonry-grid"> -->
-
-          <!-- Élément 1 -->
-<!--          <div class="masonry-item" onclick="expandArchiveItem(this, 'Oups-Lady_Bug.jpg', '31 Octobre 2026', 'Titre de la vidéo ou de l\'image 2', 'https://www.youtube.com/embed/...')">
-            <img src="Oups-Lady_Bug.jpg" alt="Aperçu 31 Octobre" loading="lazy">
-          </div> -->
-
-          <!-- Élément 2 -->
-<!--          <div class="masonry-item" onclick="expandArchiveItem(this, 'Oups-Lady_Bug.jpg', '30 Octobre 2026', 'Titre de la vidéo ou de l\'image 1', 'https://www.youtube.com/embed/...')">
-            <img src="Oups-Lady_Bug.jpg" alt="Aperçu 30 Octobre" loading="lazy">
-          </div>
-
-          <!-- Ajouter les autres éléments ici au fil du temps -->
- <!--                         </div> -->
- <!--       </div> -->
-      </div>
-    </div>
-  </div>
-<!-- </details> -->
-<!-- Conteneur où s'affichera l'image/vidéo lorsqu'on clique dessus (pour l'isoler ou l'afficher dynamiquement) -->
-<!-- <div id="archive-expanded-view" class="expanded-container" style="display: none;"> -->
-  <!-- Le contenu détaillé s'injectera ici au clic -->
-<!-- </div> -->
-
-          <!-- Bouton de fermeture / retour en haut -->
-      <button class="close-accordion-btn" onclick="closeAccordion(this)">
-        <span>▲</span>
-        <span class="btn-text"> <!-- Fermer et remonter --> </span>
-      </button>    
-    </div>
-  </div>
 <!-- ------------------------------------------------------------------------------ -->
     
 <!-- Accordéon GTA VI - Analyse TTWO (même largeur que la barre de recherche) -->
@@ -2908,22 +2641,22 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     
     // Initialisation des trois accordéons principaux
     setupAccordion('toggle-idj-btn', 'idj-content');
-    setupAccordion('toggle-archives-btn', 'archives-content');
+//    setupAccordion('toggle-archives-btn', 'archives-content');
     setupAccordion('toggle-gta6-btn', 'gta6-content');
     setupAccordion('toggle-topic-btn', 'topic-content');
 
     // 2. Fonction pour le bouton "Fermer" situé à l'intérieur du contenu
     function closeAccordion(closeButton) {
       // Trouve le contenu parent ouvert
-      const content = closeButton.closest('.idj-content, .archives-content, .gta6-content, .topic-content');
-  
+      const content = closeButton.closest('.idj-content, .gta6-content, .topic-content');
+//    const content = closeButton.closest('.idj-content, .archives-content, .gta6-content, .topic-content');  
     if (content) {
       content.classList.remove('open');
 
     // Retrouve l'ID du contenu pour deviner quel bouton en haut doit perdre sa classe .active
     let btnId = '';
     if (content.id === 'idj-content') btnId = 'toggle-idj-btn';
-    if (content.id === 'archives-content') btnId = 'toggle-archives-btn';
+//    if (content.id === 'archives-content') btnId = 'toggle-archives-btn';
     if (content.id === 'gta6-content') btnId = 'toggle-gta6-btn';
     if (content.id === 'topic-content') btnId = 'toggle-topic-btn';
 
@@ -2995,34 +2728,7 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
 // --------------------------------------------------------------------------------
 
     // Accordéon Archives
-    function expandArchiveItem(element, imageSrc, dateText, titleText, videoUrl) {
-      // Optionnel : cibler une zone dédiée ou remplacer l'affichage principal
-      const expandedContainer = document.getElementById('archive-expanded-view');
 
-      expandedContainer.style.display = 'block';
-      expandedContainer.innerHTML = `
-        <div class="idj-item expanded-active">
-          <figure class="idj-figure">
-            <div class="video-container" onclick="loadArchiveVideo(this, '${videoUrl}', '${titleText}')">
-              <img src="${imageSrc}" alt="${titleText}" class="video-poster">
-            </div>
-            <figcaption class="idj-caption">
-              ${dateText} — ${titleText}
-              <br><button onclick="closeExpandedView()" style="margin-top:8px; font-size:0.9em; cursor:pointer;">Fermer / Retour aux archives</button>
-            </figcaption>
-          </figure>
-        </div>
-      `;
-
-      // Pour faire défiler doucement la page vers la vue détaillée
-      expandedContainer.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function closeExpandedView() {
-      const expandedContainer = document.getElementById('archive-expanded-view');
-      expandedContainer.style.display = 'none';
-      expandedContainer.innerHTML = '';
-    }
 // --------------------------------------------------------------------------------
     
     // Bouton d'installation de la PWA
