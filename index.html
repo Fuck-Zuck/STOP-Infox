@@ -838,7 +838,10 @@
   <!-- Fond d'écran fixe indépendant pour iOS et desktop -->
   <div class="scroll-container">
   <div class="container">
-  
+
+  <!-- Son automatique (lecture au premier clic...) -->
+  <audio id="background-audio" src="Son_sf-bouh-rire.mp3" preload="auto"></audio>
+    
   <header class="header">
     <h1>Alétheia</h1>
     <p class="subtitle"> Une recherche plus saine sans Facebook ni Instagram,<br> c'est comme manger sans additifs ni conservateurs !! </p>
@@ -2388,6 +2391,20 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     }
   }
 
+    // Son automatique (lecture au premier clic...)
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('background-audio');
+
+      // Tente de lire le son au chargement
+      audio.play().catch(error => {
+        console.log("Lecture automatique bloquée par le navigateur, en attente d'une interaction utilisateur.");
+
+        // Solution de secours : lance le son dès le premier clic n'importe où sur la page
+        document.addEventListener('click', () => {
+          audio.play();
+        }, { once: true }); // '{ once: true }' garantit que l'événement ne s'exécutera qu'une seule fois
+      });
+    });
  
     // Options de recherches 2.0 en "Query"
     const form = document.getElementById('main-search-form');
