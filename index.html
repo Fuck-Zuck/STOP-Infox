@@ -960,6 +960,112 @@
     }
 /*-- ------------------------------------------------------------------------------ --*/
     
+    /* Accordéon Genèse */
+    .genese-wrapper {
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 16px;
+    }
+
+    .toggle-btn-genese {
+      width: 100%;
+      padding: 12px 20px;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.2s, border-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .toggle-btn-genese:hover {
+      border-color: var(--accent-color);
+    }
+
+    .toggle-btn-genese .icon {
+      transition: transform 0.3s ease;
+    }
+
+    .toggle-btn-genese.active .icon {
+      transform: rotate(180deg);
+    }
+
+    .toggle-btn-genese.active {
+      border-color: var(--accent-color);
+      background-color: #FF7518; /* #694BF5; */
+    }
+
+    .genese-content {
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box; /* Garantit que les 500px englobent le padding */
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      padding: 0 20px;
+      margin-top: 0;
+    }
+
+    .genese-content.open {
+      max-height: 10000px;
+      opacity: 1;
+      margin-top: 8px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .genese-item {
+      margin-top: 10px;
+      background: rgba(30, 25, 59, 0.5); /* Ardoise #334155; #FFB605 Couleur Fond des Paragraphes du Topic */
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 12px; /* Espace propre entre chaque média */
+    }
+
+    .genese-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* S'applique à la fois aux images ET aux vidéos ! */
+    .genese-item img,
+    .genese-item video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+      object-fit: contain;
+      border: 1px solid var(--border-color); /* Bordure de base discrète */
+      transition: border-color 0.2s ease;   /* Transition fluide */
+    }
+
+    /* Effet de surbrillance du bord au survol de la souris (images et vidéos) */
+    .genese-item img:hover,
+    .genese-item video:hover {
+      border-color: var(--accent-color);
+    }
+
+    .genese-figure {
+      margin: 0;
+    }
+
+    .genese-caption {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      text-align: center;
+    }
+/*-- ------------------------------------------------------------------------------ --*/
+    
     /* Bouton d'installation (masqué au départ) */
     .install-btn {
       display: none; /* Masqué par défaut */
@@ -2436,6 +2542,30 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     </div>
 <!-- ------------------------------------------------------------------------------ -->
     
+    <!-- Accordéon Genèse d'Alétheia (même largeur que la barre de recherche) -->
+<div class="genese-wrapper">
+  <button type="button" class="toggle-btn" id="toggle-genese-btn">
+    <span>📈 &nbsp;GTA VI (+ Online ?)</span>
+    <span class="icon">▼</span>
+  </button>
+
+  <div class="genese-content" id="genese-content">
+    <h3>15 Octobre 2026 — Analyse Take-Two,</h3>
+    <h4>Nudité engagée, Options héritées de RDR2...</h4>
+    <div class="genese-item">
+      <p>• Blabla
+      </p>
+            </div>
+
+    <!-- Bouton de fermeture / retour en haut -->
+    <button class="close-accordion-btn" onclick="closeAccordion(this)">
+      <span>▲</span>
+      <span class="btn-text"> <!-- Fermer et remonter --> </span>
+    </button>
+      
+    </div>
+<!-- ------------------------------------------------------------------------------ -->
+    
     <!-- Bouton d'installation (masqué au départ) -->
     <button id="install-btn" class="install-btn">
       📲 Installer l'application
@@ -2834,17 +2964,18 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
   });
 }
     
-    // Initialisation des trois (quatre) accordéons principaux
+    // Initialisation des trois (quatre, cinq...) accordéons principaux
     setupAccordion('toggle-idj-btn', 'idj-content');
     setupAccordion('toggle-archives-btn', 'archives-content');
     setupAccordion('toggle-gta6-btn', 'gta6-content');
     setupAccordion('toggle-topic-btn', 'topic-content');
+    setupAccordion('toggle-genese-btn', 'genese-content');
 
     // 2. Fonction pour le bouton "Fermer" situé à l'intérieur du contenu
     function closeAccordion(closeButton) {
       // Trouve le contenu parent ouvert
 //      const content = closeButton.closest('.idj-content, .gta6-content, .topic-content');
-    const content = closeButton.closest('.idj-content, .archives-content, .gta6-content, .topic-content');  
+    const content = closeButton.closest('.idj-content, .archives-content, .gta6-content, .topic-content, .genese-content');  
     if (content) {
       content.classList.remove('open');
 
@@ -2854,6 +2985,7 @@ Plus qu'un mois et quelques jours à patienter pour découvrir tout cela manette
     if (content.id === 'archives-content') btnId = 'toggle-archives-btn';
     if (content.id === 'gta6-content') btnId = 'toggle-gta6-btn';
     if (content.id === 'topic-content') btnId = 'toggle-topic-btn';
+    if (content.id === 'genese-content') btnId = 'toggle-genese-btn';
 
     const btn = document.getElementById(btnId);
     if (btn) {
