@@ -1070,9 +1070,14 @@
     .install-btn {
       display: none; /* Masqué par défaut */
       margin-top: 24px;
-      padding: 12px 24px;
-      background-color: var(--accent-color);
-      color: #0f172a;
+      padding: 12px 20px;
+
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 16px;
+      
+      background-color: var(--bg-color);
+      color: #f8fafc; /* #0f172a; */
       border: none;
       border-radius: 12px;
       font-size: 0.95rem;
@@ -1083,6 +1088,16 @@
 
     .install-btn:active {
       transform: scale(0.96);
+    }
+
+    /* Effet à vérifier sur Android... */
+    .toggle-btn-install:hover {
+      border-color: var(--accent-color);
+    }
+    
+    .toggle-btn-genese.active {
+      border-color: var(--accent-color);
+      background-color: #FF7518; /* #694BF5; */
     }
 /*-- ------------------------------------------------------------------------------ --*/
     
