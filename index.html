@@ -661,11 +661,6 @@
     .archive-section {
       margin-bottom: 24px;
     }
-
-    .archive-section:last-child {
-      margin-bottom: 0;
-    }
-
     .archive-year {
       font-size: 1.25rem;
       font-weight: 700;
@@ -674,77 +669,127 @@
       padding-bottom: 6px;
       margin-bottom: 16px;
     }
-
-    .archive-month-block {
-      margin-bottom: 20px;
-    }
-
     .archive-month {
       font-size: 1rem;
       font-weight: 600;
-      color: #94a3b8; /* Sous-titre discret */
+      color: #94a3b8;
       margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    /* Grille Masonry moderne en CSS (Colonnes fluides) */
+    /* Grille Masonry */
     .archives-masonry-grid {
-      column-count: 3; /* Nombre de colonnes par défaut (ajustez selon la largeur max de 500px) */
+      column-count: 2;
       column-gap: 12px;
       width: 100%;
     }
-
-    /* Si l'accordéon est trop étroit pour 2 colonnes, on passe à 1 seule sur mobile */
     @media (max-width: 400px) {
       .archives-masonry-grid {
         column-count: 1;
       }
     }
 
-    /* Empêche les éléments d'être coupés entre deux colonnes */
     .archives-item {
       break-inside: avoid;
       margin-bottom: 12px;
+      cursor: pointer;
     }
 
-    /* Style de la figure et de l'image */
-    .archives-figure {
-      display: flex;
-      flex-direction: column;
+    /* Conteneur média pour effet propre */
+    .archive-media-wrapper {
+      position: relative;
       width: 100%;
-      margin: 0;
-      background-color: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-color);
       border-radius: 8px;
       overflow: hidden;
-      transition: border-color 0.2s ease;
+      border: 1px solid var(--border-color);
+      background-color: rgba(0, 0, 0, 0.05);
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
-    .archives-figure:hover {
+    .archive-media-wrapper:hover {
       border-color: var(--accent-color);
+      transform: scale(1.01);
     }
 
-    .archives-item img,
-    .archives-item video {
+    .archive-media-wrapper img,
+    .archive-media-wrapper video {
       width: 100%;
       height: auto;
       display: block;
       object-fit: cover;
     }
 
-    .archives-caption {
-      padding: 8px 10px;
-      font-size: 0.8rem;
-      color: #94a3b8;
-      text-align: center;
-      background-color: var(--card-bg);
-      border-top: 1px solid var(--border-color);
+    /* Badge de date discret en bas à droite de l'image */
+    .archive-date-badge {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      backdrop-filter: blur(2px);
     }
 
-    .archives-caption a {
-      color: inherit;
-      text-decoration: underline;
+    /* --- Visionneuse Lightbox (Plein écran) --- */
+    .archives-lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .archives-lightbox.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-content img,
+    .lightbox-content video {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 8px;
+      object-fit: contain;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .lightbox-caption {
+      margin-top: 10px;
+      color: #f8fafc;
+      font-size: 0.9rem;
+      text-align: center;
     }
 
 
@@ -2268,113 +2313,31 @@
     <!-- Contenu de l'accordéon -->
     <div class="archives-content" id="archives-content">
     
-      <!-- Section Année -->
       <div class="archive-section">
         <h3 class="archive-year">2026</h3>
 
-      <!-- Section Mois -->
-      <div class="archive-month-block">
-        <h4 class="archive-month">OCTOBRE</h4>
+          <div class="archive-month-block">
+            <h4 class="archive-month">Juin</h4>
 
-        <!-- Grille Masonry des images -->
-        <div class="archives-masonry-grid">
+      <!-- Grille Masonry épurée -->
+      <div class="archives-masonry-grid">
 
-
-        <!-- Video 1 ; YT iframe -->
-      <div class="archives-item">
-        <figure class="archives-figure">
-          <div class="video-container" onclick="playYouTube(this)">
-            <!-- Image "poster" visible au chargement -->
-            <img src="idj20261010.png" alt="Aperçu vidéo" class="video-poster">
-            <!-- Bouton de Lecture centré -->
-                  <!-- <div class="play-button">
-                    <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div> -->
-            <!-- La vidéo YouTube - chargement au clic -->
-            <iframe
-              data-src="https://www.youtube-nocookie.com/embed/t7yi5QFRt5A?autoplay=1&vq=hd1080"
-              title="10 Octobre 2026 — Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+          <!-- Élément Image 1 -->
+          <div class="archives-item" onclick="openLightbox('Oups-Lady_Bug.jpg', '03 Novembre 2026')">
+            <div class="archive-media-wrapper">
+              <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
+              <span class="archive-date-badge">Fichier manquant !</span>
+            </div>
           </div>
-          <figcaption class="archives-caption">
-            10 Octobre 2026 — Pit et Rik - La cicrane et la froumi, un tube des années 80 | Archive INA [Video]
-          </figcaption>
-        </figure>
-      </div>
-
-        <!-- Image 2 ; Photos/Videos Hébergés -->
-        <div class="archives-item">
-          <figure class="archives-figure">
-            <a href="idj20261012.jpg"
-            title="Lulu : 'Enfin des perspectives d'activités légales et gratifiantes' "
-            target="_blank"
-            rel="noopener noreferrer">
-              <img src="idj20261012.jpg" alt="Lulu : 'Enfin des perspectives d'activités légales et gratifiantes'">
-            </a>
-          <figcaption class="archives-caption">
-            12 Octobre 2026 — Lulu : "Enfin des perspectives d'activités légales et gratifiantes" <br>[FanArt][GTAVI][Nudes]
-          </figcaption>
-        </figure>
-      </div>
-
-        <!-- Image 3 ; Photos/Videos Hébergés -->
-        <div class="archives-item">
-          <figure class="archives-figure">
-            <a href="idj20261013.jpg"
-            title="GTA VI va-t-il vraiment défier le puritanisme ?"
-            target="_blank"
-            rel="noopener noreferrer">
-              <img src="idj20261013.jpg" alt="OHWMP">
-            </a>
-          <figcaption class="archives-caption">
-            13 Octobre 2026 — GTA VI va-t-il défier le puritanisme en proposant une nudité intégrale véritablement libre ? [FanArt][GTAVI][Nudes]
-          </figcaption>
-        </figure>
-      </div>
-
-          
-          <!-- Élément 1 -->
-          <div class="archives-item">
-            <figure class="archives-figure">
-              <a href="Oups-Lady_Bug.jpg" title="Oups-Lady_Bug" target="_blank" rel="noopener noreferrer">
-                <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
-              </a>
-              <figcaption class="archives-caption">
-                Fichier manquant !
-              </figcaption>
-            </figure>
+        
+          <!-- Élément Vidéo ou autre Image -->
+          <div class="archives-item" onclick="openLightbox('Oups-Lady_Bug.jpg', '03 Novembre 2026')">
+            <div class="archive-media-wrapper">
+              <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
+              <span class="archive-date-badge">Fichier manquant !</span>
+            </div>
           </div>
 
-          <!-- Élément 2 (Exemple supplémentaire pour tester la grille) -->
-          <div class="archives-item">
-            <figure class="archives-figure">
-              <a href="Oups-Lady_Bug.jpg" title="Oups-Lady_Bug" target="_blank" rel="noopener noreferrer">
-                <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
-              </a>
-              <figcaption class="archives-caption">
-                Fichier manquant !
-              </figcaption>
-            </figure>
-          </div>
-
-          <!-- Élément 3 (Exemple supplémentaire pour tester la grille) -->
-          <div class="archives-item">
-            <figure class="archives-figure">
-              <a href="Oups-Lady_Bug.jpg" title="Oups-Lady_Bug" target="_blank" rel="noopener noreferrer">
-                <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
-              </a>
-              <figcaption class="archives-caption">
-                Fichier manquant !
-              </figcaption>
-            </figure>
-          </div>
-          
         </div>
       </div>
     </div>
@@ -2386,6 +2349,15 @@
       </button>    
     </div>
   </div>
+
+      <!-- Visionneuse Lightbox (Plein écran au-dessus) -->
+      <div class="archives-lightbox" id="archivesLightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+          <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <div id="lightboxMediaContainer"></div>
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+      </div>
+    </div>
 <!-- ------------------------------------------------------------------------------ -->
     
 <!-- Accordéon GTA VI - Analyse TTWO (même largeur que la barre de recherche) -->
@@ -3402,6 +3374,31 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
 // --------------------------------------------------------------------------------
 
     // Accordéon Archives
+    // Fonction pour ouvrir l'image en grand (Lightbox)
+    function openLightbox(mediaSrc, dateText) {
+      const lightbox = document.getElementById('archivesLightbox');
+      const container = document.getElementById('lightboxMediaContainer');
+      const caption = document.getElementById('lightboxCaption');
+
+      // Vérifie si c'est une vidéo ou une image
+      if (mediaSrc.endsWith('.mp4') || mediaSrc.endsWith('.webm')) {
+        container.innerHTML = `<video src="${mediaSrc}" controls autoplay></video>`;
+      } else {
+        container.innerHTML = `<img src="${mediaSrc}" alt="Zoom archive">`;
+      }
+
+      caption.textContent = dateText || '';
+      lightbox.classList.add('active');
+    }
+
+    // Fonction pour fermer la lightbox
+    function closeLightbox() {
+      const lightbox = document.getElementById('archivesLightbox');
+      lightbox.classList.remove('active');
+      setTimeout(() => {
+        document.getElementById('lightboxMediaContainer').innerHTML = ''; // Nettoie la vidéo/image
+      }, 300);
+    }
 
 // --------------------------------------------------------------------------------
     
