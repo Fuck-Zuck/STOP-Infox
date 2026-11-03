@@ -678,8 +678,8 @@
       letter-spacing: 0.05em;
     }
 
-    /* Grille Masonry */
-    .archives-masonry-grid {
+    /* Grille Masonry en И (i Cyrillique) */
+    /* .archives-masonry-grid {
       column-count: 2;
       column-gap: 12px;
       width: 100%;
@@ -694,7 +694,35 @@
       break-inside: avoid;
       margin-bottom: 12px;
       cursor: pointer;
+    } */
+
+
+
+
+    /* Grille d'archives classique (Z) : de gauche à droite, ligne par ligne */
+    .archives-masonry-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 colonnes régulières */
+      gap: 12px;
+      width: 100%;
     }
+
+    /* Si l'écran est très étroit, on passe à 1 seule colonne */
+    @media (max-width: 400px) {
+      .archives-masonry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Chaque élément s'aligne proprement */
+    .archives-item {
+      margin-bottom: 0; /* Le gap de la grid gère l'espacement */
+      cursor: pointer;
+    }
+
+
+
+    
 
     /* Conteneur média pour effet propre */
     .archive-media-wrapper {
@@ -1517,7 +1545,8 @@
               <img src="idj-2026-11-04_000.jpg" alt="Blend Leonida">
             </a>
           <figcaption class="idj-caption">
-            04 Novembre 2026 — Le préchargement de Grand Theft Auto VI sera disponible à partir du 10 novembre !
+            04 Novembre 2026 — Le préchargement de Grand Theft Auto VI sera disponible 
+            <br>à partir du 10 novembre !
             <br>"Le 19 novembre, nous ajouterons une affiche officielle imprimable de la jacquette de Grand Theft Auto VI et d'une carte de la Leonida à télécharger gratuitement sur le site officiel. Une version physique recto-verso de cette affiche sera disponible peu après la sortie sur la boutique Rockstar. Elle coûtera 0,99 $ en tant qu'achat seul ou sera un cadeau gratuit inclus avec tout achat sur la boutique Rockstar."
             <br><a href="https://www.rockstargames.com/fr/newswire/article/k4ak9okk485712/grand-theft-auto-vi-pre-load-begins-on-november-10" target="_blank">Rockstar Official</a>
             <br>[Actu][GTAVI][Officiel]
