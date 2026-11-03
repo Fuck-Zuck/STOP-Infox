@@ -2361,28 +2361,27 @@
           <div class="archive-month-block">
             <h4 class="archive-month">OCTOBRE</h4>
 
-      <!-- Grille Masonry épurée -->
+      <!-- Grille Masonry épurée -->        
       <div class="archives-masonry-grid">
-
-          <!-- Élément Image 1 -->
-          <div class="archives-item" onclick="openLightbox('Oups-Lady_Bug.jpg', '03 Novembre 2026')">
-            <div class="archive-media-wrapper">
-              <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
-              <span class="archive-date-badge">Fichier manquant 1 !</span>
-            </div>
+  
+        <!-- Élément 1 -->
+        <div class="archives-item" data-src="Oups-Lady_Bug.webp" data-original="Oups-Lady_Bug.jpg" data-caption="03 Octobre 2026" onclick="openLightbox(this)">
+          <div class="archive-media-wrapper">
+            <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
+            <span class="archive-date-badge">03 Octobre</span>
           </div>
-        
-          <!-- Élément Vidéo ou autre Image -->
-          <div class="archives-item" onclick="openLightbox('Oups-Lady_Bug.jpg', '03 Novembre 2026')">
-            <div class="archive-media-wrapper">
-              <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
-              <span class="archive-date-badge">Fichier manquant 2 !</span>
-            </div>
-          </div>
-
         </div>
-      </div>
-    </div>
+
+        <!-- Élément 2 (Exemple) -->
+        <div class="archives-item" data-src="autre-image.webp" data-original="Oups-Lady_Bug.jpg" data-caption="03 Octobre 2026" onclick="openLightbox(this)">
+          <div class="archive-media-wrapper">
+            <img src="Oups-Lady_Bug.webp" alt="Description" loading="lazy">
+            <span class="archive-date-badge">03 Octobre</span>
+          </div>
+        </div>
+
+  </div>
+</div>
 
       <!-- Bouton de fermeture / retour en haut -->
       <button class="close-accordion-btn" onclick="closeAccordion(this)">
@@ -3430,51 +3429,39 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
 
     // Accordéon Archives
 
-    let galleryItems = [];
     let currentIndex = 0;
 
-    // Initialisation au chargement de la page
-    document.addEventListener("DOMContentLoaded", () => {
-      const items = document.querySelectorAll('.archives-masonry-grid .archives-item');
-      galleryItems = Array.from(items).map(item => {
-        const link = item.querySelector('a'); // Récupère le lien de l'original
-        const img = item.querySelector('img');
-        const badge = item.querySelector('.archive-date-badge');
-        return {
-          src: img ? img.src : '',
-          originalSrc: link ? link.href : (img ? img.src : ''),
-          caption: badge ? badge.textContent : ''
-        };
-      });
+    // Récupère toutes les images de la grille active
+    function getGalleryItems() {
+      const elements = document.querySelectorAll('.archives-masonry-grid .archives-item');
+      return Array.from(elements).map(el => ({
+        src: el.getAttribute('data-src'),
+        originalSrc: el.getAttribute('data-original'),
+        caption: el.getAttribute('data-caption')
+      }));
+    }
 
-      // Remplace le comportement d'ouverture de l'accordéon initial pour lancer la lightbox
-      items.forEach((item, index) => {
-        const link = item.querySelector('a');
-        if (link) {
-          link.addEventListener('click', (e) => {
-            e.preventDefault(); // Empêche l'ouverture directe pour lancer la lightbox à la place
-            openLightboxByIndex(index);
-          });
-        }
-      });
-    });
-
-    function openLightboxByIndex(index) {
-      currentIndex = index;
+    // Ouvre la lightbox à partir de l'élément cliqué
+    function openLightbox(element) {
+      const items = getGalleryItems();
+      currentIndex = items.findIndex(item => item.src === element.getAttribute('data-src'));
+      
       const lightbox = document.getElementById('archivesLightbox');
       lightbox.classList.add('active');
       updateLightboxContent();
     }
 
+    // Met à jour l'affichage de la lightbox (image, texte, lien original)
     function updateLightboxContent() {
+      const items = getGalleryItems();
+      if (items.length === 0) return;
+
+      const currentItem = items[currentIndex];
       const container = document.getElementById('lightboxMediaContainer');
       const caption = document.getElementById('lightboxCaption');
       const originalLink = document.getElementById('lightboxOriginalLink');
-      const currentItem = galleryItems[currentIndex];
 
-      if (!currentItem) return;
-
-      // Affichage image ou vidéo dans la lightbox
+      // Affichage image ou vidéo
       if (currentItem.src.endsWith('.mp4') || currentItem.src.endsWith('.webm')) {
         container.innerHTML = `<video src="${currentItem.src}" controls autoplay></video>`;
       } else {
@@ -3482,21 +3469,24 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
       }
 
       caption.textContent = currentItem.caption;
-      originalLink.href = currentItem.originalSrc; // Assure que le clic sur l'image mène au fichier original
+      originalLink.href = currentItem.originalSrc; // Lien vers le fichier original non compressé
     }
 
+    // Navigation Suivant / Précédent
     function changeImage(direction) {
+      const items = getGalleryItems();
       currentIndex += direction;
       
-      if (currentIndex >= galleryItems.length) {
-        currentIndex = 0;
+      if (currentIndex >= items.length) {
+        currentIndex = 0; // Revient au début
       } else if (currentIndex < 0) {
-        currentIndex = galleryItems.length - 1;
+        currentIndex = items.length - 1; // Revient à la fin
       }
 
       updateLightboxContent();
     }
 
+    // Fermeture de la lightbox
     function closeLightbox() {
       const lightbox = document.getElementById('archivesLightbox');
       lightbox.classList.remove('active');
@@ -3505,7 +3495,7 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
       }, 300);
     }
 
-    // Navigation au clavier (Flèches gauche/droite et Échap pour fermer)
+    // Raccourcis clavier (Flèches et Échap)
     document.addEventListener('keydown', (e) => {
       const lightbox = document.getElementById('archivesLightbox');
       if (!lightbox.classList.contains('active')) return;
