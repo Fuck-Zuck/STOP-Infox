@@ -1504,9 +1504,26 @@
      <!-- L'idj by CGE -->
      <div class="idj-content" id="idj-content">
 
-      <!-- vvv Jour suivant ! vvv -->
+      <!-- vvvvvvvvvvvvvvvvv Jour suivant ! vvvvvvvvvvvvvvvvv -->
 
-
+       
+      <!-- Image 33 ; Photos/Videos Hébergés -->
+      <div class="idj-item">
+        <figure class="idj-figure">
+            <a href="idj-2026-11-04_001.jpg"
+            title="Blend Leonida"
+            target="_blank"
+            rel="noopener noreferrer">
+              <img src="idj-2026-11-04_000.jpg" alt="Blend Leonida">
+            </a>
+          <figcaption class="idj-caption">
+            04 Novembre 2026 — Le préchargement de Grand Theft Auto VI sera disponible à partir du 10 novembre !
+            <br>"Le 19 novembre, nous ajouterons une affiche officielle imprimable de la jacquette de Grand Theft Auto VI et d'une carte de la Leonida à télécharger gratuitement sur le site officiel. Une version physique recto-verso de cette affiche sera disponible peu après la sortie sur la boutique Rockstar. Elle coûtera 0,99 $ en tant qu'achat seul ou sera un cadeau gratuit inclus avec tout achat sur la boutique Rockstar."
+            <br><a href="https://www.rockstargames.com/fr/newswire/article/k4ak9okk485712/grand-theft-auto-vi-pre-load-begins-on-november-10" target="_blank">Rockstar Official</a>
+            <br>[Actu][GTAVI][Officiel]
+          </figcaption>
+        </figure>
+      </div>
        
       <!-- Video 3 ; Archive - iframe -->
       <div class="idj-item">
@@ -2408,27 +2425,28 @@
     </div>
   </div>
 
-      <!-- Visionneuse Lightbox (Plein écran) -->
+      <!-- Visionneuse Lightbox (Plein écran unique) -->
       <div class="archives-lightbox" id="archivesLightbox" onclick="closeLightbox()">
         <div class="lightbox-content" onclick="event.stopPropagation()">
     
-          <!-- 1. L'image cliquable pour ouvrir l'original dans un nouvel onglet -->
+          <!-- L'image cliquable pour ouvrir l'original dans un nouvel onglet -->
           <a id="lightboxOriginalLink" href="#" target="_blank" rel="noopener noreferrer" class="lightbox-media-link" title="Ouvrir l'original dans un nouvel onglet">
             <div id="lightboxMediaContainer"></div>
           </a>
     
-          <!-- 2. Premier rectangle : Le bandeau de texte (même largeur que l'image) -->
-            <div class="lightbox-caption-box" id="lightboxCaption"></div>
+          <!-- Premier rectangle : Le bandeau de texte -->
+          <div class="lightbox-caption-box" id="lightboxCaption"></div>
     
-          <!-- 3. Second rectangle : La barre de navigation (<, X, >) -->
-            <div class="lightbox-nav-bar">
-              <button class="lightbox-nav-btn" onclick="changeImage(-1)" title="Précédent">&#10094;</button>
-              <button class="lightbox-nav-btn lightbox-close-btn" onclick="closeLightbox()" title="Fermer">&#10005;</button>
-              <button class="lightbox-nav-btn" onclick="changeImage(1)" title="Suivant">&#10095;</button>
+          <!-- Second rectangle : La barre de navigation (<, X, >) -->
+          <div class="lightbox-nav-bar">
+            <button class="lightbox-nav-btn" onclick="changeImage(-1)" title="Précédent">&#10094;</button>
+            <button class="lightbox-nav-btn lightbox-close-btn" onclick="closeLightbox()" title="Fermer">&#10005;</button>
+            <button class="lightbox-nav-btn" onclick="changeImage(1)" title="Suivant">&#10095;</button>
+          </div>
+    
         </div>
-          
-    </div>
-  </div>
+      </div>
+    
 </div>
 <!-- ------------------------------------------------------------------------------ -->
     
@@ -3449,7 +3467,7 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
 
     let currentIndex = 0;
 
-    // Récupère toutes les images de la grille active
+    // Récupère toutes les images de la grille
     function getGalleryItems() {
       const elements = document.querySelectorAll('.archives-masonry-grid .archives-item');
       return Array.from(elements).map(el => ({
@@ -3459,17 +3477,22 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
       }));
     }
 
-    // Ouvre la lightbox à partir de l'élément cliqué
+    // Ouvre la lightbox en ciblant précisément l'image sur laquelle on a cliqué
     function openLightbox(element) {
       const items = getGalleryItems();
-      currentIndex = items.findIndex(item => item.src === element.getAttribute('data-src'));
+      
+      // On retrouve l'index exact de l'élément cliqué dans la liste
+      const allItems = Array.from(document.querySelectorAll('.archives-masonry-grid .archives-item'));
+      currentIndex = allItems.indexOf(element);
+
+      if (currentIndex === -1) currentIndex = 0;
       
       const lightbox = document.getElementById('archivesLightbox');
       lightbox.classList.add('active');
       updateLightboxContent();
     }
 
-    // Met à jour l'affichage de la lightbox (image, texte, lien original)
+    // Met à jour l'affichage de la lightbox
     function updateLightboxContent() {
       const items = getGalleryItems();
       if (items.length === 0) return;
@@ -3479,26 +3502,29 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
       const caption = document.getElementById('lightboxCaption');
       const originalLink = document.getElementById('lightboxOriginalLink');
 
-      // Affichage image ou vidéo
+      // Affichage image ou vidéo propre
       if (currentItem.src.endsWith('.mp4') || currentItem.src.endsWith('.webm')) {
         container.innerHTML = `<video src="${currentItem.src}" controls autoplay></video>`;
       } else {
         container.innerHTML = `<img src="${currentItem.src}" alt="Zoom archive">`;
       }
 
-      caption.textContent = currentItem.caption;
-      originalLink.href = currentItem.originalSrc; // Lien vers le fichier original non compressé
+      caption.textContent = currentItem.caption || '';
+      originalLink.href = currentItem.originalSrc || currentItem.src;
     }
 
     // Navigation Suivant / Précédent
     function changeImage(direction) {
       const items = getGalleryItems();
+      if (items.length === 0) return;
+
       currentIndex += direction;
       
+      // Boucle infini (revient au début ou à la fin)
       if (currentIndex >= items.length) {
-        currentIndex = 0; // Revient au début
+        currentIndex = 0;
       } else if (currentIndex < 0) {
-        currentIndex = items.length - 1; // Revient à la fin
+        currentIndex = items.length - 1;
       }
 
       updateLightboxContent();
@@ -3516,7 +3542,7 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
     // Raccourcis clavier (Flèches et Échap)
     document.addEventListener('keydown', (e) => {
       const lightbox = document.getElementById('archivesLightbox');
-      if (!lightbox.classList.contains('active')) return;
+      if (!lightbox || !lightbox.classList.contains('active')) return;
 
       if (e.key === 'ArrowRight') changeImage(1);
       if (e.key === 'ArrowLeft') changeImage(-1);
