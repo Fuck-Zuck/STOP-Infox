@@ -733,7 +733,7 @@
       backdrop-filter: blur(2px);
     }
 
-/* --- Visionneuse Lightbox (Plein écran) --- */
+    /* --- Visionneuse Lightbox (Plein écran) --- */
     .archives-lightbox {
       display: none;
       position: fixed;
@@ -741,7 +741,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(0, 0, 0, 0.85);
       z-index: 9999;
       justify-content: center;
       align-items: center;
@@ -756,91 +756,85 @@
       opacity: 1;
     }
 
+    /* Conteneur principal qui s'adapte à la largeur de l'image */
     .lightbox-content {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      max-width: 900px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      max-width: 90vw;
+      max-height: 90vh;
+      box-sizing: border-box;
     }
 
-    #lightboxMediaContainer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-grow: 1;
-      max-height: calc(100vh - 120px);
-      width: 100%;
-      margin-bottom: 15px;
-    }
-
-    .lightbox-content img,
-    .lightbox-content video {
+    /* Lien englobant l'image pour l'ouvrir dans un nouvel onglet */
+    .lightbox-media-link {
+      display: block;
       max-width: 100%;
-      max-height: 75vh;
+      max-height: 65vh;
+      cursor: zoom-in;
+    }
+
+    #lightboxMediaContainer img,
+    #lightboxMediaContainer video {
+      max-width: 100%;
+      max-height: 65vh;
+      width: auto;
+      height: auto;
+      display: block;
       border-radius: 8px;
       object-fit: contain;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
 
-    /* Bandeau inférieur fixe sous l'image */
-    .lightbox-footer-bar {
+    /* Premier rectangle : Bandeau texte (s'ajuste à l'image) */
+    .lightbox-caption-box {
+      width: 100%;
+      background: var(--card-bg, #1e293b);
+      border: 1px solid var(--border-color, #334155);
+      border-radius: 10px;
+      padding: 8px 16px;
+      margin-top: 10px;
+      color: var(--text-color, #f8fafc);
+      font-size: 0.85rem;
+      text-align: center;
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Second rectangle : Barre de navigation (<, X, >) */
+    .lightbox-nav-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      background: rgba(30, 30, 30, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      padding: 10px 20px;
-      border-radius: 30px;
-      width: fit-content;
-      min-width: 280px;
-      max-width: 100%;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      align-items: center;
+      width: 100%;
+      background: var(--card-bg, #1e293b);
+      border: 1px solid var(--border-color, #334155);
+      border-radius: 10px;
+      padding: 6px 16px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
     .lightbox-nav-btn {
       background: transparent;
       border: none;
-      color: white;
+      color: var(--text-color, #f8fafc);
       font-size: 1.1rem;
       cursor: pointer;
-      padding: 6px 12px;
-      transition: color 0.2s ease, transform 0.1s ease;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .lightbox-nav-btn:hover {
-      color: var(--accent-color);
-      transform: scale(1.1);
-    }
-
-    .lightbox-info {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-      padding: 0 15px;
-    }
-
-    #lightboxCaption {
-      color: #f8fafc;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .lightbox-orig-link {
-      color: #94a3b8;
-      font-size: 0.72rem;
-      text-decoration: underline;
-      transition: color 0.2s ease;
-    }
-
-    .lightbox-orig-link:hover {
+      background-color: var(--accent-color, #FF7518);
       color: #fff;
+    }
+
+    .lightbox-close-btn {
+      font-weight: bold;
     }
 /*-- ------------------------------------------------------------------------------ --*/
     
@@ -2365,7 +2359,7 @@
         <h3 class="archive-year">2026</h3>
 
           <div class="archive-month-block">
-            <h4 class="archive-month">Juin</h4>
+            <h4 class="archive-month">OCTOBRE</h4>
 
       <!-- Grille Masonry épurée -->
       <div class="archives-masonry-grid">
@@ -2374,7 +2368,7 @@
           <div class="archives-item" onclick="openLightbox('Oups-Lady_Bug.jpg', '03 Novembre 2026')">
             <div class="archive-media-wrapper">
               <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
-              <span class="archive-date-badge">Fichier manquant !</span>
+              <span class="archive-date-badge">Fichier manquant 1 !</span>
             </div>
           </div>
         
@@ -2382,7 +2376,7 @@
           <div class="archives-item" onclick="openLightbox('Oups-Lady_Bug.jpg', '03 Novembre 2026')">
             <div class="archive-media-wrapper">
               <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
-              <span class="archive-date-badge">Fichier manquant !</span>
+              <span class="archive-date-badge">Fichier manquant 2 !</span>
             </div>
           </div>
 
@@ -2402,20 +2396,20 @@
       <div class="archives-lightbox" id="archivesLightbox" onclick="closeLightbox()">
         <div class="lightbox-content" onclick="event.stopPropagation()">
     
-          <!-- Conteneur de l'image ou de la vidéo active -->
-          <div id="lightboxMediaContainer"></div>
+          <!-- 1. L'image cliquable pour ouvrir l'original dans un nouvel onglet -->
+          <a id="lightboxOriginalLink" href="#" target="_blank" rel="noopener noreferrer" class="lightbox-media-link" title="Ouvrir l'original dans un nouvel onglet">
+            <div id="lightboxMediaContainer"></div>
+          </a>
     
-          <!-- Bandeau inférieur fixe : Flèches + Infos + Lien original -->
-          <div class="lightbox-footer-bar">
-            <button class="lightbox-nav-btn" onclick="changeImage(-1)" title="Précédent">&#10094;</button>
-      
-            <div class="lightbox-info">
-              <span id="lightboxCaption"></span>
-              <a id="lightboxOriginalLink" href="#" target="_blank" rel="noopener noreferrer" class="lightbox-orig-link">Voir l'original ↗</a>
-            </div>
-      
-        <button class="lightbox-nav-btn" onclick="changeImage(1)" title="Suivant">&#10095;</button>
-      </div>
+          <!-- 2. Premier rectangle : Le bandeau de texte (même largeur que l'image) -->
+            <div class="lightbox-caption-box" id="lightboxCaption"></div>
+    
+          <!-- 3. Second rectangle : La barre de navigation (<, X, >) -->
+            <div class="lightbox-nav-bar">
+              <button class="lightbox-nav-btn" onclick="changeImage(-1)" title="Précédent">&#10094;</button>
+              <button class="lightbox-nav-btn lightbox-close-btn" onclick="closeLightbox()" title="Fermer">&#10005;</button>
+              <button class="lightbox-nav-btn" onclick="changeImage(1)" title="Suivant">&#10095;</button>
+        </div>
     
   </div>
 </div>
@@ -3448,14 +3442,20 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
         const badge = item.querySelector('.archive-date-badge');
         return {
           src: img ? img.src : '',
-          originalSrc: link ? link.href : (img ? img.src : ''), // Lien HD ou source par défaut
+          originalSrc: link ? link.href : (img ? img.src : ''),
           caption: badge ? badge.textContent : ''
         };
       });
 
-      // Associe l'ouverture de la lightbox à chaque élément de la grille
+      // Remplace le comportement d'ouverture de l'accordéon initial pour lancer la lightbox
       items.forEach((item, index) => {
-        item.setAttribute('onclick', `openLightboxByIndex(${index})`);
+        const link = item.querySelector('a');
+        if (link) {
+          link.addEventListener('click', (e) => {
+            e.preventDefault(); // Empêche l'ouverture directe pour lancer la lightbox à la place
+            openLightboxByIndex(index);
+          });
+        }
       });
     });
 
@@ -3474,7 +3474,7 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
 
       if (!currentItem) return;
 
-      // Affichage image ou vidéo
+      // Affichage image ou vidéo dans la lightbox
       if (currentItem.src.endsWith('.mp4') || currentItem.src.endsWith('.webm')) {
         container.innerHTML = `<video src="${currentItem.src}" controls autoplay></video>`;
       } else {
@@ -3482,7 +3482,7 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
       }
 
       caption.textContent = currentItem.caption;
-      originalLink.href = currentItem.originalSrc; // Met à jour le lien vers le fichier non compressé
+      originalLink.href = currentItem.originalSrc; // Assure que le clic sur l'image mène au fichier original
     }
 
     function changeImage(direction) {
@@ -3505,7 +3505,7 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
       }, 300);
     }
 
-    // Navigation au clavier (Flèches gauche/droite et Échap)
+    // Navigation au clavier (Flèches gauche/droite et Échap pour fermer)
     document.addEventListener('keydown', (e) => {
       const lightbox = document.getElementById('archivesLightbox');
       if (!lightbox.classList.contains('active')) return;
