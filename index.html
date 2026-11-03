@@ -634,115 +634,99 @@
     background-color: #FF7518; /* #694BF5; */
     }
 
-    .archives-content {
-      width: 100%;
-      max-width: 500px;
-      box-sizing: border-box; /* Garantit que les 500px englobent le padding */
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
-      background-color: var(--card-bg);
-      border-radius: 12px;
-      font-size: 0.95rem;
-      padding: 0 20px;
-      margin-top: 0;
+/* --- */
+    /* Style des titres d'archives */
+    .archive-section {
+      margin-bottom: 24px;
     }
 
-    .archives-content.open {
-      max-height: 20000px;
-      opacity: 1;
-      margin-top: 8px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
-    }
-
-    /* Espacement entre chaque conteneur d'image ou de vidéo */
-    .archives-item {
-      margin-bottom: 24px; /* Espace propre entre chaque média */
-    }
-
-    .archives-item:last-child {
+    .archive-section:last-child {
       margin-bottom: 0;
     }
 
-    /* S'applique à la fois aux images ET aux vidéos ! */
+    .archive-year {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-color);
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+    }
+
+    .archive-month-block {
+      margin-bottom: 20px;
+    }
+
+    .archive-month {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #94a3b8; /* Sous-titre discret */
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Grille Masonry moderne en CSS (Colonnes fluides) */
+    .archives-masonry-grid {
+      column-count: 2; /* Nombre de colonnes par défaut (ajustez selon la largeur max de 500px) */
+      column-gap: 12px;
+      width: 100%;
+    }
+
+    /* Si l'accordéon est trop étroit pour 2 colonnes, on passe à 1 seule sur mobile */
+    @media (max-width: 400px) {
+      .archives-masonry-grid {
+        column-count: 1;
+      }
+    }
+
+    /* Empêche les éléments d'être coupés entre deux colonnes */
+    .archives-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+    }
+
+    /* Style de la figure et de l'image */
+    .archives-figure {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 0;
+      background-color: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .archives-figure:hover {
+      border-color: var(--accent-color);
+    }
+
     .archives-item img,
     .archives-item video {
       width: 100%;
       height: auto;
       display: block;
-      border-radius: 6px;
-      object-fit: contain;
-      border: 1px solid var(--border-color); /* Bordure de base discrète */
-      transition: border-color 0.2s ease;   /* Transition fluide */
+      object-fit: cover;
     }
-
-    /* Effet de surbrillance du bord au survol de la souris (images et vidéos) */
-    .archives-item img:hover,
-    .archives-item video:hover {
-      border-color: var(--accent-color);
-    }
-
-    .archives-figure {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      
-      margin: 0;
-    }
-
-    /* Le bandeau d'actions copier/partager/télécharger */
-    /* .archives-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: var(--card-bg); /* Utilise votre fond semi-transparent */
-      /* border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px 12px;
-      margin-top: 10px; /* Espace propre sous la vidéo/image */
-      /* gap: 8px;
-      backdrop-filter: blur(2px);
-    } */
-
-    /* Style des boutons et liens du bandeau */
-    /* .archives-actions .action-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-color);
-      font-size: 0.55rem;
-      font-family: inherit;
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: background-color 0.2s ease, color 0.2s ease;
-      flex: 1; /* Répartit l'espace de manière égale entre les boutons */
-      /* justify-content: center;
-    } */
-
-    /* Effet au survol */
-    /* .archives-actions .action-btn:hover {
-      background-color: #694BF5;
-      color: #f8fafc;
-      border-color: var(--accent-color);
-    } */
 
     .archives-caption {
-      margin-top: 6px;
-      font-size: 0.85rem;
+      padding: 8px 10px;
+      font-size: 0.8rem;
       color: #94a3b8;
       text-align: center;
+      background-color: var(--card-bg);
+      border-top: 1px solid var(--border-color);
     }
 
     .archives-caption a {
-      color: inherit; /* Lien de l'archives : reprend exactement la couleur du texte parent */
-      text-decoration: underline; /*  Lien de l'archives : Force le soulignement */
+      color: inherit;
+      text-decoration: underline;
     }
+
+
+    
 /*-- ------------------------------------------------------------------------------ --*/
     
     /* Accordéon GTA VI */
@@ -2259,14 +2243,42 @@
         <span class="icon">▼</span>
       </button>
 
+          <!-- Élément 1 -->
+          <div class="archives-item">
+            <figure class="archives-figure">
+              <a href="Oups-Lady_Bug.jpg" title="Oups-Lady_Bug" target="_blank" rel="noopener noreferrer">
+                <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
+              </a>
+              <figcaption class="archives-caption">
+                Fichier manquant !
+              </figcaption>
+            </figure>
+          </div>
+
+          <!-- Élément 2 (Exemple supplémentaire pour tester la grille) -->
+          <div class="archives-item">
+            <figure class="archives-figure">
+              <a href="Oups-Lady_Bug.jpg" title="Oups-Lady_Bug" target="_blank" rel="noopener noreferrer">
+                <img src="Oups-Lady_Bug.webp" alt="Oups, Lady Bug !" loading="lazy">
+              </a>
+              <figcaption class="archives-caption">
+                Fichier manquant !
+              </figcaption>
+            </figure>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
      <!-- L'archives -->
-     <div class="archives-content" id="archives-content">
+     <!-- <div class="archives-content" id="archives-content"> -->
 
       <!-- vvv Jour suivant ! vvv -->
 
 
       <!-- Image Test avant Gallerie Masonry... -->
-      <div class="archives-item">
+      <!-- <div class="archives-item">
         <figure class="archives-figure">
             <a href="Oups-Lady_Bug.jpg"
             title="Oups-Lady_Bug"
@@ -2278,7 +2290,7 @@
             Fichier manquant !
           </figcaption>
         </figure>
-      </div>
+      </div> -->
 
       <!-- Bouton de fermeture / retour en haut -->
       <button class="close-accordion-btn" onclick="closeAccordion(this)">
