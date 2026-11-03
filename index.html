@@ -634,6 +634,28 @@
     background-color: #FF7518; /* #694BF5; */
     }
 
+    .archives-content {
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box; /* Garantit que les 500px englobent le padding */
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      padding: 0 20px;
+      margin-top: 0;
+    }
+
+    .archives-content.open {
+      max-height: 20000px;
+      opacity: 1;
+      margin-top: 8px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
 /* --- */
     /* Style des titres d'archives */
     .archive-section {
