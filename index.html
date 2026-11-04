@@ -3605,28 +3605,6 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
     }
 
     // Met à jour l'affichage de la lightbox avec l'image originale dans une fenêtre séparée
-    //function updateLightboxContent() {
-    //  const items = getGalleryItems();
-    //  if (items.length === 0) return;
-
-    //  const currentItem = items[currentIndex];
-    //  const container = document.getElementById('lightboxMediaContainer');
-    //  const caption = document.getElementById('lightboxCaption');
-    //  const originalLink = document.getElementById('lightboxOriginalLink');
-
-      // Affichage image ou vidéo propre
-     // if (currentItem.src.endsWith('.mp4') || currentItem.src.endsWith('.webm')) {
-    //    container.innerHTML = `<video src="${currentItem.src}" controls autoplay></video>`;
-     // } else {
-    //    container.innerHTML = `<img src="${currentItem.src}" alt="Zoom archive">`;
-    //  }
-
-    //  caption.textContent = currentItem.caption || '';
-    //  originalLink.href = currentItem.originalSrc || currentItem.src;
-   // }
-
-
-    // Met à jour l'affichage de la lightbox avec l'image originale dans la fenêtre
     function updateLightboxContent() {
       const items = getGalleryItems();
       if (items.length === 0) return;
@@ -3636,31 +3614,48 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
       const caption = document.getElementById('lightboxCaption');
       const originalLink = document.getElementById('lightboxOriginalLink');
 
-      // On cible en priorité 'originalSrc', sinon on se replie sur 'src'
-      const mediaSrc = currentItem.originalSrc || currentItem.src;
-
-      // Affichage de l'image ou de la vidéo en haute définition directement dans la page
-      if (mediaSrc.endsWith('.mp4') || mediaSrc.endsWith('.webm')) {
-        container.innerHTML = `<video src="${mediaSrc}" controls autoplay></video>`;
+      // Affichage image ou vidéo propre
+      if (currentItem.src.endsWith('.mp4') || currentItem.src.endsWith('.webm')) {
+        container.innerHTML = `<video src="${currentItem.src}" controls autoplay></video>`;
       } else {
-        container.innerHTML = `<img src="${mediaSrc}" alt="Zoom archive HD">`;
+        container.innerHTML = `<img src="${currentItem.src}" alt="Zoom archive">`;
       }
 
       caption.textContent = currentItem.caption || '';
-
-      // Si le lien séparé "ouvrir dans un nouvel onglet" n'est plus utile, on peut le masquer
-      if (originalLink) {
-        originalLink.style.display = 'none'; 
-      }
+      originalLink.href = currentItem.originalSrc || currentItem.src;
     }
 
 
+    // Met à jour l'affichage de la lightbox avec l'image originale dans la fenêtre ... BUG!
+//    function updateLightboxContent() {
+//      const items = getGalleryItems();
+//      if (items.length === 0) return;
+
+//      const currentItem = items[currentIndex];
+//      const container = document.getElementById('lightboxMediaContainer');
+//      const caption = document.getElementById('lightboxCaption');
+//      const originalLink = document.getElementById('lightboxOriginalLink');
+
+      // On cible en priorité 'originalSrc', sinon on se replie sur 'src'
+//      const mediaSrc = currentItem.originalSrc || currentItem.src;
+
+      // Affichage de l'image ou de la vidéo en haute définition directement dans la page
+//      if (mediaSrc.endsWith('.mp4') || mediaSrc.endsWith('.webm')) {
+//        container.innerHTML = `<video src="${mediaSrc}" controls autoplay></video>`;
+//      } else {
+//        container.innerHTML = `<img src="${mediaSrc}" alt="Zoom archive HD">`;
+//      }
+
+//      caption.textContent = currentItem.caption || '';
+
+      // Si le lien séparé "ouvrir dans un nouvel onglet" n'est plus utile, on peut le masquer
+//      if (originalLink) {
+//        originalLink.style.display = 'none'; 
+//      }
+//    }
 
 
 
-
-
-    
 
     // Navigation Suivant / Précédent
     function changeImage(direction) {
