@@ -679,7 +679,7 @@
     }
 
     /* Grille Masonry en И (i Cyrillique) */
-    /* .archives-masonry-grid {
+    .archives-masonry-grid {
       column-count: 2;
       column-gap: 12px;
       width: 100%;
@@ -694,31 +694,31 @@
       break-inside: avoid;
       margin-bottom: 12px;
       cursor: pointer;
-    } */
+    }
 
 
 
 
     /* Grille d'archives classique (Z) : de gauche à droite, ligne par ligne */
-    .archives-masonry-grid {
+    /* .archives-masonry-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr); /* 2 colonnes régulières */
-      gap: 12px;
+    /*   gap: 12px;
       width: 100%;
-    }
+    } */
 
     /* Si l'écran est très étroit, on passe à 1 seule colonne */
-    @media (max-width: 400px) {
+    /* @media (max-width: 400px) {
       .archives-masonry-grid {
         grid-template-columns: 1fr;
       }
-    }
+    } */
 
     /* Chaque élément s'aligne proprement */
-    .archives-item {
+    /* .archives-item {
       margin-bottom: 0; /* Le gap de la grid gère l'espacement */
-      cursor: pointer;
-    }
+    /*   cursor: pointer;
+    } */
 
 
 
