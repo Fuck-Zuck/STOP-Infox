@@ -3754,12 +3754,25 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
         }
       });
     }
+// --------------------------------------------------------------------------------
 
-    // ==========================================
-    // SOUMISSION DU FORMULAIRE UNIQUE ET PROPRE
-    // ==========================================
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // ==========================================
+  // FONCTION D'EXTRACTION YOUTUBE (Isolée et propre)
+  // ==========================================
+  function extractYouTubeID(input) {
+    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+      return input;
+    }
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = input.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  }
+
+  // ==========================================
+  // SOUMISSION DU FORMULAIRE
+  // ==========================================
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
     const userInput = searchInput ? searchInput.value.trim() : '';
     if (!userInput) return;
@@ -3767,18 +3780,7 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
     const imgElement = document.getElementById('thumbnailDisplay');
     const resultBox = document.getElementById('ai-result-box');
 
-    // ----------------------------------------------------
-    // ÉTAPE 1 : Est-ce un lien ou un ID YouTube ?
-    // ----------------------------------------------------
-    function extractYouTubeID(input) {
-      if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
-        return input;
-      }
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-      const match = input.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
-    }
-
+    // 1. Vérification prioritaire : Est-ce un lien YouTube ?
     const videoID = extractYouTubeID(userInput);
 
     if (videoID) {
@@ -3789,7 +3791,6 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
         const maxResUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
         const fallbackUrl = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
 
-        // Gestion de la miniature de secours si maxresdefault n'existe pas
         imgElement.onerror = function() {
           imgElement.src = fallbackUrl;
           imgElement.onerror = null;
@@ -3799,16 +3800,14 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
         imgElement.style.display = 'block';
       }
       
-      // STOPE NET L'EXÉCUTION : Pas d'ouverture de page, pas d'appel IA.
+      // On s'arrête là pour YouTube (pas de page ouverte, pas d'IA)
       return;
     }
 
-    // Si ce n'est PAS un lien YouTube, on masque l'image si elle était affichée
+    // Si ce n'est PAS un YouTube, on masque l'image
     if (imgElement) imgElement.style.display = 'none';
 
-    // ----------------------------------------------------
-    // ÉTAPE 2 : Construction de la requête avec filtres
-    // ----------------------------------------------------
+      // 2. Gestion des filtres de recherche
       let finalQuery = query;
       if (btnCinema && btnCinema.classList.contains('active')) finalQuery += " (site:imdb.com OR site:themoviedb.org)";
       if (btnNudes && btnNudes.classList.contains('active')) finalQuery += " nude";
@@ -3816,45 +3815,42 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
       if (btnBlockMeta && btnBlockMeta.classList.contains('active')) finalQuery += " -site:facebook.com -site:instagram.com -site:threads.com";
       if (btnBlockSocial && btnBlockSocial.classList.contains('active')) finalQuery += " -site:reddit.com -site:tiktok.com -site:x.com";
 
-      // Gestion des boutons IA prioritaires
-      if (btnDdgAi && btnDdgAi.classList.contains('active')) {
-        window.open(`https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}&ia=chat`, '_blank');
-        return;
-      }
+    // 3. Gestion des boutons IA (DuckDuckGo / Gemini)
+    if (btnDdgAi && btnDdgAi.classList.contains('active')) {
+      window.open(`https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}&ia=chat`, '_blank');
+      return;
+    }
 
-      if (btnGemini && btnGemini.classList.contains('active')) {
-        window.open(`https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`, '_blank');
-        return;
-      }
+    if (btnGemini && btnGemini.classList.contains('active')) {
+      window.open(`https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`, '_blank');
+      return;
+    }
 
-      // Sinon, comportement via le selecteur de moteur (Google par défaut)
-      const engine = engineSelector ? engineSelector.value : 'google';
+    // 4. Gestion du bouton Mammouth (Webhook)
+    const engine = engineSelector ? engineSelector.value : 'google';
 
-      // On appelle directement l'API via le Webhook Make (pas d'ouverture de page !)
-      if ((btnMamAi && btnMamAi.classList.contains('active')) || engine === 'mammouth') {
-        await callMyWebhook(finalQuery);
-        return; // Stoppe l'exécution pour ne pas ouvrir de page externe
-      }
+    if ((btnMamAi && btnMamAi.classList.contains('active')) || engine === 'mammouth') {
+      await callMyWebhook(finalQuery);
+      return;
+    }
 
-      let targetUrl = '';
-      switch (engine) {
-          case 'gemini':
-              targetUrl = `https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`;
-              break;
-          case 'duckduckgo':
-              targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}&kl=fr-fr`;
-              break;
-          default:
-              targetUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
-              if (btnImages && btnImages.classList.contains('active')) {
-                  targetUrl += "&tbm=isch&safe=off";
-              }
-      }
-        window.open(targetUrl, '_blank');
-    });
-// --------------------------------------------------------------------------------
-
-
+    // 5. Recherche classique par défaut (Google, etc.)
+    let targetUrl = '';
+    switch (engine) {
+        case 'gemini':
+            targetUrl = `https://gemini.google.com/app?q=${encodeURIComponent(finalQuery)}`;
+            break;
+        case 'duckduckgo':
+            targetUrl = `https://duckduckgo.com/?q=${encodeURIComponent(finalQuery)}&kl=fr-fr`;
+            break;
+        default:
+            targetUrl = `https://www.google.com/search?q=${encodeURIComponent(finalQuery)}`;
+            if (btnImages && btnImages.classList.contains('active')) {
+                targetUrl += "&tbm=isch&safe=off";
+            }
+    }
+    window.open(targetUrl, '_blank');
+  });
 // --------------------------------------------------------------------------------
     
       // Fonction dédiée pour dialoguer avec le Webhook Make en toute sécurité
