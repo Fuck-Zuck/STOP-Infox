@@ -1306,7 +1306,7 @@
 
   <!-- Bloc de recherche complet -->
   <div class="search-wrapper">
-    <form class="search-box" id="main-search-form">
+    <form class="search-box" id="main-search-form" action="#" onsubmit="return false;">
       <input type="text" id="search-input" placeholder="Sélectionnez vos options puis validez votre recherche" required autocomplete="off">
       <button type="submit" aria-label="Lancer la recherche">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1320,11 +1320,6 @@
     <div class="result-container" style="margin-top: 15px;">
       <img id="thumbnailDisplay" src="" alt="Aperçu de la miniature YouTube" style="max-width: 100%; display: none;" />
     </div>
-
-
-
-
-    
 
     <!-- Fenêtre de réponse de Mammouth IA avec bouton copier le texte et partager -->
     <div id="ai-result-box" style="margin-top: 15px; padding: 16px; border-radius: 12px; background-color: var(--card-bg); border: 1px solid var(--border-color); display: none; box-sizing: border-box; width: 100%; max-width: 500px;">
@@ -1369,8 +1364,10 @@
     </div>
 
     <div id="gemini-result"></div>
+    </div>
+    
   </div>
-
+    
   <!-- Raccourcis -->
   <div class="grid">
 
