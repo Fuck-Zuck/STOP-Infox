@@ -1364,8 +1364,6 @@
     </div>
 
     <div id="gemini-result"></div>
-    </div>
-    
   </div>
     
   <!-- Raccourcis -->
@@ -3820,38 +3818,52 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
       return (match && match[2].length === 11) ? match[2] : null;
     }
 
-    // On écoute la soumission du formulaire
+    // Interception de la soumission du formulaire principal
     document.getElementById('main-search-form').addEventListener('submit', function(event) {
-      // Empêche le rechargement de la page par défaut
+      // BLOQUE IMPÉRATIVEMENT l'ouverture d'une page ou d'un onglet séparé
       event.preventDefault();
+      event.stopPropagation();
 
-      const userInput = document.getElementById('search-input').value.trim();
+      const searchInput = document.getElementById('search-input');
+      const userInput = searchInput ? searchInput.value.trim() : '';
       const videoID = extractYouTubeID(userInput);
       const imgElement = document.getElementById('thumbnailDisplay');
+      const resultBox = document.getElementById('ai-result-box');
 
+      // CAS 1 : C'est un lien ou un ID YouTube valide
       if (videoID) {
-        // Construction des URLs (principale et secours)
-        const maxResUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
-        const fallbackUrl = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+        // Masquer la boîte de l'IA (Mammouth) si elle était visible
+        if (resultBox) resultBox.style.display = 'none';
 
-        // Gestion du repli si maxresdefault n'existe pas
-        imgElement.onerror = function() {
+        if (imgElement) {
+          const maxResUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+          const fallbackUrl = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+
+          // Gestion de la miniature de secours si maxresdefault n'existe pas
+          imgElement.onerror = function() {
           imgElement.src = fallbackUrl;
           imgElement.onerror = null;
         };
 
-        // Mise à jour de la source et affichage de l'image
-        imgElement.src = maxResUrl;
-        imgElement.style.display = 'block';
+          imgElement.src = maxResUrl;
+          imgElement.style.display = 'block';
+        }
+    
 
         // 🛑 IMPORTANT : On s'arrête ici ! On ne déclenche PAS le webhook "Mammouth" 
         // pour éviter d'ouvrir une page séparée ou d'envoyer l'URL à l'IA.
         return;
       }
 
-      // Si ce n'est PAS un lien YouTube, on masque l'image et on appelle le Webhook Mammouth
-      imgElement.style.display = 'none';
-      callMyWebhook(userInput);
+      // CAS 2 : Ce n'est PAS un lien YouTube (ex: "test" ou une question)
+      // On cache l'image si elle était affichée
+      if (imgElement) imgElement.style.display = 'none';
+
+      // Si vous souhaitez que le test "test" n'ouvre Mammouth QUE si le bouton Mammouth est actif 
+      // ou que vous voulez lancer la recherche normale, vous pouvez appeler votre webhook ici :
+      if (userInput !== "") {
+        callMyWebhook(userInput);
+      }
     });
 // --------------------------------------------------------------------------------
     
