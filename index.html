@@ -3755,14 +3755,60 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
       });
     }
 
-    // Soumission du formulaire
+    // ==========================================
+    // SOUMISSION DU FORMULAIRE UNIQUE ET PROPRE
+    // ==========================================
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const query = searchInput.value.trim();
-      if (!query) return;
+    const userInput = searchInput ? searchInput.value.trim() : '';
+    if (!userInput) return;
 
-      // Construction de la requête avec les filtres additionnels si nécessaire
+    const imgElement = document.getElementById('thumbnailDisplay');
+    const resultBox = document.getElementById('ai-result-box');
+
+    // ----------------------------------------------------
+    // ÉTAPE 1 : Est-ce un lien ou un ID YouTube ?
+    // ----------------------------------------------------
+    function extractYouTubeID(input) {
+      if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+        return input;
+      }
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = input.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    const videoID = extractYouTubeID(userInput);
+
+    if (videoID) {
+      // Masquer la boîte de l'IA (Mammouth) si elle était visible
+      if (resultBox) resultBox.style.display = 'none';
+
+      if (imgElement) {
+        const maxResUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+        const fallbackUrl = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+
+        // Gestion de la miniature de secours si maxresdefault n'existe pas
+        imgElement.onerror = function() {
+          imgElement.src = fallbackUrl;
+          imgElement.onerror = null;
+        };
+
+        imgElement.src = maxResUrl;
+        imgElement.style.display = 'block';
+      }
+      
+      // STOPE NET L'EXÉCUTION : Pas d'ouverture de page, pas d'appel IA.
+      return;
+    }
+
+    // Si ce n'est PAS un lien YouTube, on masque l'image si elle était affichée
+    if (imgElement) imgElement.style.display = 'none';
+
+    // ----------------------------------------------------
+    // ÉTAPE 2 : Construction de la requête avec filtres
+    // ----------------------------------------------------
       let finalQuery = query;
       if (btnCinema && btnCinema.classList.contains('active')) finalQuery += " (site:imdb.com OR site:themoviedb.org)";
       if (btnNudes && btnNudes.classList.contains('active')) finalQuery += " nude";
@@ -3808,63 +3854,7 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
     });
 // --------------------------------------------------------------------------------
 
-    // Fonction pour extraire l'ID YouTube (gère les liens complets et les IDs de 11 caractères)
-    function extractYouTubeID(input) {
-      if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
-        return input;
-      }
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-      const match = input.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
-    }
 
-    // Interception de la soumission du formulaire principal
-    document.getElementById('main-search-form').addEventListener('submit', function(event) {
-      // BLOQUE IMPÉRATIVEMENT l'ouverture d'une page ou d'un onglet séparé
-      event.preventDefault();
-      event.stopPropagation();
-
-      const searchInput = document.getElementById('search-input');
-      const userInput = searchInput ? searchInput.value.trim() : '';
-      const videoID = extractYouTubeID(userInput);
-      const imgElement = document.getElementById('thumbnailDisplay');
-      const resultBox = document.getElementById('ai-result-box');
-
-      // CAS 1 : C'est un lien ou un ID YouTube valide
-      if (videoID) {
-        // Masquer la boîte de l'IA (Mammouth) si elle était visible
-        if (resultBox) resultBox.style.display = 'none';
-
-        if (imgElement) {
-          const maxResUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
-          const fallbackUrl = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
-
-          // Gestion de la miniature de secours si maxresdefault n'existe pas
-          imgElement.onerror = function() {
-          imgElement.src = fallbackUrl;
-          imgElement.onerror = null;
-        };
-
-          imgElement.src = maxResUrl;
-          imgElement.style.display = 'block';
-        }
-    
-
-        // 🛑 IMPORTANT : On s'arrête ici ! On ne déclenche PAS le webhook "Mammouth" 
-        // pour éviter d'ouvrir une page séparée ou d'envoyer l'URL à l'IA.
-        return;
-      }
-
-      // CAS 2 : Ce n'est PAS un lien YouTube (ex: "test" ou une question)
-      // On cache l'image si elle était affichée
-      if (imgElement) imgElement.style.display = 'none';
-
-      // Si vous souhaitez que le test "test" n'ouvre Mammouth QUE si le bouton Mammouth est actif 
-      // ou que vous voulez lancer la recherche normale, vous pouvez appeler votre webhook ici :
-      if (userInput !== "") {
-        callMyWebhook(userInput);
-      }
-    });
 // --------------------------------------------------------------------------------
     
       // Fonction dédiée pour dialoguer avec le Webhook Make en toute sécurité
