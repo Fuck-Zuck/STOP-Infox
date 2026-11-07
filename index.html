@@ -1588,7 +1588,7 @@
             <br>C'est un retour à l'essence de GTA Vice City et de San Andreas.
             Dans le "lore" de Vice City, nous étions déjà tiraillés entre deux gangs principaux.
             De Little Havana à Little Haïti, les Cubains voulaient nous faire la peau dès que l'on traversait leur territoire à la suite d'une trahison.
-            En effet, nous n'étions que la marionnette du chef Haïtien Auntie Poulet, drogués pour exécuter des basses oeuvres,
+            <br>En effet, nous n'étions que la marionnette du chef Haïtien Auntie Poulet, drogués pour exécuter des basses oeuvres,
             avant de rompre son emprise et de finalement nous allier au chef des Cubains, Umberto Robina !
             <br>Et dans San Andreas, il fallait appuyer son emprise sur la ville en prenant (et en reprenant sans cesse) les quartiers aux différents gangs ce qui rendait rapidement le jeu lassant...
             <br>Dans ce nouvel opus, nous serons surement alliés ou ennemis d'un gang à l'autre de façon "complémentaire", mais notre relation de couple, le côté itinérant et l'aspect réaliste ne nous placera certainement probablement pas à la tête d'un ou de plusieurs gangs pour prendre le contrôle total de la Leonida !
@@ -3546,7 +3546,7 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
     
     <!-- Pied de page -->
     <footer class="site-footer">
-      <p>© Copyright 2026 • Alétheia V.2.4.69 • Tous droits réservés.</p>
+      <p>© Copyright 2026 • Alétheia V.2.4.83 • Tous droits réservés.</p>
       <p><a href="Contacts_169.jpg" target="_blank">Contacts</a></p>  
     </footer>
   
@@ -3833,16 +3833,28 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
       const imgElement = document.getElementById('thumbnailDisplay');
 
       if (videoID) {
-        // Construction de l'URL avec l'ID extrait
-        const imageUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
-    
+        // Construction des URLs (principale et secours)
+        const maxResUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+        const fallbackUrl = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+
+        // Gestion du repli si maxresdefault n'existe pas
+        imgElement.onerror = function() {
+          imgElement.src = fallbackUrl;
+          imgElement.onerror = null;
+        };
+
         // Mise à jour de la source et affichage de l'image
-        imgElement.src = imageUrl;
+        imgElement.src = maxResUrl;
         imgElement.style.display = 'block';
-      } else {
-        alert("Veuillez entrer un ID ou un lien YouTube valide.");
-        imgElement.style.display = 'none';
+
+        // 🛑 IMPORTANT : On s'arrête ici ! On ne déclenche PAS le webhook "Mammouth" 
+        // pour éviter d'ouvrir une page séparée ou d'envoyer l'URL à l'IA.
+        return;
       }
+
+      // Si ce n'est PAS un lien YouTube, on masque l'image et on appelle le Webhook Mammouth
+      imgElement.style.display = 'none';
+      callMyWebhook(userInput);
     });
 // --------------------------------------------------------------------------------
     
