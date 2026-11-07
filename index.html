@@ -1292,6 +1292,19 @@
   </div>
     
   <!-- Bloc de recherche complet -->
+  <!-- <div class="search-wrapper">
+    <form class="search-box" id="main-search-form">
+      <input type="text" id="search-input" placeholder="Sélectionnez vos options puis validez votre recherche" required autocomplete="off">
+      <button type="submit" aria-label="Lancer la recherche">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </form> -->
+
+
+  <!-- Bloc de recherche complet -->
   <div class="search-wrapper">
     <form class="search-box" id="main-search-form">
       <input type="text" id="search-input" placeholder="Sélectionnez vos options puis validez votre recherche" required autocomplete="off">
@@ -1302,6 +1315,16 @@
         </svg>
       </button>
     </form>
+
+    <!-- Conteneur pour afficher l'image de la miniature -->
+    <div class="result-container" style="margin-top: 15px;">
+      <img id="thumbnailDisplay" src="" alt="Aperçu de la miniature YouTube" style="max-width: 100%; display: none;" />
+    </div>
+
+
+
+
+    
 
     <!-- Fenêtre de réponse de Mammouth IA avec bouton copier le texte et partager -->
     <div id="ai-result-box" style="margin-top: 15px; padding: 16px; border-radius: 12px; background-color: var(--card-bg); border: 1px solid var(--border-color); display: none; box-sizing: border-box; width: 100%; max-width: 500px;">
@@ -3787,6 +3810,39 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
               }
       }
         window.open(targetUrl, '_blank');
+    });
+// --------------------------------------------------------------------------------
+
+    // Fonction pour extraire l'ID YouTube (gère les liens complets et les IDs de 11 caractères)
+    function extractYouTubeID(input) {
+      if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+        return input;
+      }
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = input.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    // On écoute la soumission du formulaire
+    document.getElementById('main-search-form').addEventListener('submit', function(event) {
+      // Empêche le rechargement de la page par défaut
+      event.preventDefault();
+
+      const userInput = document.getElementById('search-input').value.trim();
+      const videoID = extractYouTubeID(userInput);
+      const imgElement = document.getElementById('thumbnailDisplay');
+
+      if (videoID) {
+        // Construction de l'URL avec l'ID extrait
+        const imageUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+    
+        // Mise à jour de la source et affichage de l'image
+        imgElement.src = imageUrl;
+        imgElement.style.display = 'block';
+      } else {
+        alert("Veuillez entrer un ID ou un lien YouTube valide.");
+        imgElement.style.display = 'none';
+      }
     });
 // --------------------------------------------------------------------------------
     
