@@ -3756,20 +3756,6 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
     }
 // --------------------------------------------------------------------------------
 
-  // ==========================================
-  // FONCTION D'EXTRACTION YOUTUBE (Isolée et propre)
-  // ==========================================
-  function extractYouTubeID(input) {
-    if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
-      return input;
-    }
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = input.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
-  }
-
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
       // Soumission du formulaire
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -3777,7 +3763,51 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
       const query = searchInput.value.trim();
       if (!query) return;
 
-      // Construction de la requête avec les filtres additionnels si nécessaire
+      const imgElement = document.getElementById('thumbnailDisplay');
+      const resultBox = document.getElementById('ai-result-box');
+
+      // ==========================================================
+      // ÉTAPE 0 : Vérification prioritaire si c'est un lien YouTube
+      // ==========================================================
+      function extractYouTubeID(input) {
+        if (/^[a-zA-Z0-9_-]{11}$/.test(input)) {
+          return input;
+        }
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = input.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+      }
+
+      const videoID = extractYouTubeID(query);
+
+      if (videoID) {
+        // C'est un lien YouTube : on cache l'IA si elle était ouverte
+        if (resultBox) resultBox.style.display = 'none';
+
+        if (imgElement) {
+          const maxResUrl = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+          const fallbackUrl = `https://img.youtube.com/vi/${videoID}/hqdefault.jpg`;
+
+          // Gestion de la miniature de secours
+          imgElement.onerror = function() {
+            imgElement.src = fallbackUrl;
+            imgElement.onerror = null;
+          };
+
+          imgElement.src = maxResUrl;
+          imgElement.style.display = 'block';
+        }
+        
+        // On stoppe l'exécution ici : la miniature s'affiche dans le dashboard et rien d'autre ne s'ouvre !
+        return;
+      }
+
+      // Si ce n'est PAS un lien YouTube, on masque l'image au cas où elle était affichée avant
+      if (imgElement) imgElement.style.display = 'none';
+
+      // ==========================================================
+      // VOTRE CODE DE BASE (Inchangé pour le reste)
+      // ==========================================================
       let finalQuery = query;
       if (btnCinema && btnCinema.classList.contains('active')) finalQuery += " (site:imdb.com OR site:themoviedb.org)";
       if (btnNudes && btnNudes.classList.contains('active')) finalQuery += " nude";
