@@ -4111,33 +4111,33 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
     
 // --------------------------------------------------------------------------------
 
-    // Accordéon Archives fonction lazy
-    btn.addEventListener('click', () => {
-      const isOpen = content.classList.contains('open');
+    // Accordéon Archives fonction lazy : BUG bloque l'ouverture de la lightbox
+//    btn.addEventListener('click', () => {
+//      const isOpen = content.classList.contains('open');
 
-      if (isOpen) {
-        content.classList.remove('open');
-        btn.classList.remove('active');
-      } else {
-        content.classList.add('open');
-        btn.classList.add('active');
+//      if (isOpen) {
+//        content.classList.remove('open');
+//        btn.classList.remove('active');
+//      } else {
+//        content.classList.add('open');
+//        btn.classList.add('active');
 
         // 🟢 CHARGEMENT DES IMAGES PAR VAGUES (Évite les crashs/rafraîchissements)
-        const lazyImagesInside = content.querySelectorAll('img[data-src]');
-        lazyImagesInside.forEach((img, index) => {
+//        const lazyImagesInside = content.querySelectorAll('img[data-src]');
+//        lazyImagesInside.forEach((img, index) => {
           // On charge par paquet de 5 images toutes les 60 millisecondes
-          const delay = Math.floor(index / 5) * 60; 
+//          const delay = Math.floor(index / 5) * 60; 
           
-          setTimeout(() => {
+//          setTimeout(() => {
             // On vérifie si l'image n'a pas déjà son attribut src mis à jour
-            const currentSrc = img.getAttribute('src');
-            if (!currentSrc || currentSrc === "") {
-              img.src = img.dataset.src;
-            }
-          }, delay);
-        });
-      }
-    });
+//            const currentSrc = img.getAttribute('src');
+//            if (!currentSrc || currentSrc === "") {
+//              img.src = img.dataset.src;
+//            }
+//          }, delay);
+//        });
+//      }
+//    });
     
     // Accordéon Archives
 
