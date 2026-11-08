@@ -4122,12 +4122,19 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
         content.classList.add('open');
         btn.classList.add('active');
 
-        // 🟢 CHARGEMENT DES IMAGES DE L'ACCORDÉON À L'OUVERTURE
+        // 🟢 CHARGEMENT DES IMAGES PAR VAGUES (Évite les crashs/rafraîchissements)
         const lazyImagesInside = content.querySelectorAll('img[data-src]');
-        lazyImagesInside.forEach(img => {
-          if (!img.src) { // Ne les charge qu'une seule fois
-            img.src = img.dataset.src;
-          }
+        lazyImagesInside.forEach((img, index) => {
+          // On charge par paquet de 5 images toutes les 60 millisecondes
+          const delay = Math.floor(index / 5) * 60; 
+          
+          setTimeout(() => {
+            // On vérifie si l'image n'a pas déjà son attribut src mis à jour
+            const currentSrc = img.getAttribute('src');
+            if (!currentSrc || currentSrc === "") {
+              img.src = img.dataset.src;
+            }
+          }, delay);
         });
       }
     });
@@ -4210,9 +4217,6 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 //        originalLink.style.display = 'none'; 
 //      }
 //    }
-
-
-
 
     // Navigation Suivant / Précédent
     function changeImage(direction) {
