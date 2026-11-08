@@ -4254,6 +4254,39 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
       if (e.key === 'Escape') closeLightbox();
     });
 
+    // --- GESTION DU SWIPE TACTILE POUR LA LIGHTBOX ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 50; // Distance minimum en pixels pour valider le swipe
+
+    const lightboxContainer = document.getElementById('archivesLightbox');
+
+    if (lightboxContainer) {
+      lightboxContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      lightboxContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, { passive: true });
+    }
+
+    function handleSwipe() {
+      const distance = touchEndX - touchStartX;
+
+      // Si le geste est assez long
+      if (Math.abs(distance) > minSwipeDistance) {
+        if (distance > 0) {
+          // Swipe vers la droite -> Image précédente
+          changeImage(-1);
+        } else {
+          // Swipe vers la gauche -> Image suivante
+          changeImage(1);
+        }
+      }
+    }
+
 // --------------------------------------------------------------------------------
     
     // Bouton d'installation de la PWA
