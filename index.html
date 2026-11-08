@@ -4038,7 +4038,7 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 
     
     // Lecteur Archive.org iframe Vidéo
-function loadArchiveVideo(container, videoUrl, videoTitle) {
+    function loadArchiveVideo(container, videoUrl, videoTitle) {
     // Remplace tout le contenu du conteneur (l'image et le bouton) par l'iframe
     container.innerHTML = `
         <iframe src="${videoUrl}"
@@ -4080,6 +4080,35 @@ function loadArchiveVideo(container, videoUrl, videoTitle) {
         //copyUrl(window.location.href);
       //} 
     //}
+// --------------------------------------------------------------------------------
+    // Ligne de flottaison "lazy"
+    // Définition des options de l'observateur
+    const options = {
+      root: null, // null signifie qu'on utilise la fenêtre du navigateur (viewport)
+      rootMargin: '200px 0px', // 🟢 C'est ici que ça se passe !
+      threshold: 0.01 // Se déclenche dès qu'1% de l'élément approche
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        // Si l'élément s'approche de la zone visible
+        if (entry.isIntersecting) {
+          const img = entry.target;
+      
+          // Remplacement de data-src par src pour charger l'image
+          img.src = img.dataset.src;
+      
+          // Stop l'observation de cette image une fois qu'elle est chargée
+          observer.unobserve(img);
+        }
+      });
+    }, options);
+
+    // Ciblage de toutes les images qui ont l'attribut de chargement différé
+    document.querySelectorAll('img.lazy').forEach(img => {
+      observer.observe(img);
+    });
+    
 // --------------------------------------------------------------------------------
 
     // Accordéon Archives
