@@ -4083,34 +4083,55 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 // --------------------------------------------------------------------------------
     // Ligne de flottaison "lazy"
     // Définition des options de l'observateur
-    const options = {
-      root: null, // null signifie qu'on utilise la fenêtre du navigateur (viewport)
-      rootMargin: '200px 0px', // 🟢 C'est ici que ça se passe !
-      threshold: 0.01 // Se déclenche dès qu'1% de l'élément approche
-    };
+//    const options = {
+//      root: null, // null signifie qu'on utilise la fenêtre du navigateur (viewport)
+//      rootMargin: '200px 0px', // 🟢 C'est ici que ça se passe !
+//      threshold: 0.01 // Se déclenche dès qu'1% de l'élément approche
+//    };
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
+//    const observer = new IntersectionObserver((entries, observer) => {
+//      entries.forEach(entry => {
         // Si l'élément s'approche de la zone visible
-        if (entry.isIntersecting) {
-          const img = entry.target;
+//        if (entry.isIntersecting) {
+//          const img = entry.target;
       
           // Remplacement de data-src par src pour charger l'image
-          img.src = img.dataset.src;
+//          img.src = img.dataset.src;
       
           // Stop l'observation de cette image une fois qu'elle est chargée
-          observer.unobserve(img);
-        }
-      });
-    }, options);
+//          observer.unobserve(img);
+//        }
+//      });
+//    }, options);
 
     // Ciblage de toutes les images qui ont l'attribut de chargement différé
-    document.querySelectorAll('img.lazy').forEach(img => {
-      observer.observe(img);
-    });
+//    document.querySelectorAll('img.lazy').forEach(img => {
+//      observer.observe(img);
+//    });
     
 // --------------------------------------------------------------------------------
 
+    // Accordéon Archives fonction lazy
+    btn.addEventListener('click', () => {
+      const isOpen = content.classList.contains('open');
+
+      if (isOpen) {
+        content.classList.remove('open');
+        btn.classList.remove('active');
+      } else {
+        content.classList.add('open');
+        btn.classList.add('active');
+
+        // 🟢 CHARGEMENT DES IMAGES DE L'ACCORDÉON À L'OUVERTURE
+        const lazyImagesInside = content.querySelectorAll('img[data-src]');
+        lazyImagesInside.forEach(img => {
+          if (!img.src) { // Ne les charge qu'une seule fois
+            img.src = img.dataset.src;
+          }
+        });
+      }
+    });
+    
     // Accordéon Archives
 
     let currentIndex = 0;
