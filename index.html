@@ -4721,31 +4721,38 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 //        playerInitialized = true;
 //    }
 //});
-const accordionHeader = document.querySelector('.ton-declencheur-accordeon'); 
+const accordionHeader = document.querySelector('.ta-vraie-classe-ici'); 
 let playerInitialized = false;
 
-accordionHeader.addEventListener('click', () => {
-    const container = document.getElementById('aplayer-el-1');
-    
-    // On vérifie que le conteneur existe ET que le lecteur n'a pas déjà été créé
-    if (container && !playerInitialized) {
-        const ap = new APlayer({
-            element: container,
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            music: [
-                {
-                    title: 'Mon Morceau',
-                    author: 'Artiste',
-                    url: 'URL_MP3',
-                    pic: 'GG_video_7B0C570F.jpg'
-                }
-            ]
-        });
-        playerInitialized = true;
-    }
-});
+if (accordionHeader) {
+    accordionHeader.addEventListener('click', () => {
+        console.log("Clic détecté sur l'accordéon !");
+        const container = document.getElementById('aplayer-el-1');
+        
+        if (container && !playerInitialized) {
+            console.log("Initialisation du lecteur APlayer...");
+            const ap = new APlayer({
+                element: container,
+                narrow: false,
+                autoplay: false,
+                showlrc: false,
+                music: [
+                    {
+                        title: 'Mon Morceau',
+                        author: 'Artiste',
+                        url: 'URL_MP3',
+                        pic: 'GTAVI_The Album_Cover_500px.jpg'
+                    }
+                ]
+            });
+            playerInitialized = true;
+        } else {
+            console.log("Conteneur introuvable ou lecteur déjà initialisé.");
+        }
+    });
+} else {
+    console.error("Élément accordéon introuvable avec ce sélecteur !");
+}
 // --------------------------------------------------------------------------------
     
     // Options de recherches 2.0 en "Query"
