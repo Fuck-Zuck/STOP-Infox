@@ -1619,7 +1619,7 @@
         <!-- Conteneur du lecteur audio -->
         <div id="aplayer-el-1" class="custom-audio-player"></div>
           <figcaption class="idj-caption">
-            14 octobre 2026 — Playlist musicale [Audio]
+            27 novembre 2026 — Playlist musicale [Audio]
           </figcaption>
         </figure>
       </div>
@@ -4551,7 +4551,6 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
       <p>© Copyright 2026 • Alétheia V.2.4.85 • Tous droits réservés.</p>
       <p><a href="Contacts_169.jpg" target="_blank">Contacts</a></p>  
     </footer>
-  
   </div>
 
   <script>
@@ -4693,35 +4692,35 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 // --------------------------------------------------------------------------------
     
   // Lancement de l'instanciation de APlayer au moment exact où l'utilisateur ouvre l'accordéon
-  const accordionHeader = document.querySelector('.ton-declencheur-accordeon'); 
-  let playerInitialized = false;
+//  const accordionHeader = document.querySelector('.ton-declencheur-accordeon'); 
+//  let playerInitialized = false;
 
-  accordionHeader.addEventListener('click', () => {
+//  accordionHeader.addEventListener('click', () => {
     // On s'assure de ne l'initialiser qu'une seule fois à l'ouverture
-    if (!playerInitialized) {
-        const ap = new APlayer({
-            element: document.getElementById('aplayer-el-1'),
-            narrow: false,
-            autoplay: false,
-            showlrc: false,
-            music: [
-                {
-                    title: 'Morceau 1',
-                    author: 'Artiste 1',
-                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_1.mp3',
-                    pic: 'GTAVI_The Album_Cover_500px' // Poster en guise de pochette !
-                },
-                {
-                    title: 'Morceau 2',
-                    author: 'Artiste 2',
-                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_2.mp3',
-                    pic: 'GTAVI_The Album_Cover_500px'
-                }
-            ]
-        });
-        playerInitialized = true;
-    }
-});
+//    if (!playerInitialized) {
+//        const ap = new APlayer({
+//            element: document.getElementById('aplayer-el-1'),
+//            narrow: false,
+//            autoplay: false,
+//            showlrc: false,
+//            music: [
+//                {
+//                    title: 'Morceau 1',
+//                    author: 'Artiste 1',
+//                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_1.mp3',
+//                    pic: 'GTAVI_The Album_Cover_500px' // Poster en guise de pochette !
+//                },
+//                {
+//                    title: 'Morceau 2',
+//                    author: 'Artiste 2',
+//                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_2.mp3',
+//                    pic: 'GTAVI_The Album_Cover_500px'
+//                }
+//            ]
+//        });
+//        playerInitialized = true;
+//    }
+//});
 // --------------------------------------------------------------------------------
     
     // Options de recherches 2.0 en "Query"
@@ -5361,7 +5360,8 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 <!-- -------------------------------------------------------------------------------- -->
   
   <!-- JS de APlayer -->
-  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js">
+  </script>
 <!-- -------------------------------------------------------------------------------- -->
     
   <!-- Cloudflare Web Analytics -->
