@@ -21,6 +21,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
+  <!-- CSS de APlayer -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
   <style>
     :root {
       --bg-color: #0f172a;
@@ -1271,6 +1274,7 @@
       color: var(--brand-color);
       text-decoration: underline;
     }
+    
 /*-- ------------------------------------------------------------------------------ --*/
   </style>
 </head>
@@ -1563,7 +1567,9 @@
       <!-- <span style="color: red;">⚠️ [ROUGE] ⚠️</span> -->
       <!-- vvvvvvvvvvvvvvvvv Jour suivant ! vvvvvvvvvvvvvvvvv -->
 
-
+      <!-- Lecteur Musique -->
+      <div id="player"></div>
+       
       <!-- Image 64 ; Photos/Videos Hébergés -->
       <div class="idj-item">
         <figure class="idj-figure">
@@ -4631,6 +4637,30 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 //      });
 //    });
 // --------------------------------------------------------------------------------
+
+    const ap = new APlayer({
+    element: document.getElementById('player'),
+    narrow: false,
+    autoplay: false,
+    showlrc: false,
+    muted: false,
+    music: [
+        {
+            title: 'Titre de la chanson 1',
+            author: 'Artiste 1',
+            url: 'LIEN_DIRECT_VERS_MP3_1.mp3',
+            pic: 'URL_DE_LA_POCHETTE_OPTIONNELLE.jpg'
+        },
+        {
+            title: 'Titre de la chanson 2',
+            author: 'Artiste 2',
+            url: 'LIEN_DIRECT_VERS_MP3_2.mp3',
+            pic: 'URL_DE_LA_POCHETTE_OPTIONNELLE.jpg'
+        }
+        // Ajoutez d'autres pistes ici...
+    ]
+});
+// --------------------------------------------------------------------------------
     
     // Options de recherches 2.0 en "Query"
     const form = document.getElementById('main-search-form');
@@ -5266,6 +5296,10 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
     });
   }
 </script> -->
+<!-- -------------------------------------------------------------------------------- -->
+  
+  <!-- JS de APlayer -->
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
 <!-- -------------------------------------------------------------------------------- -->
     
   <!-- Cloudflare Web Analytics -->
