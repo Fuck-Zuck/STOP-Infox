@@ -4721,6 +4721,31 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 //        playerInitialized = true;
 //    }
 //});
+const accordionHeader = document.querySelector('.ton-declencheur-accordeon'); 
+let playerInitialized = false;
+
+accordionHeader.addEventListener('click', () => {
+    const container = document.getElementById('aplayer-el-1');
+    
+    // On vérifie que le conteneur existe ET que le lecteur n'a pas déjà été créé
+    if (container && !playerInitialized) {
+        const ap = new APlayer({
+            element: container,
+            narrow: false,
+            autoplay: false,
+            showlrc: false,
+            music: [
+                {
+                    title: 'Mon Morceau',
+                    author: 'Artiste',
+                    url: 'URL_MP3',
+                    pic: 'GG_video_7B0C570F.jpg'
+                }
+            ]
+        });
+        playerInitialized = true;
+    }
+});
 // --------------------------------------------------------------------------------
     
     // Options de recherches 2.0 en "Query"
