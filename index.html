@@ -601,6 +601,52 @@
     }
 /*-- ------------------------------------------------------------------------------ --*/
 
+    /* Conteneur principal du lecteur dans l'accordéon */
+    .custom-audio-player {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        background: #ffffff; /* Ou la couleur de fond de ton thème */
+        margin-bottom: 8px;
+    }
+
+    /* Surcharge des styles internes d'APlayer pour l'adapter à ton conteneur */
+    .custom-audio-player .aplayer {
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+        font-family: inherit;
+    }
+
+    /* Ajustement de la pochette d'album pour qu'elle reste propre */
+    .custom-audio-player .aplayer .aplayer-pic {
+        height: 90px;
+        width: 90px;
+        border-radius: 6px 0 0 6px;
+    }
+
+    /* Ajustement de la zone des informations et des contrôles */
+    .custom-audio-player .aplayer .aplayer-info {
+        padding: 10px 15px;
+    }
+
+    /* Style de la liste de lecture si elle est déroulée */
+    .custom-audio-player .aplayer .aplayer-list {
+        max-height: 150px !important;
+    }
+
+    .custom-audio-player .aplayer .aplayer-list ol::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .custom-audio-player .aplayer .aplayer-list ol::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 2px;
+    }
+/*-- ------------------------------------------------------------------------------ --*/
+    
     /* Accordéon archives */
     .archives-wrapper {
       width: 100%;
@@ -1569,8 +1615,13 @@
 
       <!-- Lecteur Musique -->
       <div class="idj-item">
-        <div id="player">      
-        </div>
+        <figure class="idj-figure">
+        <!-- Conteneur du lecteur audio -->
+        <div id="aplayer-el-1" class="custom-audio-player"></div>
+          <figcaption class="idj-caption">
+            14 octobre 2026 — Playlist musicale [Audio]
+          </figcaption>
+        </figure>
       </div>
        
       <!-- Image 64 ; Photos/Videos Hébergés -->
@@ -4640,28 +4691,36 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 //      });
 //    });
 // --------------------------------------------------------------------------------
+    
+  // Lancement de l'instanciation de APlayer au moment exact où l'utilisateur ouvre l'accordéon
+  const accordionHeader = document.querySelector('.ton-declencheur-accordeon'); 
+  let playerInitialized = false;
 
-    const ap = new APlayer({
-    element: document.getElementById('player'),
-    narrow: false,
-    autoplay: false,
-    showlrc: false,
-    muted: false,
-    music: [
-        {
-            title: 'Titre de la chanson 1',
-            author: 'Artiste 1',
-            url: 'LIEN_DIRECT_VERS_MP3_1.mp3',
-            pic: 'GTAVI_The Album_Cover_500px.jpg'
-        },
-        {
-            title: 'Titre de la chanson 2',
-            author: 'Artiste 2',
-            url: 'LIEN_DIRECT_VERS_MP3_2.mp3',
-            pic: 'GTAVI_The Album_Cover_500px.jpg'
-        }
-        // Ajoutez d'autres pistes ici...
-    ]
+  accordionHeader.addEventListener('click', () => {
+    // On s'assure de ne l'initialiser qu'une seule fois à l'ouverture
+    if (!playerInitialized) {
+        const ap = new APlayer({
+            element: document.getElementById('aplayer-el-1'),
+            narrow: false,
+            autoplay: false,
+            showlrc: false,
+            music: [
+                {
+                    title: 'Morceau 1',
+                    author: 'Artiste 1',
+                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_1.mp3',
+                    pic: 'GTAVI_The Album_Cover_500px' // Poster en guise de pochette !
+                },
+                {
+                    title: 'Morceau 2',
+                    author: 'Artiste 2',
+                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_2.mp3',
+                    pic: 'GTAVI_The Album_Cover_500px'
+                }
+            ]
+        });
+        playerInitialized = true;
+    }
 });
 // --------------------------------------------------------------------------------
     
