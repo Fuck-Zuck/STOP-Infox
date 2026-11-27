@@ -4691,67 +4691,56 @@ Puisque la nature humaine tend naturellement vers le mimétisme et le confort de
 //    });
 // --------------------------------------------------------------------------------
     
-  // Lancement de l'instanciation de APlayer au moment exact où l'utilisateur ouvre l'accordéon
-//  const accordionHeader = document.querySelector('.ton-declencheur-accordeon'); 
-//  let playerInitialized = false;
+  // Lancement de l'instanciation de APlayer au moment exact où l'utilisateur ouvre l'accordéon (The Album)
+  const accordionHeader = document.querySelector('.ta-vraie-classe-ici'); 
+  let playerInitialized = false;
 
-//  accordionHeader.addEventListener('click', () => {
-    // On s'assure de ne l'initialiser qu'une seule fois à l'ouverture
-//    if (!playerInitialized) {
-//        const ap = new APlayer({
-//            element: document.getElementById('aplayer-el-1'),
-//            narrow: false,
-//            autoplay: false,
-//            showlrc: false,
-//            music: [
-//                {
-//                    title: 'Morceau 1',
-//                    author: 'Artiste 1',
-//                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_1.mp3',
-//                    pic: 'GTAVI_The Album_Cover_500px' // Poster en guise de pochette !
-//                },
-//                {
-//                    title: 'Morceau 2',
-//                    author: 'Artiste 2',
-//                    url: 'LIEN_DIRECT_VERS_VOTRE_MP3_2.mp3',
-//                    pic: 'GTAVI_The Album_Cover_500px'
-//                }
-//            ]
-//        });
-//        playerInitialized = true;
-//    }
-//});
-const accordionHeader = document.querySelector('.ta-vraie-classe-ici'); 
-let playerInitialized = false;
-
-if (accordionHeader) {
-    accordionHeader.addEventListener('click', () => {
-        console.log("Clic détecté sur l'accordéon !");
-        const container = document.getElementById('aplayer-el-1');
+  if (accordionHeader) {
+      accordionHeader.addEventListener('click', () => {
+          console.log("Clic détecté sur l'accordéon !");
+          const container = document.getElementById('aplayer-el-1');
         
-        if (container && !playerInitialized) {
-            console.log("Initialisation du lecteur APlayer...");
-            const ap = new APlayer({
-                element: container,
-                narrow: false,
-                autoplay: false,
-                showlrc: false,
-                music: [
-                    {
-                        title: 'Mon Morceau',
-                        author: 'Artiste',
-                        url: 'URL_MP3',
-                        pic: 'GTAVI_The Album_Cover_500px.jpg'
-                    }
-                ]
-            });
+          if (container && !playerInitialized) {
+              console.log("Initialisation du lecteur APlayer...");
+              const ap = new APlayer({
+                  element: container,
+                  narrow: false,
+                  autoplay: false,
+                  showlrc: false,
+                  music: [
+                      {
+                          title: 'Starting From Zero',
+                          author: 'Justice Feat. Michael McDonald',
+                          url: '1-01 Starting From Zero.mp3',
+                          pic: 'GTAVI_The Album_Cover_500px.jpg'
+                      }
+                      {
+                          title: 'That s It',
+                          author: 'Yung Lean Feat. Metro Boomin & Future',
+                          url: '1-02_That-s_It.mp3',
+                          pic: 'GTAVI_The Album_Cover_500px.jpg'
+                      }
+                      {
+                          title: 'Ahh Yea',
+                          author: 'Playboi Carti',
+                          url: '1-03 Ahh Yea.mp3',
+                          pic: 'GTAVI_The Album_Cover_500px.jpg'
+                      }
+                      {
+                          title: 'Rhyno',
+                          author: 'Travis Scott',
+                          url: '1-04 Rhyno.mp3',
+                          pic: 'GTAVI_The Album_Cover_500px.jpg'
+                      }
+                    ]
+                });
             playerInitialized = true;
         } else {
             console.log("Conteneur introuvable ou lecteur déjà initialisé.");
         }
     });
-} else {
-    console.error("Élément accordéon introuvable avec ce sélecteur !");
+  } else {
+      console.error("Élément accordéon introuvable avec ce sélecteur !");
 }
 // --------------------------------------------------------------------------------
     
